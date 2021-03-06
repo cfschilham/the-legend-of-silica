@@ -1,54 +1,76 @@
 <template>
   <div>
-    <div class="menu">
-      <img class="menu__header" src="@/assets/logo.svg" alt="main menu" />
-      <v-btn class="menu__item" large color="primary">New Campaign</v-btn>
-      <v-btn class="menu__item" large color="regular">Load Campaign</v-btn>
-      <v-btn class="menu__item" large color="regular">Settings</v-btn>
-    </div>
-    <div class="footer text-caption">
-      Copyright © 2021. All rights reserved. Design and implementation by
-      <a href="https://github.com/BenStokmans" target="_blank">B. Stokmans</a>
-      and
-      <a href="https://github.com/cfschilham" target="_blank">C.F. Schilham</a>.
+    <div id="menu-particles"></div>
+    <div class="menu" :style="{background: $vuetify.theme.themes[theme].background}">
+      <img src="@/assets/logo.svg" alt="logo" class="menu__logo">
+      <v-btn
+        class="menu__item"
+        color="primary"
+        large
+        @click="$router.push(`/newcampaign`)"
+      >New Campaign</v-btn>
+      <v-btn
+        class="menu__item"
+        large
+      >Load Campaign</v-btn>
+      <v-btn
+        class="menu__item"
+        large
+      >Settings</v-btn>
+      <v-btn
+        class="menu__item"
+        large
+        @click="openRepository"
+      >Repository</v-btn>
     </div>
   </div>
 </template>
 
 <script>
+import "particles.js/particles";
+import particlesConfig from "@/mixins/particles.config";
+
 export default {
   name: "Menu",
+  methods: {
+    openRepository() {
+      window.open("https://github.com/cfschilham/the-legend-of-silica", "_blank");
+    },
+  },
+  computed: {
+    theme() {
+      return (this.$vuetify.theme.dark) ? "dark" : "light";
+    },
+  },
+  mounted() {
+    window.particlesJS("menu-particles", particlesConfig);
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .menu {
-  width: 350px;
-  display: flex;
-  flex-direction: column;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  &__header {
-    margin: 0 auto 40px auto;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 400px;
+  &__logo {
+    margin-bottom: 50px;
+    user-select: none;
   }
-
-  &__item {
-    //width: 80%;
-    //margin: auto;
-    &:not(&__item:nth-of-type(1)) {
-      margin-top: 20px;
-    }
+  &__item:not(&__item:nth-of-type(1)) {
+    margin-top: 20px;
   }
 }
-.footer {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 10px;
-  background-color: #ffffff;
+#menu-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
 }
 </style>

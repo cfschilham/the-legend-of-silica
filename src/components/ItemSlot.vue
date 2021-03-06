@@ -1,6 +1,6 @@
 <template id="item-slot">
     <v-tooltip bottom>
-      <template v-slot:activator="{ on }">
+      <template :activator="{ on }">
         <v-hover v-slot="{ hover }">
           <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" v-on="on">
             <v-avatar class="item-tile" tile>
