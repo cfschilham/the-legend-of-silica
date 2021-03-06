@@ -29,6 +29,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "game" */ "../views/Game.vue"),
     meta: { title: "Game - The Legend of Silica" },
   },
+  {
+    path: "/newcampaign",
+    name: "NewCampaign",
+    component: () => import(/* webpackChunkName: "newcampaign" */ "../views/NewCampaign.vue"),
+    meta: { title: "New campaign - The Legend of Silica" },
+  },
 ];
 
 const router = new VueRouter({
