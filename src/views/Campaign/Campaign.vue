@@ -1,11 +1,11 @@
 <template>
-
+  <div></div>
 </template>
 
 <script>
 export default {
-  name: 'Start'
-}
+  name: "Campaign",
+};
 </script>
 
 <style scoped>

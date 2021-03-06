@@ -2,9 +2,9 @@
 <v-app>
   <v-main>
     <i class="mdi toggle-music-btn" :class="musicToggleButtonClass" @click="toggleMusic"></i>
-    <audio src="@/assets/maintheme.mp3" autoplay loop ref="music"></audio>
+    <audio src="@/assets/maintheme.mp3" loop ref="music"></audio>
     <router-view></router-view>
-  </v-main>`
+  </v-main>
 </v-app>
 </template>
 
@@ -18,7 +18,10 @@ export default {
     };
   },
   mounted() {
-    this.$refs.music.volume = 0.2;
+    this.$refs.music.onloadeddata = () => {
+      this.$refs.music.volume = 0.2;
+      this.$refs.music.play();
+    };
   },
   methods: {
     toggleMusic() {

@@ -1,11 +1,11 @@
 <template>
-  <div></div>
+
 </template>
 
 <script>
 export default {
-  name: "Game",
-};
+  name: 'Quest.vue'
+}
 </script>
 
 <style scoped>

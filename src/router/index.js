@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Start from "../views/Start.vue";
+import Start from "../views/Menu/Menu.vue";
 
 Vue.use(VueRouter);
 
@@ -12,21 +12,21 @@ const routes = [
     meta: { title: "Start - The Legend of Silica" },
   },
   {
-    path: "/menu",
-    name: "Menu",
+    path: "/campaign/:name",
+    name: "Campaign",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "menu" */ "../views/Menu.vue"),
-    meta: { title: "Menu - The Legend of Silica" },
+    component: () => import(/* webpackChunkName: "game" */ "../views/Campaign/Campaign.vue"),
+    meta: { title: "Campaign - The Legend of Silica" },
   },
   {
-    path: "/game",
-    name: "Game",
+    path: "/campaign",
+    name: "Campaign",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "game" */ "../views/Game.vue"),
+    component: () => import(/* webpackChunkName: "game" */ "../views/Campaign/Campaign.vue"),
     meta: { title: "Game - The Legend of Silica" },
   },
 ];
