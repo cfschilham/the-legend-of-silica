@@ -1,26 +1,20 @@
 <template>
   <div>
-    <div class="menu" :style="{background: $vuetify.theme.themes[theme].background}">
-      <img src="@/assets/logo.svg" alt="logo" class="menu__logo">
+    <div
+      class="menu"
+      :style="{ background: $vuetify.theme.themes[theme].background }"
+    >
+      <img src="@/assets/logo.svg" alt="logo" class="menu__logo" />
       <v-btn
         class="menu__item"
         color="primary"
         large
-        @click="$router.push(`/newcampaign`)"
-      >New Campaign</v-btn>
-      <v-btn
-        class="menu__item"
-        large
-      >Load Campaign</v-btn>
-      <v-btn
-        class="menu__item"
-        large
-      >Settings</v-btn>
-      <v-btn
-        class="menu__item"
-        large
-        @click="openRepository"
-      >Repository</v-btn>
+        @click="$router.push(`/campaign/new`)"
+        >New Campaign</v-btn
+      >
+      <v-btn class="menu__item" large>Load Campaign</v-btn>
+      <v-btn class="menu__item" large>Settings</v-btn>
+      <v-btn class="menu__item" large @click="openRepository">Repository</v-btn>
     </div>
   </div>
 </template>
@@ -30,12 +24,15 @@ export default {
   name: "Menu",
   methods: {
     openRepository() {
-      window.open("https://github.com/cfschilham/the-legend-of-silica", "_blank");
+      window.open(
+        "https://github.com/cfschilham/the-legend-of-silica",
+        "_blank",
+      );
     },
   },
   computed: {
     theme() {
-      return (this.$vuetify.theme.dark) ? "dark" : "light";
+      return this.$vuetify.theme.dark ? "dark" : "light";
     },
   },
 };

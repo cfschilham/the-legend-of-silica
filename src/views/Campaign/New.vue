@@ -1,11 +1,13 @@
 <template>
   <div>
-    <v-form class="settings" :style="{background: $vuetify.theme.themes[theme].background}">
+    <v-form ref="form" v-model="valid" class="settings" :style="{background: $vuetify.theme.themes[theme].background}">
       <h1 class="text--primary">New Campaign</h1>
       <v-text-field
         v-model="name"
         solo
-        label="Campaign name"
+        label="Avatar name"
+        :rules="nameRules"
+        :counter="20"
         clearable
         style="width: 400px"
       ></v-text-field>
@@ -19,19 +21,23 @@
       <div class="difficulty">
         <span v-text="labels[difficulty]"></span>
       </div>
-      <v-btn color="primary">Start</v-btn>
+      <v-btn @click="create" :disabled="!valid" color="primary">Start</v-btn>
     </v-form>
   </div>
 </template>
 
 <script>
-import particlesConfig from "@/mixins/particles.config";
 
 export default {
-  name: "NewCampaign",
+  name: "",
   data: () => {
     return {
       difficulty: 2,
+      valid: false,
+      nameRules: [
+        v => !!v || "Name is required",
+        v => v.length <= 20 || "Name must be less than 20 characters",
+      ],
       labels: [
         "Rookie",
         "Studied the night before",
@@ -47,8 +53,14 @@ export default {
       return (this.$vuetify.theme.dark) ? "dark" : "light";
     },
   },
-  mounted() {
-    window.particlesJS("campaign-particles", particlesConfig);
+  methods: {
+    create() {
+      if (!this.$refs.form.validate()) {
+        return;
+      }
+      this.$store.commit("setActiveCampaign", { avatarName: this.name, difficulty: this.difficulty });
+      this.$router.push("/campaign/active");
+    },
   },
 };
 </script>
