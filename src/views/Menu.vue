@@ -12,7 +12,7 @@
         @click="$router.push(`/campaign/new`)"
         >New Campaign</v-btn
       >
-      <v-btn class="menu__item" large>Load Campaign</v-btn>
+      <v-btn class="menu__item" large>Resume Campaign</v-btn>
       <v-btn class="menu__item" large>Settings</v-btn>
       <v-btn class="menu__item" large @click="openRepository">Repository</v-btn>
     </div>

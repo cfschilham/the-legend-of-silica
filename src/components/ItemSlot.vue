@@ -20,7 +20,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .item-tile {
   background-color: #9e9e9e !important;
   border: 1px solid black;
