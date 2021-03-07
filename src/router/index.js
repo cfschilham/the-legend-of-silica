@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Start from "../views/Start.vue";
 
 Vue.use(VueRouter);
 
@@ -8,7 +7,7 @@ const routes = [
   {
     path: "/",
     name: "Start",
-    component: Start,
+    component: () => import(/* webpackChunkName: "start" */ "../views/Start.vue"),
     meta: { title: "Start - The Legend of Silica" },
   },
   {
@@ -25,8 +24,8 @@ const routes = [
   },
   {
     path: "/newcampaign",
-    name: "Menu",
-    component: () => import(/* webpackChunkName: "menu" */ "../views/NewCampaign"),
+    name: "NewCampaign",
+    component: () => import(/* webpackChunkName: "newcampaign" */ "../views/NewCampaign.vue"),
     meta: { title: "New campaign - The Legend of Silica" },
   },
 ];

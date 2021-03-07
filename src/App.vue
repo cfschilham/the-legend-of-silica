@@ -1,7 +1,10 @@
 <template>
   <v-app>
     <v-main>
-      <div class="buttons" :style="{background: $vuetify.theme.themes[theme].background}">
+      <div
+        class="buttons"
+        :style="{ background: $vuetify.theme.themes[theme].background }"
+      >
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <i
@@ -26,21 +29,30 @@
         </v-tooltip>
       </div>
       <audio src="@/assets/maintheme.mp3" loop ref="music"></audio>
+      <div id="particles"></div>
       <router-view></router-view>
-      <div class="footer text-caption" :style="{background: $vuetify.theme.themes[theme].background}">
-        Copyright © 2021. All rights reserved. Design and implementation by <a href="https://github.com/BenStokmans" target="_blank">B. Stokmans</a> and
-        <a href="https://github.com/cfschilham" target="_blank">C.F. Schilham</a>.
+      <div
+        class="footer text-caption"
+        :style="{ background: $vuetify.theme.themes[theme].background }"
+      >
+        Copyright © 2021. All rights reserved. Design and implementation by
+        <a href="https://github.com/BenStokmans" target="_blank">B. Stokmans</a>
+        and
+        <a href="https://github.com/cfschilham" target="_blank">C.F. Schilham</a
+        >.
       </div>
     </v-main>
   </v-app>
 </template>
 
 <script>
+import "particles.js/particles";
+import particlesConfig from "@/mixins/particles.config";
+
 export default {
   name: "App",
   data: () => {
     return {
-      musicMuted: false,
       musicToggleButtonClass: "mdi-volume-high",
       themeToggleButtonClass: "mdi-moon-waxing-crescent",
     };
@@ -50,15 +62,30 @@ export default {
       return (this.$vuetify.theme.dark) ? "dark" : "light";
     },
   },
+  created() {
+    this.$vuetify.theme.dark = this.$store.state.darkMode;
+  },
   mounted() {
+    if (this.$store.state.musicMuted) {
+      this.$refs.music.play();
+    } else {
+      this.musicToggleButtonClass = "mdi-volume-off";
+    }
+    if (this.$store.state.darkMode) {
+      this.themeToggleButtonClass = "mdi-white-balance-sunny";
+    }
     this.$refs.music.onloadeddata = () => {
       this.$refs.music.volume = 0.2;
-      this.$refs.music.play();
     };
+    window.particlesJS("particles", particlesConfig);
+    this.$root.$on("music", () => {
+      this.$refs.music.play();
+    });
   },
   methods: {
     toggleMusic() {
-      if (this.musicMuted) {
+      this.$store.commit("toggleMusic");
+      if (this.$store.state.musicMuted) {
         this.$refs.music.volume = 0.2;
         this.musicToggleButtonClass = "mdi-volume-high";
         this.musicMuted = false;
@@ -66,10 +93,10 @@ export default {
       }
       this.$refs.music.volume = 0;
       this.musicToggleButtonClass = "mdi-volume-off";
-      this.musicMuted = true;
     },
     toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      this.$store.commit("toggleDarkMode");
       this.themeToggleButtonClass = this.$vuetify.theme.dark ? "mdi-white-balance-sunny" : "mdi-moon-waxing-crescent";
     },
   },
@@ -109,5 +136,12 @@ export default {
   padding: 10px;
   background-color: #ffffff;
   text-align: center;
+}
+#particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
 }
 </style>

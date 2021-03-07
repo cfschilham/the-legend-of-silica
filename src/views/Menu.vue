@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div id="menu-particles"></div>
     <div class="menu" :style="{background: $vuetify.theme.themes[theme].background}">
       <img src="@/assets/logo.svg" alt="logo" class="menu__logo">
       <v-btn
@@ -27,9 +26,6 @@
 </template>
 
 <script>
-import "particles.js/particles";
-import particlesConfig from "@/mixins/particles.config";
-
 export default {
   name: "Menu",
   methods: {
@@ -41,9 +37,6 @@ export default {
     theme() {
       return (this.$vuetify.theme.dark) ? "dark" : "light";
     },
-  },
-  mounted() {
-    window.particlesJS("menu-particles", particlesConfig);
   },
 };
 </script>

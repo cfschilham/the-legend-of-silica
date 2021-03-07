@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div id="campaign-particles"></div>
     <v-form class="settings" :style="{background: $vuetify.theme.themes[theme].background}">
       <h1 class="text--primary">New Campaign</h1>
       <v-text-field
@@ -71,12 +70,5 @@ export default {
   .difficulty-slider {
     margin-bottom: -20px;
   }
-}
-#menu-particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
 }
 </style>
