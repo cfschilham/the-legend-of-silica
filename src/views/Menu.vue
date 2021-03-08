@@ -1,8 +1,9 @@
 <template>
   <div>
+    <div id="particles"></div>
     <div
       class="menu"
-      :style="{ background: $vuetify.theme.themes[theme].background }"
+      :style="{ background: $vuetify.theme.currentTheme.background }"
     >
       <img src="@/assets/logo.svg" alt="logo" class="menu__logo" />
       <v-btn
@@ -20,19 +21,20 @@
 </template>
 
 <script>
+import "particles.js/particles";
+import particlesConfig from "@/mixins/particles.config";
+
 export default {
   name: "Menu",
+  mounted() {
+    window.particlesJS("particles", particlesConfig);
+  },
   methods: {
     openRepository() {
       window.open(
         "https://github.com/cfschilham/the-legend-of-silica",
         "_blank",
       );
-    },
-  },
-  computed: {
-    theme() {
-      return this.$vuetify.theme.dark ? "dark" : "light";
     },
   },
 };
@@ -56,7 +58,7 @@ export default {
     margin-top: 20px;
   }
 }
-#menu-particles {
+#particles {
   position: absolute;
   top: 0;
   left: 0;

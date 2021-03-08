@@ -1,5 +1,5 @@
 <template>
-  <v-container id="quests">
+  <div id="quests">
     <v-row no-gutters>
       <v-col v-for="quest in quests" :key="quest.id">
     <v-card max-width="344" outlined>
@@ -20,7 +20,7 @@
     </v-card>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>

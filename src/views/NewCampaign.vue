@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form ref="form" v-model="valid" class="settings" :style="{background: $vuetify.theme.themes[theme].background}">
+    <v-form ref="form" v-model="valid" class="settings">
       <h1 class="text--primary">New Campaign</h1>
       <v-text-field
         v-model="name"
@@ -42,7 +42,7 @@ export default {
         "Rookie",
         "Studied the night before",
         "Average",
-        "Smartest kid in class",
+        "Smartest kid of the class",
         "Ludicrous",
       ],
       time: 0,

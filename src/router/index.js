@@ -25,7 +25,7 @@ const routes = [
   {
     path: "/campaign/new",
     name: "NewCampaign",
-    component: () => import(/* webpackChunkName: "newcampaign" */ "../views/Campaign/New.vue"),
+    component: () => import(/* webpackChunkName: "newcampaign" */ "../views/NewCampaign.vue"),
     meta: { title: "New campaign - The Legend of Silica" },
   },
 ];

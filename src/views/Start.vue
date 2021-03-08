@@ -1,10 +1,12 @@
 <template>
   <v-container>
-    <div class="content" :style="{background: $vuetify.theme.themes[theme].background}">
-      <img src="@/assets/logo.svg" alt="logo" class="content__logo">
-      <h2 class="text--primary content__item">Welcome to the Legend Of Silica</h2>
-      <p class="text--primary content__item">Instructions here</p>
-      <v-btn color="primary" @click="start">Start</v-btn>
+    <div class="content" :style="{ background: $vuetify.theme.currentTheme.background }">
+      <h1>Welcome to The Legend of Silica</h1>
+      <p class="text-body-1">Voluptatem tenetur autem explicabo. Enim quam nisi quasi. Eos tempora corrupti inventore saepe. Quo quo inventore fugiat distinctio rem. Optio architecto qui sit quia sit ex ut iste.</p>
+      <p class="text-body-1">Dolor ipsum sed quia ipsum at. Amet assumenda rerum quo sit alias eos at totam. Vero consectetur voluptatum cumque temporibus a.</p>
+      <p class="text-body-1">Facere eveniet dolores veritatis. Placeat in ex mollitia facilis quibusdam animi ut quos. Sint quia non quidem. Quis minima consectetur id dolor sit. Facere est inventore et molestias blanditiis aut. Officia aspernatur nobis consectetur dolore nam.</p>
+      <p class="text-body-1">Deleniti et explicabo sapiente aut dolor. Rerum odio eos repellendus ea maiores a accusamus. Accusantium et unde nihil optio dolor maiores saepe minus. Et numquam nihil molestiae esse provident. Saepe corporis ea pariatur aut sed suscipit atque doloremque.</p>
+      <v-btn color="primary" class="start-btn" large @click="$router.push(`menu`)">Start</v-btn>
     </div>
   </v-container>
 </template>
@@ -12,18 +14,6 @@
 <script>
 export default {
   name: "Start",
-  computed: {
-    theme() {
-      return (this.$vuetify.theme.dark) ? "dark" : "light";
-    },
-  },
-  methods: {
-    start() {
-      this.$store.commit("toggleMusic");
-      this.$root.$emit("music");
-      this.$router.push({ path: "menu" });
-    },
-  },
 };
 </script>
 
@@ -36,16 +26,9 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 40px;
-  width: 600px;
-  &__logo {
-    align-self: center;
-    width: 400px;
-    margin-bottom: 10px;
-    user-select: none;
-  }
-  &__item {
-    text-align: center;
-    margin-top: 20px;
+  width: 800px;
+  & .start-btn {
+    margin: 20px auto 0 auto;
   }
 }
 </style>

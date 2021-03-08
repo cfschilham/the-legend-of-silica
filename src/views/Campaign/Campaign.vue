@@ -11,8 +11,8 @@
 
             <v-list-item-content>
               <v-list-item-title>{{
-                $store.state.activeCampaign.avatarName
-              }}</v-list-item-title>
+                  $store.state.campaign.avatarName
+                }}</v-list-item-title>
               <v-list-item-subtitle>Level: 1</v-list-item-subtitle>
               <v-progress-linear :value="xpBarPercentage" height="25">
                 <strong>XP: {{ currentxp }}/{{ goalxp }}</strong>
@@ -56,6 +56,12 @@
 <script>
 import inventory from "@/components/Inventory.vue";
 import quests from "@/components/Quests.vue";
+//
+// class Campaign {
+//   constructor(options) {
+//     this.
+//   }
+// }
 
 export default {
   name: "Campaign",

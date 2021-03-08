@@ -1,46 +1,36 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import VuexPersistence from "vuex-persist";
 
 Vue.use(Vuex);
-export default new Vuex.Store({
+
+const persistence = new VuexPersistence({
+  storage: localStorage,
+});
+
+const store = new Vuex.Store({
   state: {
     musicMuted: false,
-    darkMode: false,
-    activeCampaign: {
+    theme: "light",
+    campaign: {
       avatarName: "",
       difficulty: 0,
     },
   },
   mutations: {
-    toggleDarkMode(state) {
-      state.darkMode = !state.darkMode;
-      localStorage.setItem("darkMode", state.darkMode);
+    setTheme(state, theme) {
+      state.theme = theme;
     },
     toggleMusic(state) {
       state.musicMuted = !state.musicMuted;
-      localStorage.setItem("musicMuted", state.musicMuted);
     },
-    setActiveCampaign(state, campaign) {
-      state.activeCampaign = campaign;
-      localStorage.setItem("activeCampaign", JSON.stringify(campaign));
-    },
-    initialiseStore(state) {
-      if (localStorage.getItem("darkMode")) {
-        state.musicMuted = localStorage.getItem("musicMuted") === "true";
-      }
-      if (localStorage.getItem("darkMode")) {
-        state.darkMode = localStorage.getItem("darkMode") === "true";
-      }
-      if (localStorage.getItem("activeCampaign")) {
-        state.darkMode = JSON.parse(localStorage.getItem("activeCampaign"));
-      }
+    setCampaign(state, campaign) {
+      state.campaign = campaign;
     },
   },
-  actions: {
-    storeCampaignData(state) {
-      localStorage.setItem("activeCampaign", JSON.stringify(state.activeCampaign));
-    },
-  },
-  modules: {
-  },
+  plugins: [
+    persistence.plugin,
+  ],
 });
+
+export default store;

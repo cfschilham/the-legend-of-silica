@@ -3,9 +3,9 @@
     <v-main>
       <div
         class="buttons"
-        :style="{ background: $vuetify.theme.themes[theme].background }"
+        :style="{ background: $vuetify.theme.currentTheme.background }"
       >
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="$route.name !== `Start`">
           <template v-slot:activator="{ on }">
             <i
               class="mdi btn toggle-music-btn"
@@ -28,12 +28,11 @@
           <span>Toggle theme</span>
         </v-tooltip>
       </div>
-      <audio src="@/assets/maintheme.mp3" loop ref="music"></audio>
-      <div id="particles"></div>
+      <audio src="@/assets/main-theme.mp3" loop ref="music"></audio>
       <router-view></router-view>
       <div
         class="footer text-caption"
-        :style="{ background: $vuetify.theme.themes[theme].background }"
+        :style="{ background: $vuetify.theme.currentTheme.background }"
       >
         Copyright © 2021. All rights reserved. Design and implementation by
         <a href="https://github.com/BenStokmans" target="_blank">B. Stokmans</a>
@@ -46,58 +45,58 @@
 </template>
 
 <script>
-import "particles.js/particles";
-import particlesConfig from "@/mixins/particles.config";
-
 export default {
   name: "App",
   data: () => {
     return {
       musicToggleButtonClass: "mdi-volume-high",
-      themeToggleButtonClass: "mdi-moon-waxing-crescent",
+      themeToggleButtonClass: "mdi-white-balance-sunny",
     };
-  },
-  computed: {
-    theme() {
-      return (this.$vuetify.theme.dark) ? "dark" : "light";
-    },
-  },
-  created() {
-    this.$vuetify.theme.dark = this.$store.state.darkMode;
   },
   mounted() {
+    if (this.$store.state.theme === "dark") {
+      this.themeToggleButtonClass = "mdi-moon-waxing-crescent";
+      this.$vuetify.theme.dark = true;
+    }
     if (this.$store.state.musicMuted) {
-      this.$refs.music.play();
-    } else {
       this.musicToggleButtonClass = "mdi-volume-off";
     }
-    if (this.$store.state.darkMode) {
-      this.themeToggleButtonClass = "mdi-white-balance-sunny";
-    }
     this.$refs.music.onloadeddata = () => {
+      if (this.$store.state.musicMuted) {
+        this.$refs.music.volume = 0;
+        return;
+      }
       this.$refs.music.volume = 0.2;
     };
-    window.particlesJS("particles", particlesConfig);
-    this.$root.$on("music", () => {
-      this.$refs.music.play();
-    });
   },
   methods: {
     toggleMusic() {
       this.$store.commit("toggleMusic");
       if (this.$store.state.musicMuted) {
-        this.$refs.music.volume = 0.2;
-        this.musicToggleButtonClass = "mdi-volume-high";
-        this.musicMuted = false;
+        this.$refs.music.volume = 0;
+        this.musicToggleButtonClass = "mdi-volume-off";
         return;
       }
-      this.$refs.music.volume = 0;
-      this.musicToggleButtonClass = "mdi-volume-off";
+      this.$refs.music.volume = 0.2;
+      this.musicToggleButtonClass = "mdi-volume-high";
     },
     toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-      this.$store.commit("toggleDarkMode");
-      this.themeToggleButtonClass = this.$vuetify.theme.dark ? "mdi-white-balance-sunny" : "mdi-moon-waxing-crescent";
+      this.$store.commit("setTheme", this.$vuetify.theme.dark ? "dark" : "light");
+      this.themeToggleButtonClass = this.$vuetify.theme.dark ? "mdi-moon-waxing-crescent" : "mdi-white-balance-sunny";
+    },
+  },
+  watch: {
+    $route(val, oldVal) {
+      if (oldVal.name !== "Start" && val.name !== "Start") {
+        return;
+      }
+      if (val.name !== "Start") {
+        this.$refs.music.currentTime = 0;
+        this.$refs.music.play();
+        return;
+      }
+      this.$refs.music.pause();
     },
   },
 };
@@ -119,7 +118,7 @@ export default {
   z-index: 1;
   align-items: center;
   & .btn {
-    margin-left: 20px;
+    margin-left: 16px;
     &:hover {
       cursor: pointer;
     }
