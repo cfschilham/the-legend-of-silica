@@ -56,10 +56,10 @@
 <script>
 import inventory from "@/components/Inventory.vue";
 import quests from "@/components/Quests.vue";
-//
+
 // class Campaign {
 //   constructor(options) {
-//     this.
+//     this.TODO = options;
 //   }
 // }
 

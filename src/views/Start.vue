@@ -6,6 +6,8 @@
       <p class="text-body-1">Dolor ipsum sed quia ipsum at. Amet assumenda rerum quo sit alias eos at totam. Vero consectetur voluptatum cumque temporibus a.</p>
       <p class="text-body-1">Facere eveniet dolores veritatis. Placeat in ex mollitia facilis quibusdam animi ut quos. Sint quia non quidem. Quis minima consectetur id dolor sit. Facere est inventore et molestias blanditiis aut. Officia aspernatur nobis consectetur dolore nam.</p>
       <p class="text-body-1">Deleniti et explicabo sapiente aut dolor. Rerum odio eos repellendus ea maiores a accusamus. Accusantium et unde nihil optio dolor maiores saepe minus. Et numquam nihil molestiae esse provident. Saepe corporis ea pariatur aut sed suscipit atque doloremque.</p>
+      <p class="text-body-1">Music by Alexander Nakarada. Art by </p>
+      <p class="text-body-1">Design and implementation by B. Stokmans and C.F. Schilham.</p>
       <v-btn color="primary" class="start-btn" large @click="$router.push(`menu`)">Start</v-btn>
     </div>
   </v-container>

@@ -11,16 +11,16 @@
         clearable
         style="width: 400px"
       ></v-text-field>
+      <span class="text-overline">Difficulty: {{labels[difficulty]}}</span>
       <v-slider
         v-model="difficulty"
         :max="4"
-        label="Difficulty"
         class="mx-4 difficulty-slider"
         ticks
       ></v-slider>
-      <div class="difficulty">
-        <span v-text="labels[difficulty]"></span>
-      </div>
+      <span class="text-overline">Character</span>
+
+      <span class="text-overline">Class</span>
       <v-btn @click="create" :disabled="!valid" color="primary">Start</v-btn>
     </v-form>
   </div>
@@ -75,12 +75,8 @@ export default {
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  .difficulty {
-    text-align: center;
-    margin-bottom: 30px;
-  }
   .difficulty-slider {
-    margin-bottom: -20px;
+    margin: 0 !important;
   }
 }
 </style>
