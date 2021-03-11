@@ -5,17 +5,21 @@
       class="menu"
       :style="{ background: $vuetify.theme.currentTheme.background }"
     >
-      <img src="@/assets/logo.svg" alt="logo" class="menu__logo" />
+      <img src="@/assets/logo.svg" alt="logo" class="logo" />
       <v-btn
-        class="menu__item"
+        class="item"
         color="primary"
         large
-        @click="$router.push(`/campaign/new`)"
+        @click="$router.push('/new-campaign')"
         >New Campaign</v-btn
       >
-      <v-btn class="menu__item" large>Resume Campaign</v-btn>
-      <v-btn class="menu__item" large>Settings</v-btn>
-      <v-btn class="menu__item" large @click="openRepository">Repository</v-btn>
+      <v-btn class="item" large @click="$router.push('/campaign')">Resume Campaign</v-btn>
+      <v-btn class="item" large>Settings</v-btn>
+      <v-btn
+        class="item"
+        large
+        @click="() => { window.open('https://github.com/cfschilham/the-legend-of-silica','_blank',); }"
+      >Repository</v-btn>
     </div>
   </div>
 </template>
@@ -28,14 +32,6 @@ export default {
   name: "Menu",
   mounted() {
     window.particlesJS("particles", particlesConfig);
-  },
-  methods: {
-    openRepository() {
-      window.open(
-        "https://github.com/cfschilham/the-legend-of-silica",
-        "_blank",
-      );
-    },
   },
 };
 </script>
@@ -50,12 +46,15 @@ export default {
   flex-direction: column;
   padding: 40px;
   width: 400px;
-  &__logo {
+  .logo {
     margin-bottom: 50px;
     user-select: none;
   }
-  &__item:not(&__item:nth-of-type(1)) {
+  .item {
     margin-top: 20px;
+  }
+  .item:first-of-type {
+    margin-top: 0;
   }
 }
 #particles {

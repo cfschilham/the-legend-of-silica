@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="content" :style="{ background: $vuetify.theme.currentTheme.background }">
-      <h1>Welcome to The Legend of Silica</h1>
+      <span class="text-h4">The Legend of Silica</span>
       <p class="text-body-1">Voluptatem tenetur autem explicabo. Enim quam nisi quasi. Eos tempora corrupti inventore saepe. Quo quo inventore fugiat distinctio rem. Optio architecto qui sit quia sit ex ut iste.</p>
       <p class="text-body-1">Dolor ipsum sed quia ipsum at. Amet assumenda rerum quo sit alias eos at totam. Vero consectetur voluptatum cumque temporibus a.</p>
       <p class="text-body-1">Facere eveniet dolores veritatis. Placeat in ex mollitia facilis quibusdam animi ut quos. Sint quia non quidem. Quis minima consectetur id dolor sit. Facere est inventore et molestias blanditiis aut. Officia aspernatur nobis consectetur dolore nam.</p>
@@ -29,7 +29,12 @@ export default {
   flex-direction: column;
   padding: 40px;
   width: 800px;
-  & .start-btn {
+
+  .text-h4 {
+    margin-bottom: 20px;
+  }
+
+  .start-btn {
     margin: 20px auto 0 auto;
   }
 }

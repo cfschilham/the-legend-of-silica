@@ -11,9 +11,9 @@ const routes = [
     meta: { title: "Start - The Legend of Silica" },
   },
   {
-    path: "/campaign/active",
-    name: "ActiveCampaign",
-    component: () => import(/* webpackChunkName: "activecampaign" */ "../views/Campaign/Campaign.vue"),
+    path: "/campaign",
+    name: "Campaign",
+    component: () => import(/* webpackChunkName: "campaign" */ "../views/Campaign/Campaign.vue"),
     meta: { title: "Campaign - The Legend of Silica" },
   },
   {
@@ -23,9 +23,9 @@ const routes = [
     meta: { title: "Menu - The Legend of Silica" },
   },
   {
-    path: "/campaign/new",
+    path: "/new-campaign",
     name: "NewCampaign",
-    component: () => import(/* webpackChunkName: "newcampaign" */ "../views/NewCampaign.vue"),
+    component: () => import(/* webpackChunkName: "new-campaign" */ "../views/NewCampaign.vue"),
     meta: { title: "New campaign - The Legend of Silica" },
   },
 ];

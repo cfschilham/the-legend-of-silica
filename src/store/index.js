@@ -12,10 +12,7 @@ const store = new Vuex.Store({
   state: {
     musicMuted: false,
     theme: "light",
-    campaign: {
-      avatarName: "",
-      difficulty: 0,
-    },
+    campaign: undefined,
   },
   mutations: {
     setTheme(state, theme) {

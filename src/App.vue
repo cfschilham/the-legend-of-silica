@@ -53,6 +53,9 @@ export default {
       themeToggleButtonClass: "mdi-white-balance-sunny",
     };
   },
+  created() {
+    this.$router.push("/");
+  },
   mounted() {
     if (this.$store.state.theme === "dark") {
       this.themeToggleButtonClass = "mdi-moon-waxing-crescent";
