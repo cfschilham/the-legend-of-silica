@@ -1,24 +1,20 @@
-# the-legend-of-silica
+# The Legend of Silica
+[![forthebadge](https://forthebadge.com/images/badges/not-a-bug-a-feature.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/it-works-why.svg)](https://forthebadge.com)
 
-## Project setup
-```
-npm install
-```
+Play at [thelegendofsilica.github.io](https://thelegendofsilica.github.io/)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## About
+This project was created for the soul purpose of overengineering a school assignment.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Build from source  
+`$ git clone https://github.com/cfschilham/the-legend-of-silica`  
+`$ npm install`  
+`$ npm run serve`
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Creators
+[C. F. Schilham](https://github.com/cfschilham)  
+[B. Stokmans](https://github.com/BenStokmans)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Attribution
+Music by [Alexander Nakarada](https://www.youtube.com/channel/UCw4wdHksXbaiyu3BiBNNW0w).  
+Art by [Delapouite](https://delapouite.com/)
