@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersistence from "vuex-persist";
+import { Campaign } from "@/mixins/campaign";
 
 Vue.use(Vuex);
 

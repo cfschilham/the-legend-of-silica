@@ -140,8 +140,8 @@
 </template>
 
 <script>
-import { Campaign } from "@/mixins/campaign";
-import { Inventory } from "@/mixins/inventory";
+import { Campaign } from "@/mixins/campaign.ts";
+import { Inventory } from "@/mixins/inventory.ts";
 
 export default {
   name: "NewCampaign",
