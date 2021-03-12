@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="campaign">
     <v-navigation-drawer permanent>
       <v-list-item>
@@ -97,6 +97,20 @@
                 {{ inventoryItem.amount }}
               </div>
             </div>
+            <v-menu>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                ></v-btn>
+              </template>
+              <v-list>
+                <v-list-item>
+                  <v-list-item-title>Use</v-list-item-title>
+                  <v-list-item-content>Gives 5,000.00 mol SiO<sub>2</sub></v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </div>
         </v-list-item-content>
       </v-list-item>

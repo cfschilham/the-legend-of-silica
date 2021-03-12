@@ -114,18 +114,19 @@ export class Inventory {
   }
 
   validate(): boolean {
-    let arr = new Array<string>();
+    // eslint-disable-next-line no-array-constructor
+    const ids = new Array<string>();
     this.items.forEach((item) => {
-      arr.push(item.id);
-    })
-    if(new Set(arr).size < arr.length) {
+      ids.push(item.id);
+    });
+    if (new Set(ids).size < ids.length) {
       return false;
     }
     this.items.forEach((item) => {
-      if(item.amount < 0) {
-        return false
+      if (item.amount < 0) {
+        return false;
       }
-    })
+    });
     return true;
   }
 }
