@@ -1,12 +1,12 @@
 import { Quest } from "@/mixins/quest/quest.ts";
 
 export class Item {
-  public id: string
-  public name: string
-  public description: string
-  public icon: string
-  public sellValue: number
-  public buyValue: number
+  public id: string;
+  public name: string;
+  public description: string;
+  public icon: string;
+  public sellValue: number;
+  public buyValue: number;
 
   constructor(props: { id: string; name: string; description: string; icon: string; sellValue: number; buyValue: number }) {
     this.id = props.id;
@@ -19,7 +19,8 @@ export class Item {
 }
 
 export class QuestModifierItem extends Item {
-  public questModifier: (quest: Quest) => Quest
+  public questModifier: (quest: Quest) => Quest;
+
   constructor(props: { questModifier: (quest: Quest) => Quest; id: string; name: string; description: string; icon: string; sellValue: number; buyValue: number; }) {
     super(props);
     this.questModifier = props.questModifier;
@@ -51,7 +52,7 @@ export function getItem(id: string): Item | undefined {
 }
 
 export class Inventory {
-  private readonly items: Array<{ id: string; amount: number }>
+  private readonly items: Array<{ id: string; amount: number }>;
 
   constructor(props?: { items: Array<{ id: string; amount: number }> }) {
     if (props) {
@@ -97,7 +98,10 @@ export class Inventory {
         return this.items[i].amount;
       }
     }
-    this.items.push({ id: id, amount: 0 });
+    this.items.push({
+      id: id,
+      amount: 0,
+    });
     return 0;
   }
 

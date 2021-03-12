@@ -1,12 +1,12 @@
 import { Inventory } from "@/mixins/inventory";
 
 export class Campaign {
-  public characterName: string
-  public difficulty: number
-  public characterClass: string
-  public isoStartTime: string
-  public balance: number
-  public inventory: Inventory
+  public characterName: string;
+  public difficulty: number;
+  public characterClass: string;
+  public isoStartTime: string;
+  public balance: number;
+  public inventory: Inventory;
 
   constructor(props: { characterName: string; difficulty: number; characterClass: string; isoStartTime: string; inventory?: Inventory; balance?: number }) {
     this.characterName = props.characterName;
