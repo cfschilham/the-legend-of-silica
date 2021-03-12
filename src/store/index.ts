@@ -12,7 +12,7 @@ const persistence = new VuexPersistence({
 const store = new Vuex.Store({
   state: {
     musicMuted: false,
-    theme: "light",
+    theme: matchMedia("prefers-color-scheme"),
     campaign: undefined,
   },
   mutations: {

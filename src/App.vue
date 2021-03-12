@@ -31,6 +31,7 @@
       <audio src="@/assets/main-theme.mp3" loop ref="music"></audio>
       <router-view></router-view>
       <div
+        v-if="$route.name !== 'Campaign'"
         class="footer text-caption"
         :style="{ background: $vuetify.theme.currentTheme.background }"
       >

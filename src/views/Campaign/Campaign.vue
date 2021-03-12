@@ -87,36 +87,31 @@
             Your inventory is empty
           </div>
           <div class="inventory" v-if="campaign">
-            <div
+            <v-menu
               v-for="(inventoryItem, index) in campaign.inventory.getItems()"
               :key="index"
-              class="item"
+              offset-y
             >
-              <img :src="getItem(inventoryItem.id).icon"/>
-              <div v-if="inventoryItem.amount > 1" class="amount text-caption" :style="{ background: $vuetify.theme.currentTheme.background }">
-                {{ inventoryItem.amount }}
-              </div>
-            </div>
-            <v-menu>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
+                <div
+                  class="item"
                   v-on="on"
                   v-bind="attrs"
-                ></v-btn>
+                >
+                  <img :src="getItem(inventoryItem.id).icon"/>
+                  <div v-if="inventoryItem.amount > 1" class="amount text-caption" :style="{ background: $vuetify.theme.currentTheme.background }">
+                    {{ inventoryItem.amount }}
+                  </div>
+                </div>
               </template>
-              <v-list>
-                <v-list-item>
-                  <v-list-item-title>Use</v-list-item-title>
-                  <v-list-item-content>Gives 5,000.00 mol SiO<sub>2</sub></v-list-item-content>
-                </v-list-item>
-              </v-list>
+              <v-card max-width="300px">
+                <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
+                <v-card-text>{{ getItem(inventoryItem.id).description }}</v-card-text>
+              </v-card>
             </v-menu>
           </div>
         </v-list-item-content>
       </v-list-item>
-      <v-btn class="" @click="campaign ? campaign.inventory.increment('0') : undefined">
-        Add frikandelbroodje
-      </v-btn>
       <v-btn class="back-to-menu-btn" @click="$router.push('/menu')">
         Back to menu
       </v-btn>
@@ -172,6 +167,10 @@ export default {
     },
   },
   created() {
+    window.frikandelbroodje = amount => {
+      this.campaign.inventory.add("0", amount);
+    };
+
     if (!this.$store.state.campaign) {
       this.didNotFindCampaignDialog = true;
       return;
@@ -233,6 +232,9 @@ export default {
     grid-column-gap: 4%;
     .item {
       position: relative;
+      &:hover {
+        cursor: pointer;
+      }
       img {
         width: 100%;
       }

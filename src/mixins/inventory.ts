@@ -42,7 +42,6 @@ const items = Array<Item>(
 
 // getItem looks for the item with the specified id in all known items.
 export function getItem(id: string): Item | undefined {
-  console.log(`getting item id: ${id}`);
   for (let i = 0; i < items.length; i++) {
     if (items[i].id === id) {
       return items[i];
@@ -71,7 +70,7 @@ export class Inventory {
       if (this.items[i].id !== id) {
         continue;
       }
-      if (this.items[i].amount - amount < 0) {
+      if (this.items[i].amount + amount < 0) {
         throw new Error("operation would cause negative amount of items");
       }
       this.items[i].amount += amount;
