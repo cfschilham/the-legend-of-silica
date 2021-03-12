@@ -31,7 +31,11 @@ export class Campaign {
         this.balance = 0;
         break;
       default:
-        throw new Error("invalid difficulty");
+        this.balance = 0;
+        break;
+    }
+    if(props.balance) {
+      this.balance = this.balance;
     }
     if (props.inventory) {
       this.inventory = props.inventory;
@@ -41,5 +45,28 @@ export class Campaign {
     }
   }
 
-  // TODO: add validation method
+  public validate(): boolean {
+    if(this.characterName.length == 0 || this.characterName.length > 20) {
+      return false;
+    }
+    if(this.balance < 0) {
+      return false;
+    }
+    if(["primate", "berserker", "shaman"].indexOf(this.characterClass) == -1) {
+      return false;
+    }
+    if(this.difficulty < 0 || this.difficulty > 5) {
+      return false;
+    }
+    if(this.isoStartTime.length == 0) {
+      return false;
+    }
+    if(this.inventory == undefined) {
+      return false;
+    }
+    if(!this.inventory.validate()) {
+      return false;
+    }
+    return true;
+  }
 }

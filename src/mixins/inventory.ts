@@ -113,5 +113,19 @@ export class Inventory {
     this.add(id, -1);
   }
 
-  // TODO: add validation method
+  validate(): boolean {
+    let arr = new Array<string>();
+    this.items.forEach((item) => {
+      arr.push(item.id);
+    })
+    if(new Set(arr).size < arr.length) {
+      return false;
+    }
+    this.items.forEach((item) => {
+      if(item.amount < 0) {
+        return false
+      }
+    })
+    return true;
+  }
 }
