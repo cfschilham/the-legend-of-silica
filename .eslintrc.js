@@ -7,6 +7,7 @@ module.exports = {
 
   extends: [
     "plugin:vue/essential",
+    "plugin:prettier/recommended",
     "@vue/standard",
     "@vue/typescript",
   ],
@@ -16,6 +17,13 @@ module.exports = {
   },
 
   rules: {
+    "prettier/prettier": [
+      "error",
+      {
+        trailingComma: "all",
+        printWidth: 120,
+      },
+    ],
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     semi: ["error", "always"],

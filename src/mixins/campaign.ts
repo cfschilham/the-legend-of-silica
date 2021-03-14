@@ -8,7 +8,14 @@ export class Campaign {
   public balance: number;
   public inventory: Inventory;
 
-  constructor(props: { characterName: string; difficulty: number; characterClass: string; isoStartTime: string; inventory?: Inventory; balance?: number }) {
+  constructor(props: {
+    characterName: string;
+    difficulty: number;
+    characterClass: string;
+    isoStartTime: string;
+    inventory?: Inventory;
+    balance?: number;
+  }) {
     this.characterName = props.characterName;
     this.difficulty = props.difficulty;
     this.characterClass = props.characterClass;

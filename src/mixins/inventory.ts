@@ -8,7 +8,14 @@ export class Item {
   public sellValue: number;
   public buyValue: number;
 
-  constructor(props: { id: string; name: string; description: string; icon: string; sellValue: number; buyValue: number }) {
+  constructor(props: {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    sellValue: number;
+    buyValue: number;
+  }) {
     this.id = props.id;
     this.name = props.name;
     this.description = props.description;
@@ -21,7 +28,15 @@ export class Item {
 export class QuestModifierItem extends Item {
   public questModifier: (quest: Quest) => Quest;
 
-  constructor(props: { questModifier: (quest: Quest) => Quest; id: string; name: string; description: string; icon: string; sellValue: number; buyValue: number; }) {
+  constructor(props: {
+    questModifier: (quest: Quest) => Quest;
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    sellValue: number;
+    buyValue: number;
+  }) {
     super(props);
     this.questModifier = props.questModifier;
   }
@@ -32,8 +47,7 @@ const items = Array<Item>(
   new Item({
     id: "0",
     name: "Frikandelbroodje",
-    description:
-      "A delightful meal. The only true super-food, suitable for consumption at any time, at any place.",
+    description: "A delightful meal. The only true super-food, suitable for consumption at any time, at any place.",
     icon: require("@/assets/items/frikandelbroodje.png"),
     sellValue: 5000,
     buyValue: -1,
@@ -119,13 +133,13 @@ export class Inventory {
   validate(): boolean {
     // eslint-disable-next-line no-array-constructor
     const ids = new Array<string>();
-    this.items.forEach((item) => {
+    this.items.forEach(item => {
       ids.push(item.id);
     });
     if (new Set(ids).size < ids.length) {
       return false;
     }
-    this.items.forEach((item) => {
+    this.items.forEach(item => {
       if (item.amount < 0) {
         return false;
       }

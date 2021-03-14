@@ -26,9 +26,7 @@ const store = new Vuex.Store({
       state.campaign = campaign;
     },
   },
-  plugins: [
-    persistence.plugin,
-  ],
+  plugins: [persistence.plugin],
 });
 
 export default store;

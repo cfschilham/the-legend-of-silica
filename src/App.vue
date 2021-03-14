@@ -1,31 +1,12 @@
 <template>
   <v-app>
     <v-main>
-      <div
-        class="buttons"
-        :style="{ background: $vuetify.theme.currentTheme.background }"
-      >
+      <div class="buttons" :style="{ background: $vuetify.theme.currentTheme.background }">
         <v-tooltip bottom v-if="$route.name !== `Start`">
           <template v-slot:activator="{ on }">
-            <i
-              class="mdi btn toggle-music-btn"
-              :class="musicToggleButtonClass"
-              @click="toggleMusic"
-              v-on="on"
-            ></i>
+            <i class="mdi btn toggle-music-btn" :class="musicToggleButtonClass" @click="toggleMusic" v-on="on"></i>
           </template>
           <span>Toggle music</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <i
-              class="mdi btn toggle-theme-btn"
-              :class="themeToggleButtonClass"
-              @click="toggleTheme"
-              v-on="on"
-            ></i>
-          </template>
-          <span>Toggle theme</span>
         </v-tooltip>
       </div>
       <audio src="@/assets/main-theme.mp3" loop ref="music"></audio>
@@ -38,8 +19,7 @@
         Copyright © 2021. All rights reserved. Design and implementation by
         <a href="https://github.com/BenStokmans" target="_blank">B. Stokmans</a>
         and
-        <a href="https://github.com/cfschilham" target="_blank">C.F. Schilham</a
-        >.
+        <a href="https://github.com/cfschilham" target="_blank">C.F. Schilham</a>.
       </div>
     </v-main>
   </v-app>
@@ -51,17 +31,12 @@ export default {
   data: () => {
     return {
       musicToggleButtonClass: "mdi-volume-high",
-      themeToggleButtonClass: "mdi-white-balance-sunny",
     };
   },
   created() {
     this.$router.push("/");
   },
   mounted() {
-    if (this.$store.state.theme === "dark") {
-      this.themeToggleButtonClass = "mdi-moon-waxing-crescent";
-      this.$vuetify.theme.dark = true;
-    }
     if (this.$store.state.musicMuted) {
       this.musicToggleButtonClass = "mdi-volume-off";
     }
@@ -83,11 +58,6 @@ export default {
       }
       this.$refs.music.volume = 0.2;
       this.musicToggleButtonClass = "mdi-volume-high";
-    },
-    toggleTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-      this.$store.commit("setTheme", this.$vuetify.theme.dark ? "dark" : "light");
-      this.themeToggleButtonClass = this.$vuetify.theme.dark ? "mdi-moon-waxing-crescent" : "mdi-white-balance-sunny";
     },
   },
   watch: {

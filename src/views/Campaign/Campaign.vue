@@ -1,6 +1,6 @@
-  <template>
+<template>
   <div class="campaign">
-    <v-navigation-drawer permanent>
+    <v-navigation-drawer permanent :style="{ background: $vuetify.theme.currentTheme.background }">
       <v-list-item>
         <v-list-item-content>
           <div>
@@ -13,9 +13,7 @@
         <v-list-item-content>
           <div class="character-information">
             <svg
-              v-if="
-                campaign ? campaign.characterClass === 'primate' : undefined
-              "
+              v-if="campaign ? campaign.characterClass === 'primate' : undefined"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
             >
@@ -28,17 +26,11 @@
               </g>
             </svg>
             <svg
-              v-if="
-                campaign ? campaign.characterClass === 'berserker' : undefined
-              "
+              v-if="campaign ? campaign.characterClass === 'berserker' : undefined"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
             >
-              <path
-                d="M0 0h512v512H0z"
-                fill="transparent"
-                fill-opacity="1"
-              ></path>
+              <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
               <g class="" transform="translate(0,0)" style="">
                 <path
                   d="M483.424 24.638L449.83 39.98c.944.974 1.864 1.99 2.754 3.068 3.544 4.29 6.546 8.89 9.07 13.745l21.77-32.155zm-221.18 14.426l4.217 42.527c7.223-6.983 14.875-13.594 22.97-19.575l-27.186-22.95zm143.17 2.358c-2 .03-4.06.133-6.18.298-11.58.906-24.367 3.983-37.02 7.41l23.55 36.178.404.62.297.68c3.1 7.08 2.3 14.488-.006 21.41-2.308 6.924-6.405 13.565-12.487 18.53-6.082 4.962-14.756 8.037-23.813 6.118-9.056-1.92-17.6-8.213-25.506-18.803l-1.718-2.305-1.104-48.535c-25.135 12.94-47.54 34.326-66.178 57.047l17.14 9.428 2.892 1.59 1.177 3.08c4.892 12.782 5.147 26.122-1.43 37.13-6.575 11.01-18.66 18.744-35.435 24.293l-6.9 2.285-11.653-19.82c-1.71 3.762-3.41 7.56-5.093 11.43l-17.225 108.624-2.75-61.597c-10.444 24.205-21.82 48.42-36.09 70.063C119.643 368.216 28.322 462.01 28.322 462.01l-.07.072-.07.07c-3.905 3.85-3.91 5.573-3.475 7.693.29 1.418 1.348 3.368 3.168 5.43l97.166-78.713-84.007 87.3c5.778 2.305 11.906 3.587 15.895 3.495 6.885-6.482 66.713-62.5 107.11-88.644 38.117-24.67 69.79-54.084 106.32-82.045l12.213-70.723.37-2.147 1.312-1.74c6.783-8.997 15.585-14.236 24.506-15.33a31.905 31.905 0 0 1 6.588-.113c6.464.56 12.5 3.047 17.584 6.59 11.895 8.287 20.172 22.808 18.008 37.68 6.76-3 13.436-6.003 19.883-9.153 20.67-10.1 38.705-21.33 51.063-37.56-7.023-.544-13.58-3.672-19.03-7.846-7.455-5.707-13.412-13.558-17.25-22.2-3.84-8.64-5.723-18.287-2.974-27.615 2.75-9.326 11.142-17.274 22.833-20.01l.645-.153 45.662-3.797c.92-5.208 1.667-10.42 2.19-15.58 1.022-10.1 1.175-19.927.35-29.187l-28.927 31.25 19.88-64.613c-1.88-3.562-4.056-6.88-6.556-9.907-7.064-8.55-16.195-12.217-27.474-12.957a72.25 72.25 0 0 0-5.82-.134zm-65.937 5.773l1.316 57.93c5.447 6.628 10.038 9.285 13.098 9.933 3.385.717 5.85-.13 8.702-2.457 2.852-2.327 5.483-6.348 6.79-10.272 1.253-3.757 1.01-7.105.624-8.23l-30.53-46.903zm-136.057 64.69l37.62 63.984c10.068-4.252 16.137-9.108 18.94-13.802 3.017-5.05 3.41-10.74.962-18.547l-57.522-31.636zm284.063 45.76l-78.336 6.513c-6.528 1.622-8.23 3.973-9.252 7.443-1.05 3.558-.457 9.338 2.156 15.218 2.614 5.88 7.085 11.648 11.745 15.217 4.102 3.14 7.867 4.322 10.924 4.105.6-.433 1.22-.876 2.16-1.576a960.486 960.486 0 0 0 10.226-7.758c8.388-6.43 19.428-14.995 30.408-23.547 10.038-7.82 12.08-9.442 19.97-15.616zM312.38 244.497c-.48.007-.957.04-1.43.097-3.424.42-7.092 2.18-11.067 6.868l-16.496 95.523 49.18-76.508c2.014-7.113-2.495-17.326-9.926-22.504-2.873-2.002-5.883-3.162-8.806-3.422a14.095 14.095 0 0 0-1.453-.054zm74.02 29.52a328.805 328.805 0 0 1-7.677 3.886c-5.127 2.505-10.308 4.887-15.488 7.232l27.76 17.047-4.594-28.166z"
@@ -52,11 +44,7 @@
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
             >
-              <path
-                d="M0 0h512v512H0z"
-                fill="transparent"
-                fill-opacity="1"
-              ></path>
+              <path d="M0 0h512v512H0z" fill="transparent" fill-opacity="1"></path>
               <g class="" transform="translate(0,0)" style="">
                 <path
                   d="M478.6 22.09c-11.2 11.31-19.5 24.46-26.3 38.48l25 37.39c4.4-3.16 9.9-6.06 16.9-8.54-20.7-10.02-26.7-29.08-10.3-44.81zm-445.2.59L28.1 45.2c16.4 15.73 10.4 34.79-10.3 44.81 6.7 2.39 12.03 5.16 16.41 8.18l25.13-37.72C52.66 46.71 44.39 33.8 33.4 22.68zm187 4.16l-17.2 5.26 9.1 29.74c5.4-2.42 11.1-4.42 17-5.95zm70.8 0l-8.9 29.05c5.9 1.53 11.6 3.53 17 5.95l9.1-29.74zm-141 28.27l-12.8 12.72 28.8 28.89c1-1.11 1.9-2.2 2.9-3.28 3.1-3.36 6.3-6.6 9.7-9.68zm211.2 0l-28.6 28.65c3.4 3.08 6.6 6.32 9.7 9.68 1 1.06 1.9 2.14 2.8 3.22l28.9-28.83zM255.8 70.47c-29 0-54.7 14.55-73.3 35.03-16.1 17.7-26.5 39.8-29 59h204.6c-2.5-19.2-12.9-41.3-29-59-18.6-20.48-44.3-35.03-73.3-35.03zM61.38 89.87L40.52 121.1c-7.14 61 8.68 105.3 31.39 126.3C83.38 258 96.3 262.9 110 262c13.7-.8 28.6-7.6 43.4-22.4l11.9-11.9 3.3 16.5c7.8 38.7 23.2 69.4 40.2 90.1 16.9 20.7 35.5 30.7 47 30.7s30.1-10 47-30.7c17-20.7 32.4-51.4 40.2-90.1l3.3-16.5 11.9 11.9c14.8 14.8 29.7 21.6 43.4 22.4 13.7.9 26.6-4 38.1-14.6 22.7-21 38.5-65.3 31.4-126.3l-20.9-31.23c-15.4 40.03-35.1 68.73-63.4 87.63-13 8.6-27.5 15.1-44 19.7-4.2 17.9-14.7 38.6-27.5 57.8-8.3 12.5-17.7 24-27.5 32.7-9.9 8.8-20.2 15.3-32 15.3s-22.1-6.5-32-15.3c-9.8-8.7-19.2-20.2-27.5-32.7-12.8-19.2-23.3-39.9-27.5-57.8-16.5-4.6-31-11.1-44-19.7-28.28-18.9-47.97-47.6-63.42-87.63zM114.6 117l-5.6 17 30.5 10.1c1.8-5.5 4-11.1 6.6-16.6zm282.4 0l-31.5 10.5c2.6 5.5 4.8 11.1 6.6 16.6l30.5-10.1zm-177.5 65.5c5.7 17.9 20.2 30 36.3 30 16.1 0 30.6-12.1 36.3-30zm-30 19.5c4.7 13 12.4 29 21.8 43 7.7 11.5 16.3 22 24.5 29.3 8.1 7.2 15.8 10.7 20 10.7 4.2 0 11.9-3.5 20-10.7 8.2-7.3 16.8-17.8 24.5-29.3 9.4-14 17.1-30 21.8-43-6.7 1.2-13.7 2.2-21 2.9-10.3 15.4-26.5 25.6-45.3 25.6-18.8 0-35-10.2-45.3-25.6-7.3-.7-14.3-1.7-21-2.9zm-4.6 130.3c-14.8 56.6-37.6 115.1-57 156.7 48.5-10.6 80.3-10.3 118.9.9V382.1c-17.7-3.4-35.7-16.5-52-36.4-3.4-4.2-6.7-8.6-9.9-13.4zm141.8 0c-3.2 4.8-6.5 9.2-9.9 13.4-16.3 19.9-34.3 33-52 36.4v107.8c38.6-11.2 70.4-11.5 118.9-.9-19.4-41.6-42.2-100.1-57-156.7z"
@@ -70,7 +58,8 @@
                 {{ campaign ? campaign.characterName : undefined }}
               </div>
               <div class="name text-caption">
-                {{ campaign ? new Intl.NumberFormat("en", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(campaign.balance) : undefined }} mol SiO<sub>2</sub>
+                {{ campaign ? numberFormatter.format(campaign.balance) : undefined }}
+                mol SiO<sub>2</sub>
               </div>
             </div>
           </div>
@@ -87,19 +76,16 @@
             Your inventory is empty
           </div>
           <div class="inventory" v-if="campaign">
-            <v-menu
-              v-for="(inventoryItem, index) in campaign.inventory.getItems()"
-              :key="index"
-              offset-y
-            >
+            <v-menu v-for="(inventoryItem, index) in campaign.inventory.getItems()" :key="index" offset-y open-on-hover>
               <template v-slot:activator="{ on, attrs }">
-                <div
-                  class="item"
-                  v-on="on"
-                  v-bind="attrs"
-                >
-                  <img :src="getItem(inventoryItem.id).icon"/>
-                  <div v-if="inventoryItem.amount > 1" class="amount text-caption" :style="{ background: $vuetify.theme.currentTheme.background }">
+                <div class="item" v-on="on" v-bind="attrs">
+                  <img :src="getItem(inventoryItem.id).icon" />
+                  <div
+                    class="amount text-caption"
+                    :style="{
+                      background: $vuetify.theme.currentTheme.background,
+                    }"
+                  >
                     {{ inventoryItem.amount }}
                   </div>
                 </div>
@@ -120,9 +106,9 @@
     <v-dialog v-model="didNotFindCampaignDialog" persistent max-width="500px">
       <v-card>
         <v-card-title>Couldn't find your campaign</v-card-title>
+        <v-card-subtitle>Sell value: </v-card-subtitle>
         <v-card-text>
-          This could be due to an error or because you attempted to access this
-          endpoint directly
+          This could be due to an error or because you attempted to access this endpoint directly
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -135,8 +121,8 @@
       <v-card>
         <v-card-title>Something went wrong</v-card-title>
         <v-card-text>
-          An error occurred while restoring the progress of your previous campaign.
-          This could have been caused by a bug or by data corruption.
+          An error occurred while restoring the progress of your previous campaign. This could have been caused by a bug
+          or by data corruption.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -159,6 +145,10 @@ export default {
       didNotFindCampaignDialog: false,
       invalidCampaignDialog: false,
       getItem: getItem,
+      numberFormatter: new Intl.NumberFormat("en", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
     };
   },
   computed: {
@@ -211,10 +201,6 @@ export default {
     user-select: none;
   }
 
-  .theme--dark.v-navigation-drawer {
-    background-color: #121212;
-  }
-
   .character-information {
     display: grid;
     grid-template-columns: 42px auto;
@@ -240,10 +226,10 @@ export default {
       }
       .amount {
         position: absolute;
-        right: -4px;
-        bottom: -2px;
-        padding: 2px 4px;
-        border-radius: 100%;
+        right: -6px;
+        bottom: -1px;
+        padding: 1px 6px;
+        border-radius: 50%;
         font-weight: 500;
       }
     }
