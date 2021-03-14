@@ -7,6 +7,8 @@ export class Campaign {
   public isoStartTime: string;
   public balance: number;
   public inventory: Inventory;
+  public currentHealth: number;
+  public readonly totalHealth: number;
 
   constructor(props: {
     characterName: string;
@@ -15,31 +17,26 @@ export class Campaign {
     isoStartTime: string;
     inventory?: Inventory;
     balance?: number;
+    currentHealth?: number;
   }) {
+    if (props.difficulty > 4 || props.difficulty < 0) {
+      throw new Error(`invalid difficulty: ${props.difficulty}`);
+    }
     this.characterName = props.characterName;
     this.difficulty = props.difficulty;
     this.characterClass = props.characterClass;
     this.isoStartTime = props.isoStartTime;
     this.inventory = new Inventory();
-    switch (this.difficulty) {
-      case 0:
-        this.balance = 2000;
-        break;
-      case 1:
-        this.balance = 1500;
-        break;
-      case 2:
-        this.balance = 1000;
-        break;
-      case 3:
-        this.balance = 500;
-        break;
-      case 4:
-        this.balance = 0;
-        break;
-      default:
-        this.balance = 0;
-        break;
+    this.totalHealth = 5 - this.difficulty;
+    this.currentHealth = this.totalHealth;
+    // eslint-disable-next-line eqeqeq
+    if (props.currentHealth != undefined) {
+      this.currentHealth = props.currentHealth;
+    }
+    this.balance = 2000 - 500 * this.difficulty;
+    // eslint-disable-next-line eqeqeq
+    if (props.balance != undefined) {
+      this.balance = props.balance;
     }
     if (props.inventory) {
       this.inventory = props.inventory;
@@ -68,9 +65,6 @@ export class Campaign {
     if (this.inventory === undefined) {
       return false;
     }
-    if (!this.inventory.validate()) {
-      return false;
-    }
-    return true;
+    return this.inventory.validate();
   }
 }

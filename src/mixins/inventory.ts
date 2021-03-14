@@ -1,4 +1,4 @@
-import { Quest } from "@/mixins/quest/quest.ts";
+import { Quest } from "@/mixins/quest/quest";
 
 export class Item {
   public id: string;
@@ -76,7 +76,7 @@ export class Inventory {
     this.items = Array<{ id: string; amount: number }>();
   }
 
-  add(id: string, amount: number) {
+  public add(id: string, amount: number) {
     if (!(id in items)) {
       throw new Error("item id doesn't exist");
     }
@@ -102,7 +102,7 @@ export class Inventory {
     });
   }
 
-  getItemAmount(id: string): number {
+  public getItemAmount(id: string): number {
     if (!(id in items)) {
       throw new Error("item id doesn't exist");
     }
@@ -118,19 +118,19 @@ export class Inventory {
     return 0;
   }
 
-  getItems(): Array<{ id: string; amount: number }> {
+  public getItems(): Array<{ id: string; amount: number }> {
     return this.items;
   }
 
-  increment(id: string) {
+  public increment(id: string) {
     this.add(id, 1);
   }
 
-  decrement(id: string) {
+  public decrement(id: string) {
     this.add(id, -1);
   }
 
-  validate(): boolean {
+  public validate(): boolean {
     // eslint-disable-next-line no-array-constructor
     const ids = new Array<string>();
     this.items.forEach(item => {

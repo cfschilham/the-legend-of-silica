@@ -22,11 +22,16 @@
               "
             >
               <img
-                v-if="selectedCharacterClass === 'primate'"
                 src="@/assets/classes/primate-color.svg"
                 alt="primate-selected"
+                :style="{ display: selectedCharacterClass === 'primate' ? undefined : 'none' }"
               />
-              <img v-else src="@/assets/classes/primate.svg" alt="primate" />
+              <img
+                :style="{ display: selectedCharacterClass === 'primate' ? 'none' : undefined }"
+                src="@/assets/classes/primate.svg"
+                alt="primate"
+                style="opacity: 50%"
+              />
             </div>
             <div
               :class="berserkerClass"
@@ -38,11 +43,16 @@
               "
             >
               <img
-                v-if="selectedCharacterClass === 'berserker'"
+                :style="{ display: selectedCharacterClass === 'berserker' ? undefined : 'none' }"
                 src="@/assets/classes/berserker-color.svg"
                 alt="berserker-selected"
               />
-              <img v-else src="@/assets/classes/berserker.svg" alt="berserker" />
+              <img
+                :style="{ display: selectedCharacterClass === 'berserker' ? 'none' : undefined }"
+                src="@/assets/classes/berserker.svg"
+                alt="berserker"
+                style="opacity: 50%"
+              />
             </div>
             <div
               :class="shamanClass"
@@ -54,11 +64,16 @@
               "
             >
               <img
-                v-if="selectedCharacterClass === 'shaman'"
+                :style="{ display: selectedCharacterClass === 'shaman' ? undefined : 'none' }"
                 src="@/assets/classes/shaman-color.svg"
                 alt="shaman-selected"
               />
-              <img v-else src="@/assets/classes/shaman.svg" alt="shaman" />
+              <img
+                :style="{ display: selectedCharacterClass === 'shaman' ? 'none' : undefined }"
+                src="@/assets/classes/shaman.svg"
+                alt="shaman"
+                style="opacity: 50%"
+              />
             </div>
           </div>
           <span v-if="selectedCharacterClass === 'primate'"><strong>Primate</strong></span>
