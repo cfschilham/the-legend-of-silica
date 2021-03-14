@@ -5,17 +5,7 @@
       <img src="@/assets/logo.svg" alt="logo" class="logo" />
       <v-btn class="item" color="primary" large @click="$router.push('/new-campaign')">New Campaign</v-btn>
       <v-btn class="item" large @click="$router.push('/campaign')">Resume Campaign</v-btn>
-      <v-btn class="item" large>Settings</v-btn>
-      <v-btn
-        class="item"
-        large
-        @click="
-          () => {
-            window.open('https://github.com/cfschilham/the-legend-of-silica', '_blank');
-          }
-        "
-        >Repository</v-btn
-      >
+      <v-btn class="item" large @click="openRepository">Repository</v-btn>
     </div>
   </div>
 </template>
@@ -28,6 +18,11 @@ export default {
   name: "Menu",
   mounted() {
     window.particlesJS("particles", particlesConfig);
+  },
+  methods: {
+    openRepository() {
+      window.open("https://github.com/cfschilham/the-legend-of-silica", "_blank");
+    },
   },
 };
 </script>
