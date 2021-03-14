@@ -13,6 +13,27 @@
           <span class="text-overline">Class</span>
           <div class="classes">
             <div
+              :class="shamanClass"
+              class="class shaman"
+              @click="
+                () => {
+                  this.selectedCharacterClass = 'shaman';
+                }
+              "
+            >
+              <img
+                :style="{ display: selectedCharacterClass === 'shaman' ? undefined : 'none' }"
+                src="@/assets/classes/shaman-color.svg"
+                alt="shaman-selected"
+              />
+              <img
+                :style="{ display: selectedCharacterClass === 'shaman' ? 'none' : undefined }"
+                src="@/assets/classes/shaman.svg"
+                alt="shaman"
+                style="opacity: 50%"
+              />
+            </div>
+            <div
               :class="primateClass"
               class="class primate"
               @click="
@@ -51,27 +72,6 @@
                 :style="{ display: selectedCharacterClass === 'berserker' ? 'none' : undefined }"
                 src="@/assets/classes/berserker.svg"
                 alt="berserker"
-                style="opacity: 50%"
-              />
-            </div>
-            <div
-              :class="shamanClass"
-              class="class shaman"
-              @click="
-                () => {
-                  this.selectedCharacterClass = 'shaman';
-                }
-              "
-            >
-              <img
-                :style="{ display: selectedCharacterClass === 'shaman' ? undefined : 'none' }"
-                src="@/assets/classes/shaman-color.svg"
-                alt="shaman-selected"
-              />
-              <img
-                :style="{ display: selectedCharacterClass === 'shaman' ? 'none' : undefined }"
-                src="@/assets/classes/shaman.svg"
-                alt="shaman"
                 style="opacity: 50%"
               />
             </div>

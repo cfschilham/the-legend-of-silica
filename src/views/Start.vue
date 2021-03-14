@@ -17,10 +17,11 @@
       </p>
       <p class="text-body-1">
         Music by <a href="https://www.youtube.com/channel/UCw4wdHksXbaiyu3BiBNNW0w">Alexander Nakarada</a>. Artwork by
-        Delapouite and Skoll from <a href="https://game-icons.net/" target="_blank">game-icons.net</a>.
+        Delapouite, Lorc, and Skoll from <a href="https://game-icons.net/" target="_blank">game-icons.net</a>.
       </p>
       <p class="text-body-1">
-        Design and implementation by <a href="https://github.com/BenStokmans" target="_blank">B. Stokmans</a> and
+        Implementation, visual design, and gameplay design by
+        <a href="https://github.com/BenStokmans" target="_blank">B. Stokmans</a> and
         <a href="https://github.com/cfschilham" target="_blank">C.F. Schilham</a>.
       </p>
       <v-btn color="primary" class="start-btn" large @click="$router.push(`menu`)">Start</v-btn>

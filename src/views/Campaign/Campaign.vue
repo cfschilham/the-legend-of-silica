@@ -1,86 +1,80 @@
 <template>
-  <div class="campaign">
-    <v-navigation-drawer permanent :style="{ background: $vuetify.theme.currentTheme.background }">
-      <v-list-item>
-        <v-list-item-content>
-          <div class="character-information">
-            <img
-              v-if="campaign ? campaign.characterClass === 'primate' : undefined"
-              src="@/assets/classes/primate.svg"
-              alt="primate"
-            />
-            <img
-              v-if="campaign ? campaign.characterClass === 'berserker' : undefined"
-              src="@/assets/classes/berserker.svg"
-              alt="berserker"
-            />
-            <img
-              v-if="campaign ? campaign.characterClass === 'shaman' : undefined"
-              src="@/assets/classes/shaman.svg"
-              alt="shaman"
-            />
-            <div>
-              <div class="name text-subtitle-2">
-                {{ campaign ? campaign.characterName : undefined }}
-              </div>
-              <div class="name text-caption">
-                {{ campaign ? balanceFormatter.format(campaign.balance) : undefined }}
-                mol SiO<sub>2</sub>
-              </div>
-            </div>
-          </div>
-          <div class="health">
-            <div v-for="i in campaign.totalHealth" :key="i" class="heart">
-              <img v-if="campaign.currentHealth >= i" src="@/assets/heart-color.svg" alt="heart" />
-              <img v-else src="@/assets/heart.svg" alt="no heart" />
-            </div>
-          </div>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-list-item-content>
-          <div class="text-overline">Inventory</div>
-          <div
-            v-if="campaign ? campaign.inventory.getItems().length === 0 : undefined"
-            class="text-caption text--secondary"
-          >
-            Your inventory is empty
-          </div>
-          <div class="inventory" v-if="campaign">
-            <v-menu v-for="(inventoryItem, index) in campaign.inventory.getItems()" :key="index" offset-y open-on-hover>
-              <template v-slot:activator="{ on, attrs }">
-                <div class="item" v-on="on" v-bind="attrs">
-                  <img :src="getItem(inventoryItem.id).icon" />
-                  <div
-                    class="amount text-caption"
-                    :style="{
-                      background: $vuetify.theme.currentTheme.background,
-                    }"
-                  >
-                    {{ inventoryItem.amount }}
-                  </div>
+  <div>
+    <div v-if="campaign" class="campaign">
+      <v-navigation-drawer permanent :style="{ background: $vuetify.theme.currentTheme.background }">
+        <v-list-item>
+          <v-list-item-content>
+            <div class="character-information">
+              <img v-if="campaign.characterClass === 'primate'" src="@/assets/classes/primate.svg" alt="primate" />
+              <img
+                v-if="campaign.characterClass === 'berserker'"
+                src="@/assets/classes/berserker.svg"
+                alt="berserker"
+              />
+              <img v-if="campaign.characterClass === 'shaman'" src="@/assets/classes/shaman.svg" alt="shaman" />
+              <div>
+                <div class="name text-subtitle-2">
+                  {{ campaign.characterName }}
                 </div>
-              </template>
-              <v-card max-width="300px">
-                <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
-                <v-card-subtitle>{{ getItem(inventoryItem.id).description }}</v-card-subtitle>
-              </v-card>
-            </v-menu>
-          </div>
-        </v-list-item-content>
-      </v-list-item>
-      <v-btn class="back-to-menu-btn" @click="$router.push('/menu')">
-        Back to menu
-      </v-btn>
-    </v-navigation-drawer>
+                <div class="name text-caption">
+                  {{ balanceFormatter.format(campaign.balance) }}
+                  mol SiO<sub>2</sub>
+                </div>
+              </div>
+            </div>
+            <div class="health">
+              <div v-for="i in campaign.totalHealth" :key="i" class="heart">
+                <img v-if="campaign.currentHealth >= i" src="@/assets/heart-color.svg" alt="heart" />
+                <img v-else src="@/assets/heart.svg" alt="no heart" />
+              </div>
+            </div>
+          </v-list-item-content>
+        </v-list-item>
 
+        <v-list-item>
+          <v-list-item-content>
+            <div class="text-overline">Inventory</div>
+            <div v-if="campaign.inventory.getItems().length === 0" class="text-caption text--secondary">
+              Your inventory is empty
+            </div>
+            <div class="inventory">
+              <v-menu
+                v-for="(inventoryItem, index) in campaign.inventory.getItems()"
+                :key="index"
+                offset-y
+                open-on-hover
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <div class="item" v-on="on" v-bind="attrs">
+                    <img :src="getItem(inventoryItem.id).icon" />
+                    <div
+                      class="amount text-caption"
+                      :style="{
+                        background: $vuetify.theme.currentTheme.background,
+                      }"
+                    >
+                      {{ inventoryItem.amount }}
+                    </div>
+                  </div>
+                </template>
+                <v-card max-width="300px">
+                  <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
+                  <v-card-subtitle>{{ getItem(inventoryItem.id).description }}</v-card-subtitle>
+                </v-card>
+              </v-menu>
+            </div>
+          </v-list-item-content>
+        </v-list-item>
+        <v-btn class="back-to-menu-btn" @click="$router.push('/menu')">
+          Back to menu
+        </v-btn>
+      </v-navigation-drawer>
+    </div>
     <v-dialog v-model="didNotFindCampaignDialog" persistent max-width="500px">
       <v-card>
         <v-card-title>Couldn't find your campaign</v-card-title>
-        <v-card-subtitle>Sell value: </v-card-subtitle>
         <v-card-text>
-          This could be due to an error or because you attempted to access this endpoint directly
+          This could be due to an error or because you attempted to access this endpoint directly.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -129,28 +123,33 @@ export default {
     },
   },
   created() {
-    window.frikandelbroodje = amount => {
-      this.campaign.inventory.add("0", amount);
-    };
-
     if (!this.$store.state.campaign) {
       this.didNotFindCampaignDialog = true;
       return;
     }
 
-    if (!this.$store.state.campaign.inventory) {
+    const rawCampaign = Object.assign({}, this.$store.state.campaign);
+    rawCampaign.inventory = new Inventory(this.$store.state.campaign.inventory);
+    this.campaign = new Campaign(rawCampaign);
+    if (!this.campaign.validate()) {
       this.invalidCampaignDialog = true;
       return;
     }
-
-    const rawCampaign = Object.assign({}, this.$store.state.campaign);
-    rawCampaign.inventory = new Inventory(this.$store.state.campaign.inventory);
-    console.log(rawCampaign);
-    this.campaign = new Campaign(rawCampaign);
+    this.$nextTick(() => {
+      document.title = `${this.campaign.characterName} | Campaign - The Legend of Silica`;
+    });
+    window.frikandelbroodje = amount => {
+      this.campaign.inventory.add("0", amount);
+    };
   },
   watch: {
     campaign: {
       handler() {
+        if (this.campaign.currentHealth === 0) {
+          this.$router.push("/game-over");
+          this.$store.commit("setCampaign", undefined);
+          return;
+        }
         this.$store.commit("setCampaign", this.campaign);
       },
       deep: true,
