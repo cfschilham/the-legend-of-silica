@@ -5,13 +5,24 @@
         <v-list-item>
           <v-list-item-content>
             <div class="character-information">
-              <img v-if="campaign.characterClass === 'primate'" src="@/assets/classes/primate.svg" alt="primate" />
               <img
+                class="class-icon"
+                v-if="campaign.characterClass === 'primate'"
+                src="@/assets/classes/primate.svg"
+                alt="primate"
+              />
+              <img
+                class="class-icon"
                 v-if="campaign.characterClass === 'berserker'"
                 src="@/assets/classes/berserker.svg"
                 alt="berserker"
               />
-              <img v-if="campaign.characterClass === 'shaman'" src="@/assets/classes/shaman.svg" alt="shaman" />
+              <img
+                class="class-icon"
+                v-if="campaign.characterClass === 'shaman'"
+                src="@/assets/classes/shaman.svg"
+                alt="shaman"
+              />
               <div>
                 <div class="name text-subtitle-2">
                   {{ campaign.characterName }}
@@ -20,16 +31,18 @@
                   {{ balanceFormatter.format(campaign.balance) }}
                   mol SiO<sub>2</sub>
                 </div>
-              </div>
-            </div>
-            <div class="health">
-              <div v-for="i in campaign.totalHealth" :key="i" class="heart">
-                <img v-if="campaign.currentHealth >= i" src="@/assets/heart-color.svg" alt="heart" />
-                <img v-else src="@/assets/heart.svg" alt="no heart" />
+                <div class="health">
+                  <div v-for="i in campaign.totalHealth" :key="i" class="heart">
+                    <img v-if="campaign.currentHealth >= i" src="@/assets/heart-color.svg" alt="heart" />
+                    <img v-else src="@/assets/heart.svg" style="opacity: 35%" alt="no heart" />
+                  </div>
+                </div>
               </div>
             </div>
           </v-list-item-content>
         </v-list-item>
+
+        <v-divider />
 
         <v-list-item>
           <v-list-item-content>
@@ -65,9 +78,13 @@
             </div>
           </v-list-item-content>
         </v-list-item>
-        <v-btn class="back-to-menu-btn" @click="$router.push('/menu')">
-          Back to menu
-        </v-btn>
+        <v-list-item class="back-to-menu">
+          <v-list-item-content>
+            <v-btn @click="$router.push('/menu')">
+              Back to menu
+            </v-btn>
+          </v-list-item-content>
+        </v-list-item>
       </v-navigation-drawer>
     </div>
     <v-dialog v-model="didNotFindCampaignDialog" persistent max-width="500px">
@@ -174,11 +191,19 @@ export default {
 
   .character-information {
     display: grid;
-    grid-template-columns: 42px auto;
-    grid-column-gap: 10px;
+    grid-template-columns: 64px auto;
+    grid-column-gap: 16px;
 
-    img {
-      height: 42px;
+    img.class-icon {
+      height: 64px;
+    }
+    .health {
+      margin-top: 5px;
+      display: flex;
+      .heart {
+        width: 14px;
+        margin-right: 1px;
+      }
     }
   }
 
@@ -205,19 +230,9 @@ export default {
     }
   }
 
-  .health {
-    display: flex;
-    justify-content: center;
-    margin-top: 6px;
-    .heart {
-      width: 14px;
-      margin: 0 1px;
-    }
-  }
-
-  .back-to-menu-btn {
+  .back-to-menu {
     position: absolute;
-    bottom: 20px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
   }
