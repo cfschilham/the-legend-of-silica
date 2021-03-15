@@ -13,7 +13,6 @@
           <span class="text-overline">Class</span>
           <div class="classes">
             <div
-              :class="shamanClass"
               class="class shaman"
               @click="
                 () => {
@@ -34,7 +33,6 @@
               />
             </div>
             <div
-              :class="primateClass"
               class="class primate"
               @click="
                 () => {
@@ -55,7 +53,6 @@
               />
             </div>
             <div
-              :class="berserkerClass"
               class="class berserker"
               @click="
                 () => {
