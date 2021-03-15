@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     openRepository() {
-      window.open("https://github.com/cfschilham/the-legend-of-silica", "_blank");
+      window.open("https://github.com/cfschilham/the-legend-of-silica", "_blank", "rel=noreferrer");
     },
   },
 };
