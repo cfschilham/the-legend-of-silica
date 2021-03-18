@@ -58,7 +58,7 @@
                 open-on-hover
               >
                 <template v-slot:activator="{ on, attrs }">
-                  <div class="item" v-on="on" v-bind="attrs">
+                  <div @click="getItem(inventoryItem.id).emit(campaign)" class="item" v-on="on" v-bind="attrs">
                     <img :src="getItem(inventoryItem.id).icon" />
                     <div
                       class="amount text-caption"
@@ -73,6 +73,8 @@
                 <v-card max-width="300px">
                   <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
                   <v-card-subtitle>{{ getItem(inventoryItem.id).description }}</v-card-subtitle>
+                  <v-divider></v-divider>
+                  <v-card-subtitle v-if="getItem(inventoryItem.id).emitter !== undefined">Click to use</v-card-subtitle>
                 </v-card>
               </v-menu>
             </div>
@@ -126,9 +128,26 @@
                 <strong>{{ item.name }}</strong>
               </div>
               <div class="description text--secondary">{{ item.description }}</div>
+              <v-divider></v-divider>
+              <div class="value text--secondary">
+                <span v-if="item.sellValue !== -1" class="sellvalue"
+                  >Sell for {{ balanceFormatter.format(item.sellValue) }} mol SiO<sub>2</sub></span
+                >
+                <br />
+                <span v-if="item.buyValue !== -1" class="buyvalue"
+                  >Buy for {{ balanceFormatter.format(item.buyValue) }} mol SiO<sub>2</sub></span
+                >
+              </div>
               <div class="buttons">
-                <v-btn text :disabled="item.sellValue === -1">Sell</v-btn>
-                <v-btn text :disabled="item.buyValue === -1">Buy</v-btn>
+                <v-btn
+                  text
+                  @click="sell(item.id)"
+                  :disabled="item.sellValue === -1 || !campaign.inventory.hasItem(item.id)"
+                  >Sell</v-btn
+                >
+                <v-btn text @click="buy(item.id)" :disabled="item.buyValue === -1 || campaign.balance < item.buyValue"
+                  >Buy</v-btn
+                >
               </div>
             </div>
           </div>
@@ -200,6 +219,22 @@ export default {
         result.push(items[i]);
       }
       return result;
+    },
+  },
+  methods: {
+    buy(id) {
+      if (getItem(id).buyValue === -1 || getItem(id).buyValue > this.campaign.balance) {
+        return;
+      }
+      this.campaign.inventory.increment(id);
+      this.campaign.balance -= getItem(id).buyValue;
+    },
+    sell(id) {
+      if (!this.campaign.inventory.hasItem(id)) {
+        return;
+      }
+      this.campaign.inventory.decrement(id);
+      this.campaign.balance += getItem(id).sellValue;
     },
   },
   created() {
@@ -301,6 +336,13 @@ export default {
             width: 50%;
             margin: 0 auto 20px auto;
             display: block;
+          }
+          .value {
+            padding-top: 10px;
+            font-size: 13px;
+          }
+          .description {
+            padding-bottom: 10px;
           }
           .buttons {
             margin-top: 4px;

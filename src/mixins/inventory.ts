@@ -1,4 +1,5 @@
 import { Quest } from "@/mixins/quest/quest";
+import { Campaign } from "@/mixins/campaign";
 
 export class Item {
   public id: string;
@@ -7,6 +8,7 @@ export class Item {
   public icon: string;
   public sellValue: number;
   public buyValue: number;
+  public emitter: ((campaign: Campaign) => void) | undefined;
   public secret: boolean;
 
   constructor(props: {
@@ -16,6 +18,8 @@ export class Item {
     icon: string;
     sellValue?: number;
     buyValue?: number;
+    canUse?: boolean;
+    emitter?: (campaign: Campaign) => void;
     secret?: boolean;
   }) {
     this.id = props.id;
@@ -24,7 +28,15 @@ export class Item {
     this.icon = props.icon;
     this.sellValue = props.sellValue || -1;
     this.buyValue = props.buyValue || -1;
+    this.emitter = props.emitter || undefined;
     this.secret = props.secret || false;
+  }
+
+  public emit(campaign: Campaign) {
+    if (this.emitter === undefined) {
+      return;
+    }
+    this.emitter(campaign);
   }
 }
 
@@ -53,7 +65,28 @@ export const items: Item[] = [
     description: "A delightful meal. The only true superfood, suitable for consumption at any time, at any place.",
     icon: require("@/assets/items/frikandelbroodje.png"),
     sellValue: 5000,
+    buyValue: 10,
+    emitter: (campaign: Campaign) => {
+      if (campaign.currentHealth === campaign.totalHealth) {
+        return;
+      }
+      campaign.currentHealth++;
+      campaign.inventory.decrement("0");
+    },
     secret: true,
+  }),
+  new Item({
+    id: "1",
+    name: "Pouch of silica",
+    description: "A pouch full of silica. Use to get anywhere between 1000 and 100000 silica",
+    icon: require("@/assets/items/pouch.svg"),
+    sellValue: -1,
+    buyValue: 1,
+    emitter: (campaign: Campaign) => {
+      campaign.balance += Math.floor(Math.random() * 100000);
+      campaign.inventory.decrement("1");
+    },
+    secret: false,
   }),
 ];
 
@@ -91,6 +124,9 @@ export class Inventory {
         throw new Error("operation would cause negative amount of items");
       }
       this.items[i].amount += amount;
+      if (this.items[i].amount === 0) {
+        this.items.splice(i, 1);
+      }
       return;
     }
 
@@ -114,11 +150,11 @@ export class Inventory {
         return this.items[i].amount;
       }
     }
-    this.items.push({
-      id: id,
-      amount: 0,
-    });
     return 0;
+  }
+
+  public hasItem(id: string): boolean {
+    return this.getItemAmount(id) > 0;
   }
 
   public getItems(): Array<{ id: string; amount: number }> {
