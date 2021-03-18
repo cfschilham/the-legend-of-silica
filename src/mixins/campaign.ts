@@ -9,6 +9,7 @@ export class Campaign {
   public inventory: Inventory;
   public currentHealth: number;
   public readonly totalHealth: number;
+  public completedQuestIds: Array<string>;
 
   constructor(props: {
     characterName: string;
@@ -18,6 +19,7 @@ export class Campaign {
     inventory?: Inventory;
     balance?: number;
     currentHealth?: number;
+    completedQuestIds?: Array<string>;
   }) {
     if (props.difficulty > 4 || props.difficulty < 0) {
       throw new Error(`invalid difficulty: ${props.difficulty}`);
@@ -29,6 +31,11 @@ export class Campaign {
     this.inventory = new Inventory();
     this.totalHealth = 5 - this.difficulty;
     this.currentHealth = this.totalHealth;
+    // eslint-disable-next-line no-array-constructor
+    this.completedQuestIds = new Array<string>();
+    if (props.completedQuestIds) {
+      this.completedQuestIds = props.completedQuestIds;
+    }
     // eslint-disable-next-line eqeqeq
     if (props.currentHealth != undefined) {
       this.currentHealth = props.currentHealth;

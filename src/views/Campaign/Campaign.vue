@@ -5,6 +5,21 @@
         <v-list-item>
           <v-list-item-content>
             <div class="character-information">
+              <div>
+                <div class="name text-subtitle-2">
+                  {{ campaign.characterName }}
+                </div>
+                <div class="name text-caption">
+                  {{ balanceFormatter.format(campaign.balance) }}
+                  mol SiO<sub>2</sub>
+                </div>
+                <div class="health">
+                  <div v-for="i in campaign.totalHealth" :key="i" class="heart">
+                    <img v-if="campaign.currentHealth >= i" src="@/assets/heart-color.svg" alt="heart" />
+                    <img v-else src="@/assets/heart.svg" style="opacity: 35%" alt="no heart" />
+                  </div>
+                </div>
+              </div>
               <img
                 class="class-icon"
                 v-if="campaign.characterClass === 'primate'"
@@ -23,21 +38,6 @@
                 src="@/assets/classes/shaman.svg"
                 alt="shaman"
               />
-              <div>
-                <div class="name text-subtitle-2">
-                  {{ campaign.characterName }}
-                </div>
-                <div class="name text-caption">
-                  {{ balanceFormatter.format(campaign.balance) }}
-                  mol SiO<sub>2</sub>
-                </div>
-                <div class="health">
-                  <div v-for="i in campaign.totalHealth" :key="i" class="heart">
-                    <img v-if="campaign.currentHealth >= i" src="@/assets/heart-color.svg" alt="heart" />
-                    <img v-else src="@/assets/heart.svg" style="opacity: 35%" alt="no heart" />
-                  </div>
-                </div>
-              </div>
             </div>
           </v-list-item-content>
         </v-list-item>
@@ -86,6 +86,54 @@
           </v-list-item-content>
         </v-list-item>
       </v-navigation-drawer>
+      <div class="main">
+        <div class="quests">
+          <div class="text-h5 title">Quests</div>
+          <div class="quest-cards">
+            <v-card
+              :disabled="!quest.fulfillsPrerequisites(campaign)"
+              class="quest"
+              v-for="(quest, index) in quests"
+              :key="index"
+            >
+              <v-card-title>
+                <span>{{ quest.title }}</span>
+                <i class="mdi mdi-lock" v-if="!quest.fulfillsPrerequisites(campaign)"></i>
+              </v-card-title>
+              <v-card-subtitle>Multiple choice</v-card-subtitle>
+              <v-card-text>
+                <p v-if="!quest.prerequisites.length">No prerequisites</p>
+                <span v-else class="text--primary"><strong>Prerequisites</strong></span>
+                <div v-for="(prerequisite, index) in quest.prerequisites" class="prerequisite" :key="index">
+                  <i v-if="prerequisite.fn()" class="mdi mdi-check success--text"></i>
+                  <i v-else class="mdi mdi-close error--text"></i>
+                  <span class="text--primary">{{ prerequisite.title }}</span>
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn text>Start</v-btn>
+              </v-card-actions>
+            </v-card>
+          </div>
+        </div>
+        <div class="shop">
+          <div class="text-h5 title">Shop</div>
+          <div class="item-cards">
+            <div class="item" v-for="(item, index) in shopItems" :key="index">
+              <img :src="item.icon" />
+              <div class="name">
+                <strong>{{ item.name }}</strong>
+              </div>
+              <div class="description text--secondary">{{ item.description }}</div>
+              <div class="buttons">
+                <v-btn text :disabled="item.sellValue === -1">Sell</v-btn>
+                <v-btn text :disabled="item.buyValue === -1">Buy</v-btn>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <v-dialog v-model="didNotFindCampaignDialog" persistent max-width="500px">
       <v-card>
@@ -118,7 +166,8 @@
 
 <script>
 import { Campaign } from "@/mixins/campaign";
-import { Inventory, getItem } from "@/mixins/inventory";
+import { Inventory, getItem, items } from "@/mixins/inventory";
+import { quests } from "@/mixins/quest/quest.ts";
 
 export default {
   name: "Campaign",
@@ -127,6 +176,7 @@ export default {
       campaign: undefined,
       didNotFindCampaignDialog: false,
       invalidCampaignDialog: false,
+      quests: quests,
       getItem: getItem,
       balanceFormatter: new Intl.NumberFormat("en", {
         minimumFractionDigits: 2,
@@ -138,6 +188,19 @@ export default {
     characterClassIconFill() {
       return this.$vuetify.theme.dark ? "#ffffff" : "#000000";
     },
+    shopItems() {
+      const result = [];
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].secret) {
+          continue;
+        }
+        if (items[i].buyValue === -1 && items[i].sellValue === -1) {
+          continue;
+        }
+        result.push(items[i]);
+      }
+      return result;
+    },
   },
   created() {
     if (!this.$store.state.campaign) {
@@ -145,6 +208,7 @@ export default {
       return;
     }
 
+    // Load campaign from an untyped JavaScript object.
     const rawCampaign = Object.assign({}, this.$store.state.campaign);
     rawCampaign.inventory = new Inventory(this.$store.state.campaign.inventory);
     this.campaign = new Campaign(rawCampaign);
@@ -178,11 +242,74 @@ export default {
 <style scoped lang="scss">
 .campaign {
   height: 100vh;
+  display: grid;
+  grid-template-columns: 256px auto;
 
-  .logo {
-    margin: 10%;
-    text-align: center;
-    width: 80% !important;
+  .main {
+    box-sizing: border-box;
+    padding: 24px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    display: grid;
+    grid-template-columns: calc(50% - 30px) calc(50% - 30px);
+    grid-column-gap: 60px;
+
+    .quests {
+      .title {
+        margin-bottom: 16px;
+      }
+      .quest-cards {
+        grid-template-columns: auto auto;
+        display: grid;
+        grid-column-gap: 20px;
+        .quest {
+          margin-bottom: 20px;
+          display: flex;
+          flex-direction: column;
+          &:last-of-type {
+            margin-bottom: 0;
+          }
+          .mdi-lock {
+            margin-left: 6px;
+          }
+          .mdi-check,
+          .mdi-close {
+            margin-right: 4px;
+          }
+          .v-card__actions {
+            margin-top: auto;
+          }
+        }
+      }
+    }
+
+    .shop {
+      .title {
+        margin-bottom: 16px;
+      }
+      .item-cards {
+        display: grid;
+        grid-template-columns: calc(33.33% - 13.33px) calc(33.33% - 13.33px) calc(33.33% - 13.33px);
+        grid-column-gap: 20px;
+        grid-row-gap: 40px;
+        .item {
+          img {
+            width: 50%;
+            margin: 0 auto 20px auto;
+            display: block;
+          }
+          .buttons {
+            margin-top: 4px;
+            display: flex;
+            justify-content: center;
+          }
+        }
+      }
+    }
   }
 
   .v-navigation-drawer {
@@ -191,11 +318,11 @@ export default {
 
   .character-information {
     display: grid;
-    grid-template-columns: 64px auto;
+    grid-template-columns: auto 42px;
     grid-column-gap: 16px;
 
     img.class-icon {
-      height: 64px;
+      height: 42px;
     }
     .health {
       margin-top: 5px;
@@ -235,6 +362,36 @@ export default {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+@media screen and (max-width: 1640px) {
+  .campaign {
+    .main {
+      .quests {
+        .quest-cards {
+          grid-template-columns: auto;
+        }
+      }
+      .shop {
+        .item-cards {
+          grid-template-columns: calc(50% - 10px) calc(50% - 10px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1160px) {
+  .campaign {
+    .main {
+      grid-template-columns: calc(60% - 30px) calc(40% - 30px);
+      .shop {
+        .item-cards {
+          grid-template-columns: auto;
+        }
+      }
+    }
   }
 }
 </style>

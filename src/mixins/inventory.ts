@@ -7,21 +7,24 @@ export class Item {
   public icon: string;
   public sellValue: number;
   public buyValue: number;
+  public secret: boolean;
 
   constructor(props: {
     id: string;
     name: string;
     description: string;
     icon: string;
-    sellValue: number;
-    buyValue: number;
+    sellValue?: number;
+    buyValue?: number;
+    secret?: boolean;
   }) {
     this.id = props.id;
     this.name = props.name;
     this.description = props.description;
     this.icon = props.icon;
-    this.sellValue = props.sellValue;
-    this.buyValue = props.buyValue;
+    this.sellValue = props.sellValue || -1;
+    this.buyValue = props.buyValue || -1;
+    this.secret = props.secret || false;
   }
 }
 
@@ -42,17 +45,17 @@ export class QuestModifierItem extends Item {
   }
 }
 
-const items = Array<Item>(
+export const items: Item[] = [
   // Development testing item.
   new Item({
     id: "0",
     name: "Frikandelbroodje",
-    description: "A delightful meal. The only true super-food, suitable for consumption at any time, at any place.",
+    description: "A delightful meal. The only true superfood, suitable for consumption at any time, at any place.",
     icon: require("@/assets/items/frikandelbroodje.png"),
     sellValue: 5000,
-    buyValue: -1,
+    secret: true,
   }),
-);
+];
 
 // getItem looks for the item with the specified id in all known items.
 export function getItem(id: string): Item | undefined {
@@ -73,7 +76,7 @@ export class Inventory {
       return;
     }
     // eslint-disable-next-line no-array-constructor
-    this.items = Array<{ id: string; amount: number }>();
+    this.items = new Array<{ id: string; amount: number }>();
   }
 
   public add(id: string, amount: number) {

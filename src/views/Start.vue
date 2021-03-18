@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="content" :style="{ background: $vuetify.theme.currentTheme.background }">
-      <span class="text-h1">The Legend of Silica</span>
+      <span class="text-h4">The Legend of Silica</span>
       <p class="text-body-1">
         Voluptatem tenetur autem explicabo. Enim quam nisi quasi. Eos tempora corrupti inventore saepe. Quo quo
         inventore fugiat distinctio rem. Optio architecto qui sit quia sit ex ut iste.
