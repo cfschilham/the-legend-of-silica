@@ -8,8 +8,8 @@ export class Item {
   public icon: string;
   public sellValue: number;
   public buyValue: number;
-  public emitter: ((campaign: Campaign) => void) | undefined;
   public secret: boolean;
+  public use: ((campaign: Campaign) => void) | undefined;
 
   constructor(props: {
     id: string;
@@ -19,7 +19,7 @@ export class Item {
     sellValue?: number;
     buyValue?: number;
     canUse?: boolean;
-    emitter?: (campaign: Campaign) => void;
+    use?: (campaign: Campaign) => void;
     secret?: boolean;
   }) {
     this.id = props.id;
@@ -28,32 +28,8 @@ export class Item {
     this.icon = props.icon;
     this.sellValue = props.sellValue || -1;
     this.buyValue = props.buyValue || -1;
-    this.emitter = props.emitter || undefined;
+    this.use = props.use;
     this.secret = props.secret || false;
-  }
-
-  public emit(campaign: Campaign) {
-    if (this.emitter === undefined) {
-      return;
-    }
-    this.emitter(campaign);
-  }
-}
-
-export class QuestModifierItem extends Item {
-  public questModifier: (quest: Quest) => Quest;
-
-  constructor(props: {
-    questModifier: (quest: Quest) => Quest;
-    id: string;
-    name: string;
-    description: string;
-    icon: string;
-    sellValue: number;
-    buyValue: number;
-  }) {
-    super(props);
-    this.questModifier = props.questModifier;
   }
 }
 
@@ -66,7 +42,7 @@ export const items: Item[] = [
     icon: require("@/assets/items/frikandelbroodje.png"),
     sellValue: 5000,
     buyValue: 10,
-    emitter: (campaign: Campaign) => {
+    use: (campaign: Campaign) => {
       if (campaign.currentHealth === campaign.totalHealth) {
         return;
       }
@@ -82,11 +58,10 @@ export const items: Item[] = [
     icon: require("@/assets/items/pouch.svg"),
     sellValue: -1,
     buyValue: 1,
-    emitter: (campaign: Campaign) => {
+    use: (campaign: Campaign) => {
       campaign.balance += Math.floor(Math.random() * 100000);
       campaign.inventory.decrement("1");
     },
-    secret: false,
   }),
 ];
 

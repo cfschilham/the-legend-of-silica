@@ -8,8 +8,22 @@ export class Campaign {
   public balance: number;
   public inventory: Inventory;
   public currentHealth: number;
-  public readonly totalHealth: number;
+  public currentQuestProgress:
+    | {
+        id: string;
+        startTime: Date;
+      }
+    | undefined;
+
   public completedQuestIds: Array<string>;
+  public readonly totalHealth: number;
+
+  public static readonly balanceNumberFormatter = new Intl.NumberFormat("en", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  public static readonly currencyHTML = "mol SiO<sub>2</sub>";
 
   constructor(props: {
     characterName: string;
@@ -73,5 +87,9 @@ export class Campaign {
       return false;
     }
     return this.inventory.validate();
+  }
+
+  public balanceFormatHTML(): string {
+    return `${Campaign.balanceNumberFormatter.format(this.balance)} ${Campaign.currencyHTML}`;
   }
 }

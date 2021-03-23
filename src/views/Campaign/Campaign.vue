@@ -9,10 +9,7 @@
                 <div class="name text-subtitle-2">
                   {{ campaign.characterName }}
                 </div>
-                <div class="name text-caption">
-                  {{ balanceFormatter.format(campaign.balance) }}
-                  mol SiO<sub>2</sub>
-                </div>
+                <div class="name text-caption" v-html="campaign.balanceFormatHTML()"></div>
                 <div class="health">
                   <div v-for="i in campaign.totalHealth" :key="i" class="heart">
                     <img v-if="campaign.currentHealth >= i" src="@/assets/heart-color.svg" alt="heart" />
@@ -74,7 +71,7 @@
                   <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
                   <v-card-subtitle>{{ getItem(inventoryItem.id).description }}</v-card-subtitle>
                   <v-divider></v-divider>
-                  <v-card-subtitle v-if="getItem(inventoryItem.id).emitter !== undefined">Click to use</v-card-subtitle>
+                  <v-card-subtitle v-if="getItem(inventoryItem.id).use !== undefined">Click to use</v-card-subtitle>
                 </v-card>
               </v-menu>
             </div>
@@ -107,7 +104,7 @@
                 <p v-if="!quest.prerequisites.length">No prerequisites</p>
                 <span v-else class="text--primary"><strong>Prerequisites</strong></span>
                 <div v-for="(prerequisite, index) in quest.prerequisites" class="prerequisite" :key="index">
-                  <i v-if="prerequisite.fn()" class="mdi mdi-check success--text"></i>
+                  <i v-if="prerequisite.isFulfilled()" class="mdi mdi-check success--text"></i>
                   <i v-else class="mdi mdi-close error--text"></i>
                   <span class="text--primary">{{ prerequisite.title }}</span>
                 </div>
@@ -127,18 +124,12 @@
               <div class="name">
                 <strong>{{ item.name }}</strong>
               </div>
-              <div class="description text--secondary">{{ item.description }}</div>
-              <v-divider></v-divider>
-              <div class="value text--secondary">
-                <span v-if="item.sellValue !== -1" class="sellvalue"
-                  >Sell for {{ balanceFormatter.format(item.sellValue) }} mol SiO<sub>2</sub></span
-                >
-                <br />
-                <span v-if="item.buyValue !== -1" class="buyvalue"
-                  >Buy for {{ balanceFormatter.format(item.buyValue) }} mol SiO<sub>2</sub></span
-                >
+              <div class="value text--secondary text-caption">
+                Buy: {{ item.buyValue !== -1 ? item.buyValue : "N/A" }} Sell:
+                {{ item.sellValue !== -1 ? item.sellValue : "N/A" }}
               </div>
-              <div class="buttons">
+              <div class="description text--secondary">{{ item.description }}</div>
+              <div class="actions">
                 <v-btn
                   text
                   @click="sell(item.id)"
@@ -197,10 +188,6 @@ export default {
       invalidCampaignDialog: false,
       quests: quests,
       getItem: getItem,
-      balanceFormatter: new Intl.NumberFormat("en", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }),
     };
   },
   computed: {
@@ -337,14 +324,7 @@ export default {
             margin: 0 auto 20px auto;
             display: block;
           }
-          .value {
-            padding-top: 10px;
-            font-size: 13px;
-          }
-          .description {
-            padding-bottom: 10px;
-          }
-          .buttons {
+          .actions {
             margin-top: 4px;
             display: flex;
             justify-content: center;

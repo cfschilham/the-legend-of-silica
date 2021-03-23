@@ -7,7 +7,7 @@ export class Quest {
 
   // Functions to determine whether or not this quest is available with the state
   // of the current campaign.
-  public prerequisites: Array<{ title: string; secret: boolean; fn: (campaign: Campaign) => boolean }>;
+  public prerequisites: Array<{ title: string; secret: boolean; isFulfilled: (campaign: Campaign) => boolean }>;
 
   // If true, this quest will not be displayed if its prerequisites are not
   // fulfilled.
@@ -17,7 +17,7 @@ export class Quest {
     title: string;
     description: string;
     id: string;
-    prerequisites?: Array<{ title: string; secret: boolean; fn: (campaign: Campaign) => boolean }>;
+    prerequisites?: Array<{ title: string; secret: boolean; isFulfilled: (campaign: Campaign) => boolean }>;
     secret?: boolean;
   }) {
     this.title = props.title;
@@ -37,7 +37,7 @@ export class Quest {
 
   fulfillsPrerequisites(campaign: Campaign): boolean {
     for (let i = 0; i < this.prerequisites.length; i++) {
-      if (!this.prerequisites[i].fn(campaign)) {
+      if (!this.prerequisites[i].isFulfilled(campaign)) {
         return false;
       }
     }

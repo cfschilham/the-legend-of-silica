@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <div class="buttons" :style="{ background: $vuetify.theme.currentTheme.background }">
+      <div class="actions" :style="{ background: $vuetify.theme.currentTheme.background }">
         <v-tooltip bottom v-if="$route.name !== `Start`">
           <template v-slot:activator="{ on }">
             <i class="mdi btn toggle-music-btn" :class="musicToggleButtonClass" @click="toggleMusic" v-on="on"></i>
@@ -82,7 +82,7 @@ export default {
 </style>
 
 <style scoped lang="scss">
-.buttons {
+.actions {
   position: fixed;
   font-size: 30px;
   top: 8px;
