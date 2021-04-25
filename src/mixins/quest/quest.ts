@@ -349,8 +349,8 @@ export const quests: Quest[] = [
   }),
   new MultipleChoiceQuestion({
     id: "15",
-    title: "BIFsteen",
-    description: "Stenen.",
+    title: "Global warming positive?",
+    description: "",
     question: "Waarom is voor planten een verhoogde concentratie CO2 niet per se erg?",
     answer: "Meer voedsel yummy",
     incorrectAnswers: [
@@ -360,6 +360,43 @@ export const quests: Quest[] = [
     randomiseOrder: true,
     baseDuration: 50000,
     reward: 225,
+  }),
+  new OpenQuestion({
+    id: "16",
+    title: "Huh hoe heette je ook alweer?",
+    description: "",
+    question: "Waar halen de C3 en C4 fotosynthese systemen hun naam vandaan?",
+    answer: "Deze namen komen van het aantal koolstof dat ontstaat.",
+    selfGraded: true,
+    baseDuration: 60000,
+    reward: 215,
+  }),
+  new OpenQuestion({
+    id: "17",
+    title: "Nog steeds onduidelijk",
+    description: "",
+    question:
+      "Geef 2 mogelijke redenen waarom de dominante vorm van fotosynthese overging van C3 naar C4 en weerleg deze redenen ook.",
+    answer:
+      "Reden 1 is dat de CO2 concentratie afnam waardoor C4 fotosynthese gunstiger was voor de planten echter is er geen bewijs gevonden voor een afname in CO2 maar wel voor een constante waarde.\n" +
+      "Reden 2 is dat de moesson sterker werd wat gunstig zou zijn voor C4 grassen, maar in de amerika’s zijn helemaal geen moessons en ook hier zijn C4 grassen geëvolueerd.\n",
+    selfGraded: true,
+    baseDuration: 180000,
+    reward: 150,
+  }),
+  new MultipleChoiceQuestion({
+    id: "18",
+    title: "Grassen zijn supersnel",
+    description: "",
+    question: "Waarom zijn grassen toen ze eenmaal geëvolueerd waren zo snel verspreid?",
+    answer: "Omdat grassen veel sneller nieuw gevormde grond kunnen begroeien.",
+    incorrectAnswers: [
+      "Omdat eikels van een boom maar een bepaalde afstand kunnen vallen.",
+      "Omdat grassen in veel slechtere omstandigheden kunnen groeien.",
+    ],
+    randomiseOrder: true,
+    baseDuration: 50000,
+    reward: 130,
   }),
 ];
 

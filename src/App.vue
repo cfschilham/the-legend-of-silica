@@ -19,7 +19,8 @@
         Copyright © 2021. All rights reserved. Design and implementation by
         <a href="https://github.com/BenStokmans" target="_blank">B. Stokmans</a>
         and
-        <a href="https://github.com/cfschilham" target="_blank">C.F. Schilham</a>.
+        <a href="https://github.com/cfschilham" target="_blank">C.F. Schilham</a>. Content by
+        <a href="https://github.com/Dutchmen04" target="_blank">M. Maes</a>.
       </div>
     </v-main>
   </v-app>
