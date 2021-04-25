@@ -45,7 +45,7 @@
           <v-list-item-content>
             <div class="text-overline">Inventaris</div>
             <div v-if="campaign.inventory.getItems().length === 0" class="text-caption text--secondary">
-              Jouw ntaris is leeg
+              Jouw invtaris is leeg
             </div>
             <div class="inventory">
               <v-menu

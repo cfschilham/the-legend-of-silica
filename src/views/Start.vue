@@ -52,7 +52,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 40px;
-  width: 800px;
+  width: 1200px;
 
   .text-h4 {
     margin-bottom: 20px;

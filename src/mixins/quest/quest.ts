@@ -320,6 +320,7 @@ export const quests: Quest[] = [
     incorrectAnswers: ["A", "B"],
     baseDuration: 30000,
     reward: 320,
+    image: require("@/assets/question12.png"),
   }),
   new MultipleChoiceQuestion({
     id: "13",

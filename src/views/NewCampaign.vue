@@ -80,10 +80,10 @@
             De primaat is de eenvoudigste klasse. Het geeft geen speciale voordelen.
           </p>
           <p v-if="selectedCharacterClass === 'berserker'">
-            De berserker krijgt betere questbeloningen, maar heeft minder tijd en gezondheid.
+            De berserker krijgt betere beloningen, maar heeft minder tijd en HP.
           </p>
           <p v-if="selectedCharacterClass === 'shaman'">
-            De sjamaan krijgt slechtere questbeloningen, maar heeft meer gezondheid.
+            De sjamaan krijgt slechtere beloningen, maar heeft meer HP.
           </p>
         </div>
       </div>
