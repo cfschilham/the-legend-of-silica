@@ -90,13 +90,14 @@
           <div class="text-h5 title">Quests</div>
           <div class="quest-cards">
             <v-card
-              :disabled="!quest.fulfillsPrerequisites(campaign)"
               class="quest"
               v-for="(quest, index) in quests"
               :key="index"
               @click="startQuest(quest.id)"
+              :disabled="!quest.fulfillsPrerequisites(campaign) || campaign.completedQuestIds.indexOf(quest.id) > -1"
             >
               <v-card-title>
+                <i v-if="campaign.completedQuestIds.indexOf(quest.id) > -1" class="mdi mdi-check success--text"></i>
                 <span>{{ quest.title }}</span>
                 <i class="mdi mdi-lock" v-if="!quest.fulfillsPrerequisites(campaign)"></i>
               </v-card-title>
@@ -112,7 +113,9 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn text>Start</v-btn>
+                <v-btn text>{{
+                  campaign.completedQuestIds.indexOf(quest.id) > -1 ? "Already Completed" : "Start"
+                }}</v-btn>
               </v-card-actions>
             </v-card>
           </div>

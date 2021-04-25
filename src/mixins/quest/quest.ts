@@ -1,6 +1,7 @@
 import { Campaign } from "@/mixins/campaign";
 
 export class Quest {
+  public type: string;
   public title: string;
   public description: string;
   public id: string;
@@ -14,14 +15,19 @@ export class Quest {
   // fulfilled.
   public secret: boolean;
 
-  constructor(props: {
-    title: string;
-    description: string;
-    id: string;
-    prerequisites?: Array<{ title: string; secret: boolean; isFulfilled: (campaign: Campaign) => boolean }>;
-    secret?: boolean;
-    baseDuration: number;
-  }) {
+  constructor(
+    props: {
+      title: string;
+      description: string;
+      id: string;
+      prerequisites?: Array<{ title: string; secret: boolean; isFulfilled: (campaign: Campaign) => boolean }>;
+      secret?: boolean;
+      baseDuration: number;
+    },
+    type: string,
+  ) {
+    this.type = type;
+
     this.title = props.title;
     this.description = props.description;
     this.id = props.id;
@@ -66,7 +72,7 @@ export class OpenQuestion extends Quest {
     baseDuration: number;
     selfGraded: boolean;
   }) {
-    super(props);
+    super(props, "open");
     this.question = props.question;
     this.elaboration = props.elaboration;
     this.answer = props.answer;
@@ -78,6 +84,7 @@ export class MultipleChoiceQuestion extends Quest {
   public question: string;
   public answer: string;
   public incorrectAnswers: Array<string>;
+  public options: Array<string>;
 
   constructor(props: {
     question: string;
@@ -90,10 +97,12 @@ export class MultipleChoiceQuestion extends Quest {
     secret?: boolean;
     baseDuration: number;
   }) {
-    super(props);
+    super(props, "multi");
     this.question = props.question;
     this.answer = props.answer;
     this.incorrectAnswers = props.incorrectAnswers;
+    this.options = this.incorrectAnswers;
+    this.options.push(this.answer);
   }
 }
 
@@ -105,64 +114,17 @@ export const quests: Quest[] = [
     question: "What is the only true superfood?",
     answer: "Frikandelbroodje",
     incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
-    baseDuration: 60000,
+    baseDuration: 120000,
   }),
-  new MultipleChoiceQuestion({
-    id: "0",
-    title: "Development quest",
+  new OpenQuestion({
+    id: "1",
+    title: "Development quest open",
     description: "This is a development quest.",
     question: "What is the only true superfood?",
     answer: "Frikandelbroodje",
-    incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
-    prerequisites: [
-      { title: "Always false", secret: false, isFulfilled: () => false },
-      { title: "Always true", secret: false, isFulfilled: () => true },
-    ],
-    baseDuration: 60000,
-  }),
-  new MultipleChoiceQuestion({
-    id: "0",
-    title: "Development quest",
-    description: "This is a development quest.",
-    question: "What is the only true superfood?",
-    answer: "Frikandelbroodje",
-    incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
-    baseDuration: 60000,
-  }),
-  new MultipleChoiceQuestion({
-    id: "0",
-    title: "Development quest",
-    description: "This is a development quest.",
-    question: "What is the only true superfood?",
-    answer: "Frikandelbroodje",
-    incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
-    baseDuration: 60000,
-  }),
-  new MultipleChoiceQuestion({
-    id: "0",
-    title: "Development quest",
-    description: "This is a development quest.",
-    question: "What is the only true superfood?",
-    answer: "Frikandelbroodje",
-    incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
-    baseDuration: 60000,
-  }),
-  new MultipleChoiceQuestion({
-    id: "0",
-    title: "Development quest",
-    description: "This is a development quest.",
-    question: "What is the only true superfood?",
-    answer: "Frikandelbroodje",
-    incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
-    baseDuration: 60000,
-  }),
-  new MultipleChoiceQuestion({
-    id: "0",
-    title: "Development quest",
-    description: "This is a development quest.",
-    question: "What is the only true superfood?",
-    answer: "Frikandelbroodje",
-    incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
+    prerequisites: [{ title: "Always true", secret: false, isFulfilled: () => true }],
+    selfGraded: true,
+    elaboration: "please explain in great detail why your answer is correct",
     baseDuration: 60000,
   }),
 ];
