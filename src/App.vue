@@ -125,6 +125,7 @@ export default {
   padding: 10px;
   background-color: #ffffff;
   text-align: center;
+  width: 1200px;
 }
 #particles {
   position: absolute;
