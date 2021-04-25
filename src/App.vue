@@ -26,6 +26,9 @@
 </template>
 
 <script>
+import { Inventory } from "@/mixins/inventory";
+import { Campaign } from "@/mixins/campaign";
+
 export default {
   name: "App",
   data: () => {
@@ -43,10 +46,22 @@ export default {
     this.$refs.music.onloadeddata = () => {
       if (this.$store.state.musicMuted) {
         this.$refs.music.volume = 0;
-        return;
+      } else {
+        this.$refs.music.volume = 0.2;
       }
-      this.$refs.music.volume = 0.2;
     };
+
+    if (!this.$store.state.campaign) {
+      return;
+    }
+
+    // Load campaign from an untyped JavaScript object.
+    const rawCampaign = Object.assign({}, this.$store.state.campaign);
+    rawCampaign.inventory = new Inventory(this.$store.state.campaign.inventory);
+    if (rawCampaign.currentQuestProgress && rawCampaign.currentQuestProgress.startTime) {
+      rawCampaign.currentQuestProgress.startTime = new Date(rawCampaign.currentQuestProgress.startTime);
+    }
+    this.$store.commit("setCampaign", new Campaign(rawCampaign));
   },
   methods: {
     toggleMusic() {

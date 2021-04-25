@@ -176,8 +176,7 @@
 </template>
 
 <script>
-import { Campaign } from "@/mixins/campaign";
-import { Inventory, getItem, items } from "@/mixins/inventory";
+import { getItem, items } from "@/mixins/inventory";
 import { quests } from "@/mixins/quest/quest.ts";
 
 export default {
@@ -238,19 +237,21 @@ export default {
       return;
     }
 
-    // If validate is a function, inventory has already been loaded properly.
-    if (!this.$store.state.campaign.inventory.validate) {
-      // Load campaign from an untyped JavaScript object.
-      const rawCampaign = Object.assign({}, this.$store.state.campaign);
-      rawCampaign.inventory = new Inventory(this.$store.state.campaign.inventory);
-      if (rawCampaign.currentQuestProgress && rawCampaign.currentQuestProgress.startTime) {
-        rawCampaign.currentQuestProgress.startTime = new Date(rawCampaign.currentQuestProgress.startTime);
-      }
-      this.campaign = new Campaign(rawCampaign);
-      if (!this.campaign.validate()) {
-        this.invalidCampaignDialog = true;
-        return;
-      }
+    // If campaign.validate is not a function the previous campaign has not been
+    // loaded properly.
+    if (!this.$store.state.campaign.validate) {
+      this.invalidCampaignDialog = true;
+      return;
+    }
+    this.campaign = this.$store.state.campaign;
+
+    if (!this.campaign.validate()) {
+      this.invalidCampaignDialog = true;
+      return;
+    }
+
+    if (this.campaign.currentQuestProgress.id !== "") {
+      this.$router.push("/quest");
     }
 
     this.$nextTick(() => {
