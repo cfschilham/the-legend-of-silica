@@ -1,16 +1,16 @@
 <template>
   <div>
     <v-form ref="form" v-model="valid" class="settings">
-      <span class="text-h5">New campaign</span>
+      <span class="text-h5">New campagne</span>
       <div class="grid">
         <div>
-          <span class="text-overline">Character name</span>
-          <v-text-field v-model="characterName" :counter="20" :rules="nameRules" label="Johnny" solo></v-text-field>
-          <span class="text-overline">Difficulty: {{ labels[selectedDifficulty] }}</span>
+          <span class="text-overline">Character naam</span>
+          <v-text-field v-model="characterName" :counter="20" :rules="nameRules" label="John" solo></v-text-field>
+          <span class="text-overline">Moeilijkheid: {{ labels[selectedDifficulty] }}</span>
           <v-slider v-model="selectedDifficulty" :max="4" class="mx-4 difficulty-slider" ticks></v-slider>
         </div>
         <div>
-          <span class="text-overline">Class</span>
+          <span class="text-overline">Soort</span>
           <div class="classes">
             <div
               class="class shaman"
@@ -73,43 +73,43 @@
               />
             </div>
           </div>
-          <span v-if="selectedCharacterClass === 'primate'"><strong>Primate</strong></span>
+          <span v-if="selectedCharacterClass === 'primate'"><strong>Primaat</strong></span>
           <span v-if="selectedCharacterClass === 'berserker'"><strong>Berserker</strong></span>
-          <span v-if="selectedCharacterClass === 'shaman'"><strong>Shaman</strong></span>
+          <span v-if="selectedCharacterClass === 'shaman'"><strong>Sjamaan</strong></span>
           <p v-if="selectedCharacterClass === 'primate'">
-            The primate is the simplest class. It does not give any special perks.
+            De primaat is de eenvoudigste klasse. Het geeft geen speciale voordelen.
           </p>
           <p v-if="selectedCharacterClass === 'berserker'">
-            The berserker gets better quest rewards, but has less time and health.
+            De berserker krijgt betere questbeloningen, maar heeft minder tijd en gezondheid.
           </p>
           <p v-if="selectedCharacterClass === 'shaman'">
-            The shaman gets worse quest rewards, but has more health.
+            De sjamaan krijgt slechtere questbeloningen, maar heeft meer gezondheid.
           </p>
         </div>
       </div>
       <div class="actions">
-        <v-btn large @click="$router.push('/menu')">Back to menu</v-btn>
+        <v-btn large @click="$router.push('/menu')">Terug naar menu</v-btn>
         <v-btn
           :disabled="!valid"
           class="submit-btn"
           color="primary"
           large
           @click="$store.state.campaign == undefined ? startCampaign() : (existingCampaignDialog = true)"
-          >Start Campaign
+          >Start Campagne
         </v-btn>
       </div>
     </v-form>
     <v-dialog v-model="existingCampaignDialog" max-width="500px" persistent>
       <v-card>
-        <v-card-title>You have an existing campaign</v-card-title>
+        <v-card-title>U heeft een bestaande bestaande campagne</v-card-title>
         <v-card-text
-          >If you continue, the existing campaign will be overwritten and your progress will be reset. Are you sure you
-          would like to continue?
+          >Als u doorgaat, wordt de bestaande campagne overschreven en wordt uw voortgang gereset. Weet je zeker dat je
+          wil doorgaan?
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="existingCampaignDialog = false">Cancel</v-btn>
-          <v-btn text @click="startCampaign">Continue</v-btn>
+          <v-btn text @click="existingCampaignDialog = false">Annuleren</v-btn>
+          <v-btn text @click="startCampaign">Doorgaan</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

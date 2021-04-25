@@ -35,6 +35,12 @@ const routes = [
     meta: { title: "Game over - The Legend of Silica" },
   },
   {
+    path: "/game-completed",
+    name: "GameCompleted",
+    component: () => import(/* webpackChunkName: "game-completed" */ "@/views/GameCompleted.vue"),
+    meta: { title: "Game completed - The Legend of Silica" },
+  },
+  {
     path: "/quest",
     name: "Quest",
     component: () => import(/* webpackChunkName: "game-over" */ "@/views/Quest.vue"),

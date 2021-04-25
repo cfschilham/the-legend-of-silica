@@ -44,7 +44,7 @@
           <v-list-item-content>
             <div class="character-information">
               <div>
-                <div class="name text-subtitle-2">Time left: {{ getFormattedTime() }}</div>
+                <div class="name text-subtitle-2">Tijd over: {{ getFormattedTime() }}</div>
               </div>
             </div>
           </v-list-item-content>
@@ -53,9 +53,9 @@
         <v-divider />
         <v-list-item>
           <v-list-item-content>
-            <div class="text-overline">Inventory</div>
+            <div class="text-overline">Inventaris</div>
             <div v-if="campaign.inventory.getItems().length === 0" class="text-caption text--secondary">
-              Your inventory is empty
+              Jouw inventaris is leeg
             </div>
             <div class="inventory">
               <v-menu
@@ -81,7 +81,9 @@
                   <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
                   <v-card-subtitle>{{ getItem(inventoryItem.id).description }}</v-card-subtitle>
                   <v-divider></v-divider>
-                  <v-card-subtitle v-if="getItem(inventoryItem.id).use !== undefined">Click to use</v-card-subtitle>
+                  <v-card-subtitle v-if="getItem(inventoryItem.id).use !== undefined"
+                    >Klik om te gebruiken</v-card-subtitle
+                  >
                 </v-card>
               </v-menu>
             </div>
@@ -90,7 +92,7 @@
         <v-list-item class="end-quest">
           <v-list-item-content>
             <v-btn @click="endQuest">
-              End Quest
+              Quest beëindigen
             </v-btn>
           </v-list-item-content>
         </v-list-item>
@@ -126,6 +128,12 @@
               label="Type your answer here..."
             ></v-textarea>
           </div>
+          <v-flex v-if="quest.image !== undefined" xs12 sm6 offset-sm3 style="margin-left: 50%">
+            <!-- TODO: Align picture-->
+            <v-card>
+              <v-img :src="quest.image" aspect-ratio="2.75" />
+            </v-card>
+          </v-flex>
         </div>
         <v-btn :disabled="!canSubmit()" class="submit-btn" color="primary" large @click="submit">Submit</v-btn>
         <div v-if="submitted" class="text-body-2 feedback">
@@ -138,13 +146,13 @@
             color="primary"
             large
             @click="finish(answerCorrect())"
-            >Continue</v-btn
+            >Doorgaan</v-btn
           >
           <v-btn v-if="submitted && quest.selfGraded" class="submit-btn" color="primary" large @click="finish(true)"
-            >Yes</v-btn
+            >Ja</v-btn
           >
           <v-btn v-if="submitted && quest.selfGraded" class="submit-btn" color="primary" large @click="finish(false)"
-            >No</v-btn
+            >Nee</v-btn
           >
         </div>
         <v-btn
@@ -153,7 +161,7 @@
           color="primary"
           @click="finish(answerCorrect())"
           large
-          >Continue</v-btn
+          >Doorgaan</v-btn
         >
       </div>
     </div>
@@ -218,25 +226,24 @@ export default {
       this.submitted = true;
       if (this.quest.type === "multi") {
         if (this.selected[0] === this.quest.answer) {
-          this.feedback = "Your answer was correct!";
+          this.feedback = "Het goede antwoord!";
           return;
         }
-        this.feedback = "Your answer was incorrect!";
+        this.feedback = "Het goede antwoord!";
         this.selected.push(this.quest.answer);
-        console.log(this.selected);
         this.submittedSelection = this.selected;
         return;
       }
 
       if (this.quest.selfGraded) {
-        this.feedback = `The correct answer was: "${this.quest.answer}" was you answer correct?`;
+        this.feedback = `Het goede antwoord: "${this.quest.answer}" was jouw antwoord goed?`;
         return;
       }
       if (this.answerText === this.quest.answer) {
-        this.feedback = "Your answer was correct!";
+        this.feedback = "Het goede antwoord!";
         return;
       }
-      this.feedback = "Your answer was incorrect!";
+      this.feedback = "Het goede antwoord!";
     },
     answerCorrect() {
       if (this.quest.type === "multi") {
@@ -247,10 +254,12 @@ export default {
     },
     finish(correct) {
       if (!correct) {
+        this.$store.commit("decrementHealth");
         return this.endQuest();
       }
 
       this.campaign.completedQuestIds.push(this.quest.id);
+      this.campaign.balance += this.quest.reward;
       this.endQuest();
     },
   },

@@ -53,15 +53,43 @@ export const items: Item[] = [
   }),
   new Item({
     id: "1",
-    name: "Pouch of silica",
-    description: "A pouch full of silica. Use to get anywhere between 1000 and 100000 silica",
-    icon: require("@/assets/items/pouch.svg"),
+    name: "Microscoop",
+    description: "Een microscoop is een instrument voor het bestuderen van objecten",
+    icon: require("@/assets/items/microscope.svg"),
+    sellValue: 300,
+    buyValue: 500,
+  }),
+  new Item({
+    id: "2",
+    name: "Vliegtuig ticket",
+    description: "Een ticket om naar de grand canyon te vliegen",
+    icon: require("@/assets/items/ticket.svg"),
     sellValue: -1,
-    buyValue: 1,
-    use: (campaign: Campaign) => {
-      campaign.balance += Math.floor(Math.random() * 100000);
-      campaign.inventory.decrement("1");
-    },
+    buyValue: 200,
+  }),
+  new Item({
+    id: "3",
+    name: "Bijl",
+    description: "Een bijl kan gebruikt worden voor het omhakken van bomen",
+    icon: require("@/assets/items/axe.svg"),
+    sellValue: 20,
+    buyValue: 50,
+  }),
+  new Item({
+    id: "4",
+    name: "Kompas",
+    description: "Kan gebruikt worden bij het navigeren van de wereld",
+    icon: require("@/assets/items/compass.svg"),
+    sellValue: 5,
+    buyValue: 10,
+  }),
+  new Item({
+    id: "5",
+    name: "Borstel",
+    description: "Kan gebruikt worden bij het schoonmaken van je schoenen",
+    icon: require("@/assets/items/broom.svg"),
+    sellValue: 5,
+    buyValue: 120,
   }),
 ];
 

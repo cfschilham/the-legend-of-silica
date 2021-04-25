@@ -3,29 +3,36 @@
     <div class="content" :style="{ background: $vuetify.theme.currentTheme.background }">
       <span class="text-h4">The Legend of Silica</span>
       <p class="text-body-1">
-        Voluptatem tenetur autem explicabo. Enim quam nisi quasi. Eos tempora corrupti inventore saepe. Quo quo
-        inventore fugiat distinctio rem. Optio architecto qui sit quia sit ex ut iste.
-      </p>
-      <p>
-        Dolor ipsum sed quia ipsum at. Amet assumenda rerum quo sit alias eos at totam. Vero consectetur voluptatum
-        cumque temporibus a.
+        Om de game te voltooien moet de speler alle vragen of "quests" succesvol voltooien zonder alle levens kwijt te
+        raken.
       </p>
       <p class="text-body-1">
-        Facere eveniet dolores veritatis. Placeat in ex mollitia facilis quibusdam animi ut quos. Sint quia non quidem.
-        Quis minima consectetur id dolor sit. Facere est inventore et molestias blanditiis aut. Officia aspernatur nobis
-        consectetur dolore nam.
+        Je bent een verkenner van het machtige Gebo. Dit ras is ons mensen vele miljoenen jaren voorbij in de wetenschap
+        en heeft recentelijk intergalactisch reizen op snelheden die groter zijn dan die van het licht ontdekt. Het
+        uiteindelijke doel van deze beschaving is om de grote mysteries van het universum te ontrafelen. Waarom zijn de
+        elementaire basisdeeltjes zo gebouwd? Wat heeft de oerknal veroorzaakt? Is ons universum eindig en zo ja zou dit
+        onontkoombare einde tegengehouden kunnen worden? Deze vragen en nog veel meer willen de grootste denkers van
+        Gebo beantwoorden. Na vele jaren van experimenteneren besloten ze dat hoever ze ook waren het ze nooit zou
+        lukken met hun eigen kennis. Want hoewel ze erg geavamceerd waren waren de Inwoners van Gebo nooit buiten het
+        sterrestelsel getreden. Hierdoor besloten de wetenschappers was er een zeer gelimiteerde kennis over welke
+        atoomsoorten er allemaal bestonden in het universum en hun rol. Omdat deze kennis vergaard moest worden om een
+        volledig beeld te krijgen van het heelal en daarmee hun vragen te beantwoorden focusten de grote geesten zich op
+        sneller dan licht reizen. Ze bereikten hun doel en stuurden verkenners in alle richtingen met de missie om
+        allemaal minimaal 1 nieuwe atoomsoort te ontdekken en hier zoveel mogelijk over te weten te komen. En hier ben
+        jij dan Faso. Jouw expeditie heeft je geleidt naar het verre sterrestelsel van Helios. Hier vind je een
+        eigenaardig soort quasi-intelligent dier, de mens. Eerst denk je eraan om contact te leggen en hun te verlichten
+        met jouw vergevorderde kennis maar dan zie je dat ze zo druk bezig zijn elkaar te bevechten dat ze nooit samen
+        zullen kunnen komen om als gehele soort voortgang te boeken. Hierdoor besluit je je eigen onderzoek te doen.
+        Zodra je onderzoek is afgerond maak je een dossier (link naar module) en vertrek je naar huis waar de
+        wetenschappers alles willen horen over de nieuwe atoomsoort silica. Jij gaat proberen met hulp van je dossier
+        hun vragen te beantwoorden zodat je soort de mysteries van het heelal kan ontrafelen!
       </p>
       <p class="text-body-1">
-        Music by <a href="https://www.youtube.com/channel/UCw4wdHksXbaiyu3BiBNNW0w">Alexander Nakarada</a>. Artwork by
-        Delapouite, Lorc, and Skoll from
+        Muziek door <a href="https://www.youtube.com/channel/UCw4wdHksXbaiyu3BiBNNW0w">Alexander Nakarada</a>. Art door
+        Delapouite, Lorc, and Skoll vam
         <a href="https://game-icons.net/" target="_blank" rel="noreferrer">game-icons.net</a>.
       </p>
-      <p class="text-body-1">
-        Implementation, visual design, and gameplay design by
-        <a href="https://github.com/BenStokmans" target="_blank" rel="noreferrer">B. Stokmans</a> and
-        <a href="https://github.com/cfschilham" target="_blank" rel="noreferrer">C.F. Schilham</a>.
-      </p>
-      <v-btn color="primary" class="start-btn" large @click="$router.push(`menu`)">Start</v-btn>
+      <v-btn color="primary" class="start-btn" large @click="$router.push(`menu`)">Starten</v-btn>
     </div>
   </v-container>
 </template>

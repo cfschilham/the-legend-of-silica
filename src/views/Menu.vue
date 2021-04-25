@@ -3,8 +3,8 @@
     <div id="particles"></div>
     <div class="menu" :style="{ background: $vuetify.theme.currentTheme.background }">
       <img src="@/assets/logo.svg" alt="logo" class="logo" />
-      <v-btn class="item" color="primary" large @click="$router.push('/new-campaign')">New Campaign</v-btn>
-      <v-btn class="item" large @click="$router.push('/campaign')">Resume Campaign</v-btn>
+      <v-btn class="item" color="primary" large @click="$router.push('/new-campaign')">Nieuwe Campagne</v-btn>
+      <v-btn class="item" large @click="$router.push('/campaign')">Campagne Hervatten</v-btn>
       <v-btn class="item" large @click="openRepository">Repository</v-btn>
     </div>
   </div>

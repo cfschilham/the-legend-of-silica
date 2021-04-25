@@ -1,7 +1,7 @@
 <template>
   <div class="game-over">
     <div class="text-h1">Game over</div>
-    <v-btn @click="$router.push('/menu')">Back to menu</v-btn>
+    <v-btn @click="$router.push('/menu')">Terug naar menu</v-btn>
   </div>
 </template>
 

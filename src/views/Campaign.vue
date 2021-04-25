@@ -43,9 +43,9 @@
 
         <v-list-item>
           <v-list-item-content>
-            <div class="text-overline">Inventory</div>
+            <div class="text-overline">Inventaris</div>
             <div v-if="campaign.inventory.getItems().length === 0" class="text-caption text--secondary">
-              Your inventory is empty
+              Jouw ntaris is leeg
             </div>
             <div class="inventory">
               <v-menu
@@ -71,7 +71,9 @@
                   <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
                   <v-card-subtitle>{{ getItem(inventoryItem.id).description }}</v-card-subtitle>
                   <v-divider></v-divider>
-                  <v-card-subtitle v-if="getItem(inventoryItem.id).use !== undefined">Click to use</v-card-subtitle>
+                  <v-card-subtitle v-if="getItem(inventoryItem.id).use !== undefined"
+                    >Klik om te gebruiken</v-card-subtitle
+                  >
                 </v-card>
               </v-menu>
             </div>
@@ -80,7 +82,7 @@
         <v-list-item class="back-to-menu">
           <v-list-item-content>
             <v-btn @click="$router.push('/menu')">
-              Back to menu
+              Terug naar menu
             </v-btn>
           </v-list-item-content>
         </v-list-item>
@@ -101,27 +103,27 @@
                 <span>{{ quest.title }}</span>
                 <i class="mdi mdi-lock" v-if="!quest.fulfillsPrerequisites(campaign)"></i>
               </v-card-title>
-              <v-card-subtitle>Multiple choice</v-card-subtitle>
+              <v-card-subtitle>{{ quest.description }}</v-card-subtitle>
+
               <v-card-text>
-                <p v-if="!quest.prerequisites.length">No prerequisites</p>
-                <span v-else class="text--primary"><strong>Prerequisites</strong></span>
+                <p v-if="!quest.prerequisites.length">Geen benodigdheden</p>
+                <span v-else class="text--primary"><strong>Benodigdheden</strong></span>
                 <div v-for="(prerequisite, index) in quest.prerequisites" class="prerequisite" :key="index">
-                  <i v-if="prerequisite.isFulfilled()" class="mdi mdi-check success--text"></i>
+                  <i v-if="prerequisite.isFulfilled(campaign)" class="mdi mdi-check success--text"></i>
                   <i v-else class="mdi mdi-close error--text"></i>
                   <span class="text--primary">{{ prerequisite.title }}</span>
                 </div>
               </v-card-text>
               <v-card-actions>
+                <div class="text--primary reward" v-html="quest.rewardFormatHTML()"></div>
                 <v-spacer />
-                <v-btn text>{{
-                  campaign.completedQuestIds.indexOf(quest.id) > -1 ? "Already Completed" : "Start"
-                }}</v-btn>
+                <v-btn text>{{ campaign.completedQuestIds.indexOf(quest.id) > -1 ? "Al voltooid" : "Starten" }}</v-btn>
               </v-card-actions>
             </v-card>
           </div>
         </div>
         <div class="shop">
-          <div class="text-h5 title">Shop</div>
+          <div class="text-h5 title">Winkel</div>
           <div class="item-cards">
             <div class="item" v-for="(item, index) in shopItems" :key="index">
               <img :src="item.icon" />
@@ -129,7 +131,7 @@
                 <strong>{{ item.name }}</strong>
               </div>
               <div class="value text--secondary text-caption">
-                Buy: {{ item.buyValue !== -1 ? item.buyValue : "N/A" }} Sell:
+                Kopen: {{ item.buyValue !== -1 ? item.buyValue : "N/A" }} Verkopen:
                 {{ item.sellValue !== -1 ? item.sellValue : "N/A" }}
               </div>
               <div class="description text--secondary">{{ item.description }}</div>
@@ -138,10 +140,10 @@
                   text
                   @click="sell(item.id)"
                   :disabled="item.sellValue === -1 || !campaign.inventory.hasItem(item.id)"
-                  >Sell</v-btn
+                  >Verkopen</v-btn
                 >
                 <v-btn text @click="buy(item.id)" :disabled="item.buyValue === -1 || campaign.balance < item.buyValue"
-                  >Buy</v-btn
+                  >Kopen</v-btn
                 >
               </div>
             </div>
@@ -151,27 +153,27 @@
     </div>
     <v-dialog v-model="didNotFindCampaignDialog" persistent max-width="500px">
       <v-card>
-        <v-card-title>Couldn't find your campaign</v-card-title>
+        <v-card-title>Kon campagne niet vinden</v-card-title>
         <v-card-text>
-          This could be due to an error or because you attempted to access this endpoint directly.
+          Dit kan te wijten zijn aan een fout of aan een poging om rechtstreeks toegang te krijgen tot dit eindpunt.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="$router.push('/menu')" text>Back to menu</v-btn>
+          <v-btn @click="$router.push('/menu')" text>Terug naar menu</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="invalidCampaignDialog" persistent max-width="500px">
       <v-card>
-        <v-card-title>Something went wrong</v-card-title>
+        <v-card-title>Er is iets mis gegaan</v-card-title>
         <v-card-text>
-          An error occurred while restoring the progress of your previous campaign. This could have been caused by a bug
-          or by data corruption.
+          Er is een fout opgetreden bij het herstellen van de voortgang van uw vorige campagne. Dit kan zijn veroorzaakt
+          door een bug of door gegevensbeschadiging.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="$router.push('/menu')" text>Back to menu</v-btn>
+          <v-btn @click="$router.push('/menu')" text>Terug to menu</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -253,6 +255,10 @@ export default {
       return;
     }
 
+    if (this.campaign.completedQuestIds.length === quests.length) {
+      this.$router.push("/game-completed");
+    }
+
     if (this.campaign.currentQuestProgress.id !== "") {
       this.$router.push("/quest");
     }
@@ -302,6 +308,9 @@ export default {
     .quests {
       .title {
         margin-bottom: 16px;
+      }
+      .reward {
+        margin-left: 10px;
       }
       .quest-cards {
         grid-template-columns: auto auto;
