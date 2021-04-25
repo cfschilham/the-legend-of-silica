@@ -94,6 +94,7 @@
               class="quest"
               v-for="(quest, index) in quests"
               :key="index"
+              @click="startQuest(quest.id)"
             >
               <v-card-title>
                 <span>{{ quest.title }}</span>
@@ -223,6 +224,13 @@ export default {
       this.campaign.inventory.decrement(id);
       this.campaign.balance += getItem(id).sellValue;
     },
+    startQuest(id) {
+      this.campaign.currentQuestProgress = {
+        id: id,
+        startTime: new Date(),
+      };
+      this.$router.push("/quest");
+    },
   },
   created() {
     if (!this.$store.state.campaign) {
@@ -230,14 +238,21 @@ export default {
       return;
     }
 
-    // Load campaign from an untyped JavaScript object.
-    const rawCampaign = Object.assign({}, this.$store.state.campaign);
-    rawCampaign.inventory = new Inventory(this.$store.state.campaign.inventory);
-    this.campaign = new Campaign(rawCampaign);
-    if (!this.campaign.validate()) {
-      this.invalidCampaignDialog = true;
-      return;
+    // If validate is a function, inventory has already been loaded properly.
+    if (!this.$store.state.campaign.inventory.validate) {
+      // Load campaign from an untyped JavaScript object.
+      const rawCampaign = Object.assign({}, this.$store.state.campaign);
+      rawCampaign.inventory = new Inventory(this.$store.state.campaign.inventory);
+      if (rawCampaign.currentQuestProgress && rawCampaign.currentQuestProgress.startTime) {
+        rawCampaign.currentQuestProgress.startTime = new Date(rawCampaign.currentQuestProgress.startTime);
+      }
+      this.campaign = new Campaign(rawCampaign);
+      if (!this.campaign.validate()) {
+        this.invalidCampaignDialog = true;
+        return;
+      }
     }
+
     this.$nextTick(() => {
       document.title = `${this.campaign.characterName} | Campaign - The Legend of Silica`;
     });

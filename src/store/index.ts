@@ -12,18 +12,21 @@ const persistence = new VuexPersistence({
 const store = new Vuex.Store({
   state: {
     musicMuted: false,
-    theme: matchMedia("prefers-color-scheme"),
     campaign: undefined,
   },
   mutations: {
-    setTheme(state, theme) {
-      state.theme = theme;
-    },
     toggleMusic(state) {
       state.musicMuted = !state.musicMuted;
     },
     setCampaign(state, campaign) {
       state.campaign = campaign;
+    },
+    decrementHealth(state) {
+      // @ts-ignore
+      if (state.campaign && typeof state.campaign.currentHealth === "number") {
+        // @ts-ignore
+        state.campaign.currentHealth--;
+      }
     },
   },
   plugins: [persistence.plugin],

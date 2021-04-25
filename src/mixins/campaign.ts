@@ -34,6 +34,7 @@ export class Campaign {
     balance?: number;
     currentHealth?: number;
     completedQuestIds?: Array<string>;
+    currentQuestProgress?: { id: string; startTime: Date };
   }) {
     if (props.difficulty > 4 || props.difficulty < 0) {
       throw new Error(`invalid difficulty: ${props.difficulty}`);
@@ -64,6 +65,9 @@ export class Campaign {
     }
     if (props.balance) {
       this.balance = props.balance;
+    }
+    if (props.currentQuestProgress) {
+      this.currentQuestProgress = props.currentQuestProgress;
     }
   }
 

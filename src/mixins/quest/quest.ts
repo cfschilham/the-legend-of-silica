@@ -4,6 +4,7 @@ export class Quest {
   public title: string;
   public description: string;
   public id: string;
+  public duration: number;
 
   // Functions to determine whether or not this quest is available with the state
   // of the current campaign.
@@ -19,6 +20,7 @@ export class Quest {
     id: string;
     prerequisites?: Array<{ title: string; secret: boolean; isFulfilled: (campaign: Campaign) => boolean }>;
     secret?: boolean;
+    baseDuration: number;
   }) {
     this.title = props.title;
     this.description = props.description;
@@ -33,6 +35,7 @@ export class Quest {
     if (props.secret != undefined) {
       this.secret = props.secret;
     }
+    this.duration = props.baseDuration;
   }
 
   fulfillsPrerequisites(campaign: Campaign): boolean {
@@ -48,6 +51,8 @@ export class Quest {
 export class OpenQuestion extends Quest {
   public question: string;
   public elaboration: string | undefined;
+  public answer: string;
+  public selfGraded: boolean;
 
   constructor(props: {
     question: string;
@@ -55,12 +60,17 @@ export class OpenQuestion extends Quest {
     title: string;
     description: string;
     id: string;
-    prerequisites?: Array<{ title: string; secret: boolean; fn: (campaign: Campaign) => boolean }>;
+    prerequisites?: Array<{ title: string; secret: boolean; isFulfilled: (campaign: Campaign) => boolean }>;
     secret?: boolean;
+    answer: string;
+    baseDuration: number;
+    selfGraded: boolean;
   }) {
     super(props);
     this.question = props.question;
     this.elaboration = props.elaboration;
+    this.answer = props.answer;
+    this.selfGraded = props.selfGraded;
   }
 }
 
@@ -71,13 +81,14 @@ export class MultipleChoiceQuestion extends Quest {
 
   constructor(props: {
     question: string;
-    incorrectAnswers: Array<string>;
     answer: string;
+    incorrectAnswers: Array<string>;
     title: string;
-    id: string;
     description: string;
-    prerequisites?: Array<{ title: string; secret: boolean; fn: (campaign: Campaign) => boolean }>;
+    id: string;
+    prerequisites?: Array<{ title: string; secret: boolean; isFulfilled: (campaign: Campaign) => boolean }>;
     secret?: boolean;
+    baseDuration: number;
   }) {
     super(props);
     this.question = props.question;
@@ -94,6 +105,7 @@ export const quests: Quest[] = [
     question: "What is the only true superfood?",
     answer: "Frikandelbroodje",
     incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
+    baseDuration: 60000,
   }),
   new MultipleChoiceQuestion({
     id: "0",
@@ -103,9 +115,10 @@ export const quests: Quest[] = [
     answer: "Frikandelbroodje",
     incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
     prerequisites: [
-      { title: "Always false", secret: false, fn: () => false },
-      { title: "Always true", secret: false, fn: () => true },
+      { title: "Always false", secret: false, isFulfilled: () => false },
+      { title: "Always true", secret: false, isFulfilled: () => true },
     ],
+    baseDuration: 60000,
   }),
   new MultipleChoiceQuestion({
     id: "0",
@@ -114,6 +127,7 @@ export const quests: Quest[] = [
     question: "What is the only true superfood?",
     answer: "Frikandelbroodje",
     incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
+    baseDuration: 60000,
   }),
   new MultipleChoiceQuestion({
     id: "0",
@@ -122,6 +136,7 @@ export const quests: Quest[] = [
     question: "What is the only true superfood?",
     answer: "Frikandelbroodje",
     incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
+    baseDuration: 60000,
   }),
   new MultipleChoiceQuestion({
     id: "0",
@@ -130,6 +145,7 @@ export const quests: Quest[] = [
     question: "What is the only true superfood?",
     answer: "Frikandelbroodje",
     incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
+    baseDuration: 60000,
   }),
   new MultipleChoiceQuestion({
     id: "0",
@@ -138,6 +154,7 @@ export const quests: Quest[] = [
     question: "What is the only true superfood?",
     answer: "Frikandelbroodje",
     incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
+    baseDuration: 60000,
   }),
   new MultipleChoiceQuestion({
     id: "0",
@@ -146,6 +163,7 @@ export const quests: Quest[] = [
     question: "What is the only true superfood?",
     answer: "Frikandelbroodje",
     incorrectAnswers: ["Kale", "Worstenbroodje", "Cauliflower"],
+    baseDuration: 60000,
   }),
 ];
 

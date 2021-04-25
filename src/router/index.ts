@@ -13,7 +13,7 @@ const routes = [
   {
     path: "/campaign",
     name: "Campaign",
-    component: () => import(/* webpackChunkName: "campaign" */ "@/views/Campaign/Campaign.vue"),
+    component: () => import(/* webpackChunkName: "campaign" */ "@/views/Campaign.vue"),
     meta: { title: "Campaign - The Legend of Silica" },
   },
   {
@@ -33,6 +33,12 @@ const routes = [
     name: "GameOver",
     component: () => import(/* webpackChunkName: "game-over" */ "@/views/GameOver.vue"),
     meta: { title: "Game over - The Legend of Silica" },
+  },
+  {
+    path: "/quest",
+    name: "Quest",
+    component: () => import(/* webpackChunkName: "game-over" */ "@/views/Quest.vue"),
+    meta: { title: "Quest - The Legend of Silica" },
   },
 ];
 
