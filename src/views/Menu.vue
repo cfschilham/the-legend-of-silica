@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="particles"></div>
+    <Particles />
     <div class="menu" :style="{ background: $vuetify.theme.currentTheme.background }">
       <img src="@/assets/logo.svg" alt="logo" class="logo" />
       <v-btn class="item" color="primary" large @click="$router.push('/new-campaign')">Nieuwe Campagne</v-btn>
@@ -11,13 +11,12 @@
 </template>
 
 <script>
-import "particles.js/particles";
-import particlesConfig from "@/mixins/particles.config";
+import Particles from "@/components/Particles";
 
 export default {
   name: "Menu",
-  mounted() {
-    window.particlesJS("particles", particlesConfig);
+  components: {
+    Particles,
   },
   methods: {
     openRepository() {
@@ -47,12 +46,5 @@ export default {
   .item:first-of-type {
     margin-top: 0;
   }
-}
-#particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
 }
 </style>

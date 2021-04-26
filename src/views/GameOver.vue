@@ -1,13 +1,22 @@
 <template>
-  <div class="game-over">
-    <div class="text-h5">Game over</div>
-    <v-btn @click="$router.push('/menu')" class="button">Terug naar menu</v-btn>
+  <div>
+    <Particles />
+    <div class="game-over" :style="{ background: $vuetify.theme.currentTheme.background }">
+      <div class="text-h5">Game over</div>
+      <br />
+      <v-btn @click="$router.push('/menu')" class="button">Terug naar menu</v-btn>
+    </div>
   </div>
 </template>
 
 <script>
+import Particles from "@/components/Particles";
+
 export default {
   name: "GameOver",
+  components: {
+    Particles,
+  },
 };
 </script>
 
