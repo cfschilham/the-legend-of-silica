@@ -4,14 +4,9 @@
 Play at [thelegendofsilica.github.io](https://thelegendofsilica.github.io/)
 
 ## About
-This project was created for the soul purpose of overengineering a school assignment.
+This project was created for the sole purpose of overengineering a school assignment.
 
-## Build from source  
-`$ git clone https://github.com/cfschilham/the-legend-of-silica`  
-`$ npm install`  
-`$ npm run serve`
-
-## Creators
+## Authors
 [C. F. Schilham](https://github.com/cfschilham)  
 [B. Stokmans](https://github.com/BenStokmans)
 
