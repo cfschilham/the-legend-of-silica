@@ -23,12 +23,13 @@
         eigenaardig soort quasi-intelligent dier, de mens. Eerst denk je eraan om contact te leggen en hun te verlichten
         met jouw vergevorderde kennis, maar dan zie je dat ze zo druk bezig zijn elkaar te bevechten dat ze nooit samen
         zullen kunnen komen om als gehele soort voortgang te boeken. Hierdoor besluit je je eigen onderzoek te doen.
-        Zodra je onderzoek is afgerond maak je een dossier
+        Zodra je onderzoek is afgerond maak je een
         <a
           href="https://drive.google.com/file/d/1p-RBwHz4o3ByOpfXG3-khrPi2nzFp1il/view"
           target="_blank"
           rel="noreferrer"
-        ></a>
+          >dossier</a
+        >
         en vertrek je naar huis waar de wetenschappers alles willen horen over de nieuwe atoomsoort silica. Jij gaat
         proberen met hulp van je dossier hun vragen te beantwoorden zodat je soort de mysteries van het heelal kan
         ontrafelen!
