@@ -6,7 +6,7 @@
           <template v-slot:activator="{ on }">
             <i class="mdi btn toggle-music-btn" :class="musicToggleButtonClass" @click="toggleMusic" v-on="on"></i>
           </template>
-          <span>Toggle music</span>
+          <span>Muziek aan-/uitzetten</span>
         </v-tooltip>
       </div>
       <audio src="@/assets/main-theme.mp3" loop ref="music"></audio>

@@ -23,6 +23,7 @@ export default {
 <style scoped lang="scss">
 .game-over {
   position: absolute;
+  padding: 40px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
