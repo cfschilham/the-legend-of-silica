@@ -45,7 +45,20 @@ export class Campaign {
     this.isoStartTime = props.isoStartTime;
     this.inventory = new Inventory();
     this.totalHealth = 5 - this.difficulty;
+    if (this.characterClass === "shaman") {
+      this.totalHealth++;
+      if (this.difficulty <= 2) {
+        this.totalHealth++;
+      }
+    }
+    if (this.characterClass === "berserker" && this.difficulty < 4) {
+      this.totalHealth--;
+    }
     this.currentHealth = this.totalHealth;
+    this.currentQuestProgress = {
+      id: "",
+      startTime: new Date(0),
+    };
     // eslint-disable-next-line no-array-constructor
     this.completedQuestIds = new Array<string>();
     if (props.completedQuestIds) {

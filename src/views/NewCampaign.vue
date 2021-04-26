@@ -1,16 +1,16 @@
 <template>
   <div>
     <v-form ref="form" v-model="valid" class="settings">
-      <span class="text-h5">New campagne</span>
+      <span class="text-h5">Nieuwe campagne</span>
       <div class="grid">
         <div>
-          <span class="text-overline">Character naam</span>
+          <span class="text-overline">Karakter naam</span>
           <v-text-field v-model="characterName" :counter="20" :rules="nameRules" label="John" solo></v-text-field>
           <span class="text-overline">Moeilijkheid: {{ labels[selectedDifficulty] }}</span>
           <v-slider v-model="selectedDifficulty" :max="4" class="mx-4 difficulty-slider" ticks></v-slider>
         </div>
         <div>
-          <span class="text-overline">Soort</span>
+          <span class="text-overline">Klasse</span>
           <div class="classes">
             <div
               class="class shaman"
@@ -126,8 +126,8 @@ export default {
       selectedCharacterClass: "primate",
       selectedDifficulty: 2,
       valid: false,
-      nameRules: [v => !!v || "Name is required", v => v.length <= 20 || "Name must be less than 20 characters"],
-      labels: ["Rookie", "Studied the night before", "Average", "Smartest kid of the class", "Ludicrous"],
+      nameRules: [v => !!v || "Naam is vereist", v => v.length <= 20 || "Naam moet minder dan 20 karakters zijn"],
+      labels: ["Zwakzinnig", "Boek doorgebladerd", "Gemiddeld", "Zweet", "Belachelijk"],
       characterName: "",
       existingCampaignDialog: false,
     };

@@ -45,7 +45,7 @@
           <v-list-item-content>
             <div class="text-overline">Inventaris</div>
             <div v-if="campaign.inventory.getItems().length === 0" class="text-caption text--secondary">
-              Jouw invtaris is leeg
+              Uw inventaris is leeg
             </div>
             <div class="inventory">
               <v-menu
@@ -55,7 +55,7 @@
                 open-on-hover
               >
                 <template v-slot:activator="{ on, attrs }">
-                  <div @click="getItem(inventoryItem.id).emit(campaign)" class="item" v-on="on" v-bind="attrs">
+                  <div class="item" v-on="on" v-bind="attrs">
                     <img :src="getItem(inventoryItem.id).icon" />
                     <div
                       class="amount text-caption"
@@ -70,10 +70,6 @@
                 <v-card max-width="300px">
                   <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
                   <v-card-subtitle>{{ getItem(inventoryItem.id).description }}</v-card-subtitle>
-                  <v-divider></v-divider>
-                  <v-card-subtitle v-if="getItem(inventoryItem.id).use !== undefined"
-                    >Klik om te gebruiken</v-card-subtitle
-                  >
                 </v-card>
               </v-menu>
             </div>
@@ -87,64 +83,79 @@
           </v-list-item-content>
         </v-list-item>
       </v-navigation-drawer>
-      <div class="main">
-        <div class="quests">
-          <div class="text-h5 title">Quests</div>
-          <div class="quest-cards">
-            <v-card
-              class="quest"
-              v-for="(quest, index) in quests"
-              :key="index"
-              @click="startQuest(quest.id)"
-              :disabled="!quest.fulfillsPrerequisites(campaign) || campaign.completedQuestIds.indexOf(quest.id) > -1"
-            >
-              <v-card-title>
-                <i v-if="campaign.completedQuestIds.indexOf(quest.id) > -1" class="mdi mdi-check success--text"></i>
-                <span>{{ quest.title }}</span>
-                <i class="mdi mdi-lock" v-if="!quest.fulfillsPrerequisites(campaign)"></i>
-              </v-card-title>
-              <v-card-subtitle>{{ quest.description }}</v-card-subtitle>
+      <div class="overview-wrapper">
+        <div class="overview">
+          <div class="quests">
+            <div class="text-h5 title">Quests</div>
+            <div class="quest-cards">
+              <v-card
+                class="quest"
+                v-for="(quest, index) in quests"
+                :key="index"
+                @click="startQuest(quest.id)"
+                :disabled="!quest.fulfillsPrerequisites(campaign) || campaign.completedQuestIds.indexOf(quest.id) > -1"
+              >
+                <v-card-title>
+                  <span>{{ quest.title }}</span>
+                  <i class="mdi mdi-lock" v-if="!quest.fulfillsPrerequisites(campaign)"></i>
+                  <i v-if="campaign.completedQuestIds.indexOf(quest.id) !== -1" class="mdi mdi-check success--text"></i>
+                </v-card-title>
+                <v-card-subtitle>{{ quest.description }}</v-card-subtitle>
 
-              <v-card-text>
-                <p v-if="!quest.prerequisites.length">Geen benodigdheden</p>
-                <span v-else class="text--primary"><strong>Benodigdheden</strong></span>
-                <div v-for="(prerequisite, index) in quest.prerequisites" class="prerequisite" :key="index">
-                  <i v-if="prerequisite.isFulfilled(campaign)" class="mdi mdi-check success--text"></i>
-                  <i v-else class="mdi mdi-close error--text"></i>
-                  <span class="text--primary">{{ prerequisite.title }}</span>
-                </div>
-              </v-card-text>
-              <v-card-actions>
-                <div class="text--primary reward" v-html="quest.rewardFormatHTML()"></div>
-                <v-spacer />
-                <v-btn text>{{ campaign.completedQuestIds.indexOf(quest.id) > -1 ? "Al voltooid" : "Starten" }}</v-btn>
-              </v-card-actions>
-            </v-card>
+                <v-card-text>
+                  <span v-if="!quest.prerequisites.length">Geen benodigdheden</span>
+                  <span v-else class="text--primary"><strong>Benodigdheden</strong></span>
+                  <div v-for="(prerequisite, index) in quest.prerequisites" class="prerequisite" :key="index">
+                    <i v-if="prerequisite.isFulfilled(campaign)" class="mdi mdi-check success--text"></i>
+                    <i v-else class="mdi mdi-close error--text"></i>
+                    <span class="text--primary">{{ prerequisite.title }}</span>
+                  </div>
+                </v-card-text>
+                <v-card-text>
+                  <span class="text--primary"><strong>Beloning</strong></span>
+                  <div class="text--primary">
+                    {{ balanceNumberFormatter.format(quest.finalReward(campaign)) }} <span v-html="currencyHTML" />
+                  </div>
+                </v-card-text>
+                <v-card-text>
+                  <span class="text--primary"><strong>Tijd</strong></span>
+                  <div class="text--primary">
+                    {{ formatDuration(quest.finalDuration(campaign)) }}
+                  </div>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn text>{{
+                    campaign.completedQuestIds.indexOf(quest.id) > -1 ? "Reeds voltooid" : "Starten"
+                  }}</v-btn>
+                </v-card-actions>
+              </v-card>
+            </div>
           </div>
-        </div>
-        <div class="shop">
-          <div class="text-h5 title">Winkel</div>
-          <div class="item-cards">
-            <div class="item" v-for="(item, index) in shopItems" :key="index">
-              <img :src="item.icon" />
-              <div class="name">
-                <strong>{{ item.name }}</strong>
-              </div>
-              <div class="value text--secondary text-caption">
-                Kopen: {{ item.buyValue !== -1 ? item.buyValue : "N/A" }} Verkopen:
-                {{ item.sellValue !== -1 ? item.sellValue : "N/A" }}
-              </div>
-              <div class="description text--secondary">{{ item.description }}</div>
-              <div class="actions">
-                <v-btn
-                  text
-                  @click="sell(item.id)"
-                  :disabled="item.sellValue === -1 || !campaign.inventory.hasItem(item.id)"
-                  >Verkopen</v-btn
-                >
-                <v-btn text @click="buy(item.id)" :disabled="item.buyValue === -1 || campaign.balance < item.buyValue"
-                  >Kopen</v-btn
-                >
+          <div class="shop">
+            <div class="text-h5 title">Winkel</div>
+            <div class="item-cards">
+              <div class="item" v-for="(item, index) in shopItems" :key="index">
+                <img :src="item.icon" />
+                <div class="name">
+                  <strong>{{ item.name }}</strong>
+                </div>
+                <div class="value text--secondary text-caption">
+                  Kopen: {{ item.buyValue !== -1 ? item.buyValue : "N/A" }} Verkopen:
+                  {{ item.sellValue !== -1 ? item.sellValue : "N/A" }}
+                </div>
+                <div class="description text--secondary">{{ item.description }}</div>
+                <div class="actions">
+                  <v-btn
+                    text
+                    @click="sell(item.id)"
+                    :disabled="item.sellValue === -1 || !campaign.inventory.hasItem(item.id)"
+                    >Verkopen</v-btn
+                  >
+                  <v-btn text @click="buy(item.id)" :disabled="item.buyValue === -1 || campaign.balance < item.buyValue"
+                    >Kopen</v-btn
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -153,7 +164,7 @@
     </div>
     <v-dialog v-model="didNotFindCampaignDialog" persistent max-width="500px">
       <v-card>
-        <v-card-title>Kon campagne niet vinden</v-card-title>
+        <v-card-title>Campagne niet gevonden</v-card-title>
         <v-card-text>
           Dit kan te wijten zijn aan een fout of aan een poging om rechtstreeks toegang te krijgen tot dit eindpunt.
         </v-card-text>
@@ -168,12 +179,12 @@
       <v-card>
         <v-card-title>Er is iets mis gegaan</v-card-title>
         <v-card-text>
-          Er is een fout opgetreden bij het herstellen van de voortgang van uw vorige campagne. Dit kan zijn veroorzaakt
+          Er is een fout opgetreden bij het herstellen van de voortgang van uw vorige campagne. Dit kan veroorzaakt zijn
           door een bug of door gegevensbeschadiging.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="$router.push('/menu')" text>Terug to menu</v-btn>
+          <v-btn @click="$router.push('/menu')" text>Terug naar menu</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -182,13 +193,17 @@
 
 <script>
 import { getItem, items } from "@/mixins/inventory";
-import { quests } from "@/mixins/quest/quest.ts";
+import { Quest, quests, getQuest } from "@/mixins/quest/quest.ts";
+import { Campaign } from "@/mixins/campaign";
 
 export default {
   name: "Campaign",
   data: () => {
     return {
       campaign: undefined,
+      currencyHTML: Campaign.currencyHTML, // The class.
+      balanceNumberFormatter: Campaign.balanceNumberFormatter,
+      formatDuration: Quest.formatDuration,
       didNotFindCampaignDialog: false,
       invalidCampaignDialog: false,
       quests: quests,
@@ -229,6 +244,13 @@ export default {
       this.campaign.balance += getItem(id).sellValue;
     },
     startQuest(id) {
+      const quest = getQuest(id);
+      if (!quest.fulfillsPrerequisites(this.campaign)) {
+        return;
+      }
+      if (quest.onStart) {
+        quest.onStart(this.campaign);
+      }
       this.campaign.currentQuestProgress = {
         id: id,
         startTime: new Date(),
@@ -278,6 +300,9 @@ export default {
           this.$store.commit("setCampaign", undefined);
           return;
         }
+        if (this.campaign.completedQuestIds.length === quests.length) {
+          this.$router.push("/game-completed");
+        }
         this.$store.commit("setCampaign", this.campaign);
       },
       deep: true,
@@ -292,8 +317,7 @@ export default {
   display: grid;
   grid-template-columns: 256px auto;
 
-  .main {
-    box-sizing: border-box;
+  .overview-wrapper {
     padding: 24px;
     overflow-y: scroll;
     scrollbar-width: none;
@@ -301,61 +325,64 @@ export default {
     &::-webkit-scrollbar {
       display: none;
     }
-    display: grid;
-    grid-template-columns: calc(50% - 30px) calc(50% - 30px);
-    grid-column-gap: 60px;
+    .overview {
+      display: grid;
+      grid-template-columns: calc(50% - 30px) calc(50% - 30px);
+      grid-column-gap: 60px;
 
-    .quests {
-      .title {
-        margin-bottom: 16px;
-      }
-      .reward {
-        margin-left: 10px;
-      }
-      .quest-cards {
-        grid-template-columns: auto auto;
-        display: grid;
-        grid-column-gap: 20px;
-        .quest {
-          margin-bottom: 20px;
-          display: flex;
-          flex-direction: column;
-          &:last-of-type {
-            margin-bottom: 0;
-          }
-          .mdi-lock {
-            margin-left: 6px;
-          }
-          .mdi-check,
-          .mdi-close {
-            margin-right: 4px;
-          }
-          .v-card__actions {
-            margin-top: auto;
+      .quests {
+        .title {
+          margin-bottom: 16px;
+        }
+        .quest-cards {
+          grid-template-columns: auto auto;
+          display: grid;
+          grid-column-gap: 20px;
+          .quest {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            &:last-of-type {
+              margin-bottom: 0;
+            }
+            .mdi-lock,
+            .mdi-check {
+              margin-left: 6px;
+            }
+            .prerequisite {
+              .mdi-check,
+              .mdi-close {
+                margin-left: 0;
+                margin-right: 4px;
+              }
+            }
+            .v-card__actions {
+              margin-top: auto;
+            }
           }
         }
       }
-    }
 
-    .shop {
-      .title {
-        margin-bottom: 16px;
-      }
-      .item-cards {
-        display: grid;
-        grid-template-columns: calc(33.33% - 13.33px) calc(33.33% - 13.33px) calc(33.33% - 13.33px);
-        grid-column-gap: 20px;
-        grid-row-gap: 40px;
-        .item {
-          img {
-            width: 50%;
-            margin: 0 auto 20px auto;
-            display: block;
-          }
-          .actions {
-            margin-top: 4px;
-            display: flex;
-            justify-content: center;
+      .shop {
+        .title {
+          margin-bottom: 16px;
+        }
+        .item-cards {
+          display: grid;
+          grid-template-columns: calc(33.33% - 13.33px) calc(33.33% - 13.33px) calc(33.33% - 13.33px);
+          grid-column-gap: 20px;
+          grid-row-gap: 40px;
+          .item {
+            img {
+              width: 50%;
+              margin: 0 auto 20px auto;
+              display: block;
+            }
+            .actions {
+              margin-top: 4px;
+              display: flex;
+              justify-content: center;
+            }
           }
         }
       }
@@ -417,7 +444,7 @@ export default {
 
 @media screen and (max-width: 1640px) {
   .campaign {
-    .main {
+    .overview {
       .quests {
         .quest-cards {
           grid-template-columns: auto;
@@ -434,7 +461,7 @@ export default {
 
 @media screen and (max-width: 1160px) {
   .campaign {
-    .main {
+    .overview {
       grid-template-columns: calc(60% - 30px) calc(40% - 30px);
       .shop {
         .item-cards {

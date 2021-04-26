@@ -21,13 +21,6 @@ const store = new Vuex.Store({
     setCampaign(state, campaign) {
       state.campaign = campaign;
     },
-    decrementHealth(state) {
-      // @ts-ignore
-      if (state.campaign && typeof state.campaign.currentHealth === "number") {
-        // @ts-ignore
-        state.campaign.currentHealth--;
-      }
-    },
   },
   plugins: [persistence.plugin],
 });

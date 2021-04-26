@@ -44,7 +44,7 @@
           <v-list-item-content>
             <div class="character-information">
               <div>
-                <div class="name text-subtitle-2">Tijd over: {{ getFormattedTime() }}</div>
+                <div class="name text-subtitle-2">Tijd resterend: {{ formatDuration(remainingDuration) }}</div>
               </div>
             </div>
           </v-list-item-content>
@@ -55,7 +55,7 @@
           <v-list-item-content>
             <div class="text-overline">Inventaris</div>
             <div v-if="campaign.inventory.getItems().length === 0" class="text-caption text--secondary">
-              Jouw inventaris is leeg
+              Uw inventaris is leeg
             </div>
             <div class="inventory">
               <v-menu
@@ -91,85 +91,134 @@
         </v-list-item>
         <v-list-item class="end-quest">
           <v-list-item-content>
-            <v-btn @click="endQuest">
+            <v-btn @click="confirmEndQuestDialog = true">
               Quest beëindigen
             </v-btn>
           </v-list-item-content>
         </v-list-item>
       </v-navigation-drawer>
       <div class="quest-content">
-        <div class="text-h5 title">
-          {{ quest.title }}
-          <br />
-          <v-divider></v-divider>
-          <br />
-          <div class="text-body-2 question">{{ quest.question }}</div>
-          <div v-if="quest.type === 'multi'">
-            <v-checkbox
-              v-for="(item, index) in quest.options"
-              :key="index"
-              :label="item"
-              :value="item"
-              :color="submitted ? (quest.answer === item ? 'green' : 'primary') : 'primary'"
-              v-model="selected"
-              @change="onCheckBoxChange"
-            >
-            </v-checkbox>
-          </div>
-          <div v-if="quest.type === 'open'">
-            <br />
-            <div class="text-body-2">{{ quest.elaboration }}</div>
-            <br />
-            <v-textarea
-              v-model="answerText"
-              :disabled="submitted"
-              solo
-              name="input-7-4"
-              label="Type your answer here..."
-            ></v-textarea>
-          </div>
-          <v-flex v-if="quest.image !== undefined" xs12 sm6 offset-sm3 style="margin-left: 50%">
-            <!-- TODO: Align picture-->
-            <v-card>
-              <v-img :src="quest.image" aspect-ratio="2.75" />
-            </v-card>
-          </v-flex>
-        </div>
-        <v-btn :disabled="!canSubmit()" class="submit-btn" color="primary" large @click="submit">Submit</v-btn>
-        <div v-if="submitted" class="text-body-2 feedback">
-          {{ feedback }}
-        </div>
+        <div class="text-h5 title">{{ quest.title }}</div>
+        <div class="text-body-1 question">{{ quest.question }}</div>
+        <v-radio-group v-model="selected" v-if="quest.type === 'multi'">
+          <v-radio v-for="(item, index) in quest.options" :key="index" :label="item" :value="item"></v-radio>
+        </v-radio-group>
         <div v-if="quest.type === 'open'">
-          <v-btn
-            v-if="submitted && !quest.selfGraded"
-            class="submit-btn"
-            color="primary"
-            large
-            @click="finish(answerCorrect())"
-            >Doorgaan</v-btn
-          >
-          <v-btn v-if="submitted && quest.selfGraded" class="submit-btn" color="primary" large @click="finish(true)"
-            >Ja</v-btn
-          >
-          <v-btn v-if="submitted && quest.selfGraded" class="submit-btn" color="primary" large @click="finish(false)"
-            >Nee</v-btn
-          >
+          <div class="text-body-1 text--secondary elaboration">{{ quest.elaboration }}</div>
+          <v-textarea
+            v-model="answerText"
+            :disabled="submitted"
+            solo
+            name="input-7-4"
+            label="Type your answer here..."
+            class="textarea"
+          ></v-textarea>
         </div>
-        <v-btn
-          v-if="submitted && quest.type === 'multi'"
-          class="submit-btn"
-          color="primary"
-          @click="finish(answerCorrect())"
-          large
-          >Doorgaan</v-btn
-        >
+        <v-flex v-if="quest.image !== undefined" xs12 sm6 offset-sm3 style="margin-left: 50%">
+          <v-card>
+            <v-img :src="quest.image" aspect-ratio="2.75" />
+          </v-card>
+        </v-flex>
+        <v-btn :disabled="!canSubmit()" class="submit-btn" color="primary" @click="submit">Doorgaan</v-btn>
       </div>
     </div>
+    <v-dialog v-model="incorrectAnswerDialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title>Helaas, dat was niet het juiste antwoord</v-card-title>
+        <v-card-text>U bent één leven verloren. Het juiste antwoord was: {{ quest.answer }} </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="$router.push('/campaign')" text>Quest beëindigen</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="correctAnswerDialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title>Correct!</v-card-title>
+        <v-card-text>
+          Uw antwoord was correct. U heeft een beloning van
+          {{ balanceNumberFormatter.format(quest.finalReward(campaign)) }}
+          <span v-html="currencyHTML"></span> ontvangen.
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="$router.push('/campaign')" text>Quest beëindigen</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="selfGradeDialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title>Antwoord nakijken</v-card-title>
+        <v-card-text>
+          <div><strong>Uw antwoord</strong></div>
+          <div>{{ answerText }}</div>
+          <br />
+          <div><strong>Juiste antwoord</strong></div>
+          <div>{{ quest.answer }}</div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            @click="
+              () => {
+                failQuest();
+                $router.push('/campaign');
+              }
+            "
+            text
+            >Onjuist</v-btn
+          >
+          <v-btn
+            @click="
+              () => {
+                completeQuest();
+                $router.push('/campaign');
+              }
+            "
+            text
+            >Juist</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="confirmEndQuestDialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title>Weet u het zeker?</v-card-title>
+        <v-card-text>Als u de quest nu beëindigt, verliest u een leven.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="confirmEndQuestDialog = false" text>Annuleren</v-btn>
+          <v-btn
+            @click="
+              () => {
+                failQuest();
+                $router.push('/campaign');
+              }
+            "
+            text
+            >Beëindigen</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="outOfTimeDialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title>De tijd is op!</v-card-title>
+        <v-card-text
+          >U bent één leven verloren omdat u niet op tijd heeft geantwoord. Het juiste antwoord was: {{ quest.answer }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="$router.push('/campaign')" text>Quest beëindigen</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import { getQuest } from "@/mixins/quest/quest.ts";
+import { Quest, getQuest } from "@/mixins/quest/quest.ts";
+import { Campaign } from "@/mixins/campaign";
 import { getItem } from "@/mixins/inventory";
 
 export default {
@@ -182,42 +231,36 @@ export default {
       remainingDuration: undefined,
       remainingDurationPolling: undefined,
       getItem: getItem,
-      selected: [],
-      submittedSelection: [],
+      formatDuration: Quest.formatDuration,
+      balanceNumberFormatter: Campaign.balanceNumberFormatter,
+      currencyHTML: Campaign.currencyHTML,
+      selected: undefined,
       submitted: false,
       answerText: "",
-      feedback: "",
+      correctAnswerDialog: false,
+      incorrectAnswerDialog: false,
+      selfGradeDialog: false,
+      confirmEndQuestDialog: false,
+      outOfTimeDialog: false,
     };
   },
   methods: {
-    endQuest() {
-      this.campaign.currentQuestProgress.id = "";
-      this.$router.push("/campaign");
+    completeQuest() {
+      this.campaign.balance += this.quest.finalReward(this.campaign);
+      this.campaign.completedQuestIds.push(this.quest.id);
+      clearInterval(this.remainingDurationPolling);
     },
-    getFormattedTime() {
-      const minutes = Math.floor(this.remainingDuration / 60);
-      const seconds = this.remainingDuration - minutes * 60;
-      if (seconds > 9) {
-        return minutes + ":" + seconds;
-      }
-      return minutes + ":0" + seconds;
-    },
-    onCheckBoxChange() {
-      if (this.submitted) {
-        this.selected = this.submittedSelection;
-        console.log(this.selected);
-      }
-      if (this.selected.length <= 1) {
-        return;
-      }
-      this.selected = [this.selected[this.selected.length - 1]];
+    failQuest() {
+      this.campaign.currentHealth--;
+      clearInterval(this.remainingDurationPolling);
     },
     canSubmit() {
       if (this.submitted) {
         return false;
       }
 
-      if (this.quest.type === "multi" && this.selected.length > 0) {
+      // eslint-disable-next-line eqeqeq
+      if (this.quest.type === "multi" && this.selected != undefined) {
         return true;
       }
       return this.quest.type === "open" && this.answerText.length > 0;
@@ -225,42 +268,28 @@ export default {
     submit() {
       this.submitted = true;
       if (this.quest.type === "multi") {
-        if (this.selected[0] === this.quest.answer) {
-          this.feedback = "Het goede antwoord!";
+        if (this.selected === this.quest.answer) {
+          this.correctAnswerDialog = true;
+          this.completeQuest();
           return;
         }
-        this.feedback = "Het goede antwoord!";
-        this.selected.push(this.quest.answer);
-        this.submittedSelection = this.selected;
+        this.incorrectAnswerDialog = true;
+        this.failQuest();
         return;
       }
 
       if (this.quest.selfGraded) {
-        this.feedback = `Het goede antwoord: "${this.quest.answer}" was jouw antwoord goed?`;
+        clearInterval(this.remainingDurationPolling);
+        this.selfGradeDialog = true;
         return;
       }
       if (this.answerText === this.quest.answer) {
-        this.feedback = "Het goede antwoord!";
+        this.correctAnswerDialog = true;
+        this.completeQuest();
         return;
       }
-      this.feedback = "Het goede antwoord!";
-    },
-    answerCorrect() {
-      if (this.quest.type === "multi") {
-        return this.selected[0] === this.quest.answer;
-      }
-
-      return this.answerText === this.quest.answer;
-    },
-    finish(correct) {
-      if (!correct) {
-        this.$store.commit("decrementHealth");
-        return this.endQuest();
-      }
-
-      this.campaign.completedQuestIds.push(this.quest.id);
-      this.campaign.balance += this.quest.reward;
-      this.endQuest();
+      this.incorrectAnswerDialog = true;
+      this.failQuest();
     },
   },
   created() {
@@ -273,23 +302,19 @@ export default {
     this.campaign = this.$store.state.campaign;
     this.quest = getQuest(this.$store.state.campaign.currentQuestProgress.id);
     this.startTime = this.$store.state.campaign.currentQuestProgress.startTime;
-    let durationWithModifiers = this.quest.duration * 0.9 ** this.campaign.difficulty;
-    if (this.campaign.characterClass === "berserker") {
-      durationWithModifiers *= 0.7;
-    }
 
+    const finalDuration = this.quest.finalDuration(this.campaign);
     this.remainingDurationPolling = setInterval(() => {
-      this.remainingDuration = Math.floor(
-        (durationWithModifiers - (new Date().getTime() - this.startTime.getTime())) / 1000,
-      );
+      this.remainingDuration = Math.floor(finalDuration - (new Date().getTime() - this.startTime.getTime()));
       if (this.remainingDuration <= 0) {
-        this.$store.commit("decrementHealth");
-        this.campaign.currentQuestProgress = { id: "", startTime: new Date(0) };
-        this.$router.push("/campaign");
+        clearInterval(this.remainingDurationPolling);
+        this.failQuest();
+        this.outOfTimeDialog = true;
       }
     }, 100);
   },
   beforeDestroy() {
+    this.campaign.currentQuestProgress = { id: "", startTime: new Date(0) };
     clearInterval(this.remainingDurationPolling);
   },
   watch: {
@@ -318,13 +343,11 @@ export default {
     &::-webkit-scrollbar {
       display: none;
     }
-    display: grid;
-
-    .question {
-      font-size: 16px !important;
+    .title {
+      margin-bottom: 16px;
     }
-    .feedback {
-      font-size: 20px !important;
+    .textarea {
+      margin-top: 16px;
     }
   }
 
@@ -378,11 +401,6 @@ export default {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-  }
-
-  .submit-btn {
-    width: 10rem;
-    margin: 20px;
   }
 }
 </style>

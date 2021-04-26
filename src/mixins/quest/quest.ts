@@ -5,12 +5,13 @@ export class Quest {
   public title: string;
   public description: string;
   public id: string;
-  public duration: number;
-  public reward: number;
+  public baseDuration: number;
+  public baseReward: number;
   public image: string | undefined;
   // Functions to determine whether or not this quest is available with the state
   // of the current campaign.
   public prerequisites: Array<{ title: string; secret: boolean; isFulfilled: (campaign: Campaign) => boolean }>;
+  public onStart: ((campaign: Campaign) => void) | undefined;
 
   // If true, this quest will not be displayed if its prerequisites are not
   // fulfilled.
@@ -24,8 +25,9 @@ export class Quest {
       prerequisites?: Array<{ title: string; secret: boolean; isFulfilled: (campaign: Campaign) => boolean }>;
       secret?: boolean;
       baseDuration: number;
-      reward: number;
+      baseReward: number;
       image?: string;
+      onStart?: (campaign: Campaign) => void;
     },
     type: string,
   ) {
@@ -44,22 +46,47 @@ export class Quest {
     if (props.secret != undefined) {
       this.secret = props.secret;
     }
-    this.duration = props.baseDuration;
-    this.reward = props.reward;
+    this.baseDuration = props.baseDuration;
+    this.baseReward = props.baseReward;
     this.image = props.image;
+    this.onStart = props.onStart;
   }
 
-  fulfillsPrerequisites(campaign: Campaign): boolean {
+  public static formatDuration(duration: number): string {
+    const minutes = Math.floor(duration / 60000);
+    const seconds = Math.round((duration - minutes * 60000) / 1000);
+    if (seconds > 9) {
+      return minutes + ":" + seconds;
+    }
+    return minutes + ":0" + seconds;
+  }
+
+  public finalReward(campaign: Campaign): number {
+    let reward = this.baseReward + (4 - campaign.difficulty) * this.baseReward * 0.2;
+    if (campaign.characterClass === "berserker") {
+      reward *= 1.4;
+    }
+    if (campaign.characterClass === "shaman") {
+      reward *= 0.65;
+    }
+    return reward;
+  }
+
+  public finalDuration(campaign: Campaign): number {
+    let duration = this.baseDuration * 0.9 ** campaign.difficulty;
+    if (campaign.characterClass === "berserker") {
+      duration *= 0.6;
+    }
+    return duration;
+  }
+
+  public fulfillsPrerequisites(campaign: Campaign): boolean {
     for (let i = 0; i < this.prerequisites.length; i++) {
       if (!this.prerequisites[i].isFulfilled(campaign)) {
         return false;
       }
     }
     return true;
-  }
-
-  rewardFormatHTML(): string {
-    return `Beloning: ${Campaign.balanceNumberFormatter.format(this.reward)} ${Campaign.currencyHTML}`;
   }
 }
 
@@ -80,8 +107,9 @@ export class OpenQuestion extends Quest {
     answer: string;
     baseDuration: number;
     selfGraded: boolean;
-    reward: number;
+    baseReward: number;
     image?: string;
+    onStart?: (campaign: Campaign) => void;
   }) {
     super(props, "open");
     this.question = props.question;
@@ -108,8 +136,9 @@ export class MultipleChoiceQuestion extends Quest {
     secret?: boolean;
     baseDuration: number;
     randomiseOrder?: boolean;
-    reward: number;
+    baseReward: number;
     image?: string;
+    onStart?: (campaign: Campaign) => void;
   }) {
     super(props, "multi");
     this.question = props.question;
@@ -127,20 +156,19 @@ export const quests: Quest[] = [
   new MultipleChoiceQuestion({
     id: "0",
     title: "Starter quest",
-    description: "This is a development quest.",
+    description: "",
     question: "In welke 2 vormen komt silica voor?",
-    answer: "Kwarts en Opaal",
+    answer: "Kwarts en opaal",
     incorrectAnswers: ["Phylliet en leisteen", "Basalt en graniet", "Helleflint en amfiboliet"],
     randomiseOrder: true,
-    baseDuration: 20000,
-    reward: 20,
+    baseDuration: 60000,
+    baseReward: 20,
   }),
   new MultipleChoiceQuestion({
-    // hier moet nog een foto bij
     id: "1",
     title: "Silica op micro niveau",
-    description: "This is a development quest.",
-    question: "Welke letter behoort tot opaal",
+    description: "",
+    question: "Welke letter behoort tot opaal?",
     answer: "B",
     incorrectAnswers: ["A"],
     prerequisites: [
@@ -152,33 +180,33 @@ export const quests: Quest[] = [
         },
       },
     ],
-    baseDuration: 20000,
-    reward: 500,
+    baseDuration: 60000,
+    baseReward: 500,
     image: require("@/assets/question1.png"),
   }),
   new MultipleChoiceQuestion({
     id: "2",
     title: "Silica tekenen",
-    description: "This is a development quest.",
-    question: "Teken de structuurformule van Silicium met zuurstof op papier en beredeneer de ruimtelijke bouw.",
+    description: "",
+    question: "Teken de structuurformule van silicium met zuurstof op papier en beredeneer de ruimtelijke bouw.",
     answer: "Tetraëder",
-    incorrectAnswers: ["plat vlak", "lineair"],
+    incorrectAnswers: ["Plat vlak", "Lineair"],
     randomiseOrder: true,
     baseDuration: 120000,
-    reward: 200,
+    baseReward: 200,
   }),
   new OpenQuestion({
     id: "3",
     title: "Fytolieten",
-    description: "This is a development quest.",
-    question: "Wat is de functie van fytolieten",
+    description: "",
+    question: "Wat is de functie van fytolieten?",
     elaboration: "Beschrijf de functie van fytolieten in planten en geef ook aan hoe de vorm kan verschillen.",
     answer:
       "Fytolieten zijn biomineralen die een plant stugger en harder maken. \n" +
       "Ook vormen ze zich aan de omgeving waarin ze zich bevinden waardoor de vorm per plantensoort kan verschillen.",
     selfGraded: true,
     baseDuration: 60000,
-    reward: 400,
+    baseReward: 400,
   }),
   new OpenQuestion({
     id: "4",
@@ -189,7 +217,7 @@ export const quests: Quest[] = [
       "Diatomeeën maken van opaal in het water een skelet wat als ze doodgaan weer oplost en wordt hergebruikt of op de zeebodem blijft. ",
     selfGraded: true,
     baseDuration: 60000,
-    reward: 300,
+    baseReward: 300,
   }),
   new OpenQuestion({
     id: "5",
@@ -209,18 +237,21 @@ export const quests: Quest[] = [
       },
     ],
     baseDuration: 120000,
-    reward: 350,
+    baseReward: 350,
+    onStart: (campaign: Campaign) => {
+      campaign.inventory.decrement("2");
+    },
   }),
   new OpenQuestion({
     id: "6",
     title: "Iew er zitten fytolieten onder mijn schoen",
-    description: "Waar komen die nou vandaan.",
+    description: "Waar komen die nou vandaan?",
     question: "Waarom is het zeer waarschijnlijk dat je in de herfst fytolieten onder je schoenen kunt vinden?",
     answer:
       "Omdat de bladeren en naalden van bomen in de herfst loslaten en deze worden afgebroken door bacteriën blijven de fytolieten liggen.",
     selfGraded: true,
     baseDuration: 60000,
-    reward: 325,
+    baseReward: 325,
     prerequisites: [
       {
         title: "Een borstel",
@@ -239,7 +270,7 @@ export const quests: Quest[] = [
     answer: "Omdat in de oude kringloop “dood” was en geen biologische processen bevatte.",
     selfGraded: true,
     baseDuration: 60000,
-    reward: 275,
+    baseReward: 275,
   }),
   new OpenQuestion({
     id: "8",
@@ -249,10 +280,10 @@ export const quests: Quest[] = [
       "Mevrouw Fallet zegt als geoloog dat stenen de belangrijkste rol vervullen in de nieuwe silicakringloop. \n" +
       "Meneer Soetens echter als bioloog is van mening dat er in de biologische kringloop meer silica omgaat. \n" +
       "Wie heeft er gelijk?",
-    answer: "Meneer Soetens heeft gelijk in de biologische kringloop wordt geschat 10x zoveel silica te zijn.",
+    answer: "Meneer Soetens heeft gelijk, in de biologische kringloop wordt geschat 10 keer zoveel silica te zijn.",
     selfGraded: true,
     baseDuration: 120000,
-    reward: 500,
+    baseReward: 500,
   }),
   new OpenQuestion({
     id: "9",
@@ -273,12 +304,12 @@ export const quests: Quest[] = [
       },
     ],
     baseDuration: 120000,
-    reward: 120,
+    baseReward: 120,
   }),
   new MultipleChoiceQuestion({
     id: "10",
     title: "De reiziger",
-    description: "This is a development quest.",
+    description: "",
     question: "Zou iemand die veel van rondreizen houd liever silica zijn in de nieuw of de oude silicakringloop?",
     answer: "De oude kringloop",
     incorrectAnswers: ["De nieuwe kringloop"],
@@ -293,7 +324,7 @@ export const quests: Quest[] = [
         },
       },
     ],
-    reward: 100,
+    baseReward: 100,
   }),
   new MultipleChoiceQuestion({
     id: "11",
@@ -309,7 +340,7 @@ export const quests: Quest[] = [
       "Geen van allen",
     ],
     baseDuration: 50000,
-    reward: 50,
+    baseReward: 50,
   }),
   new MultipleChoiceQuestion({
     id: "12",
@@ -319,7 +350,7 @@ export const quests: Quest[] = [
     answer: "C",
     incorrectAnswers: ["A", "B"],
     baseDuration: 30000,
-    reward: 320,
+    baseReward: 320,
     image: require("@/assets/question12.png"),
   }),
   new MultipleChoiceQuestion({
@@ -331,12 +362,12 @@ export const quests: Quest[] = [
     incorrectAnswers: ["Metamorphic", "Igneous"],
     randomiseOrder: true,
     baseDuration: 30000,
-    reward: 125,
+    baseReward: 125,
   }),
   new MultipleChoiceQuestion({
     id: "14",
     title: "Silica en BIFs",
-    description: "?.",
+    description: "",
     question: "Welke rol speelt silica in BIFs?",
     answer: "Silica vormt de kaart van BIFs",
     incorrectAnswers: [
@@ -345,7 +376,7 @@ export const quests: Quest[] = [
     ],
     randomiseOrder: true,
     baseDuration: 50000,
-    reward: 215,
+    baseReward: 215,
   }),
   new MultipleChoiceQuestion({
     id: "15",
@@ -359,7 +390,7 @@ export const quests: Quest[] = [
     ],
     randomiseOrder: true,
     baseDuration: 50000,
-    reward: 225,
+    baseReward: 225,
   }),
   new OpenQuestion({
     id: "16",
@@ -369,7 +400,7 @@ export const quests: Quest[] = [
     answer: "Deze namen komen van het aantal koolstof dat ontstaat.",
     selfGraded: true,
     baseDuration: 60000,
-    reward: 215,
+    baseReward: 215,
   }),
   new OpenQuestion({
     id: "17",
@@ -382,7 +413,7 @@ export const quests: Quest[] = [
       "Reden 2 is dat de moesson sterker werd wat gunstig zou zijn voor C4 grassen, maar in de amerika’s zijn helemaal geen moessons en ook hier zijn C4 grassen geëvolueerd.\n",
     selfGraded: true,
     baseDuration: 180000,
-    reward: 150,
+    baseReward: 150,
   }),
   new MultipleChoiceQuestion({
     id: "18",
@@ -396,7 +427,7 @@ export const quests: Quest[] = [
     ],
     randomiseOrder: true,
     baseDuration: 50000,
-    reward: 130,
+    baseReward: 130,
   }),
 ];
 
