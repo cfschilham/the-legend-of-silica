@@ -1,6 +1,6 @@
 <template>
   <div class="game-over">
-    <div class="text-h1">Game over</div>
+    <div class="text-h5">Game over</div>
     <v-btn @click="$router.push('/menu')" class="button">Terug naar menu</v-btn>
   </div>
 </template>

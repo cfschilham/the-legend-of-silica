@@ -80,10 +80,12 @@
                 <v-card max-width="300px">
                   <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
                   <v-card-subtitle>{{ getItem(inventoryItem.id).description }}</v-card-subtitle>
-                  <v-divider></v-divider>
-                  <v-card-subtitle v-if="getItem(inventoryItem.id).use !== undefined"
-                    >Klik om te gebruiken</v-card-subtitle
-                  >
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="use(inventoryItem.id)" text :disabled="!getItem(inventoryItem.id).canUse(campaign)"
+                      >Gebruiken</v-btn
+                    >
+                  </v-card-actions>
                 </v-card>
               </v-menu>
             </div>
@@ -217,7 +219,7 @@
 </template>
 
 <script>
-import { Quest, getQuest } from "@/mixins/quest/quest.ts";
+import { Quest, getQuest } from "@/mixins/quest.ts";
 import { Campaign } from "@/mixins/campaign";
 import { getItem } from "@/mixins/inventory";
 
@@ -290,6 +292,13 @@ export default {
       }
       this.incorrectAnswerDialog = true;
       this.failQuest();
+    },
+    use(id) {
+      if (!this.campaign.inventory.hasItem(id)) {
+        return;
+      }
+      this.campaign.inventory.decrement(id);
+      getItem(id).use(this.campaign);
     },
   },
   created() {

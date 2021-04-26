@@ -1,4 +1,4 @@
-import { Quest } from "@/mixins/quest/quest";
+import { Quest } from "@/mixins/quest";
 import { Campaign } from "@/mixins/campaign";
 
 export class Item {
@@ -10,6 +10,7 @@ export class Item {
   public buyValue: number;
   public secret: boolean;
   public use: ((campaign: Campaign) => void) | undefined;
+  public canUse: (campaign: Campaign) => boolean;
 
   constructor(props: {
     id: string;
@@ -18,7 +19,7 @@ export class Item {
     icon: string;
     sellValue?: number;
     buyValue?: number;
-    canUse?: boolean;
+    canUse: (campaign: Campaign) => boolean;
     use?: (campaign: Campaign) => void;
     secret?: boolean;
   }) {
@@ -30,6 +31,7 @@ export class Item {
     this.buyValue = props.buyValue || -1;
     this.use = props.use;
     this.secret = props.secret || false;
+    this.canUse = props.canUse;
   }
 }
 
@@ -50,6 +52,7 @@ export const items: Item[] = [
       campaign.inventory.decrement("0");
     },
     secret: true,
+    canUse: () => false,
   }),
   new Item({
     id: "1",
@@ -58,6 +61,7 @@ export const items: Item[] = [
     icon: require("@/assets/items/microscope.svg"),
     sellValue: 300,
     buyValue: 500,
+    canUse: () => false,
   }),
   new Item({
     id: "2",
@@ -66,6 +70,7 @@ export const items: Item[] = [
     icon: require("@/assets/items/ticket.svg"),
     sellValue: -1,
     buyValue: 200,
+    canUse: () => false,
   }),
   new Item({
     id: "3",
@@ -74,6 +79,7 @@ export const items: Item[] = [
     icon: require("@/assets/items/axe.svg"),
     sellValue: 20,
     buyValue: 50,
+    canUse: () => false,
   }),
   new Item({
     id: "4",
@@ -82,6 +88,7 @@ export const items: Item[] = [
     icon: require("@/assets/items/compass.svg"),
     sellValue: 5,
     buyValue: 10,
+    canUse: () => false,
   }),
   new Item({
     id: "5",
@@ -90,6 +97,35 @@ export const items: Item[] = [
     icon: require("@/assets/items/broom.svg"),
     sellValue: 5,
     buyValue: 120,
+    canUse: () => false,
+  }),
+  new Item({
+    id: "6",
+    name: "Paracetamol",
+    description: "Kan gebruikt worden om één leven te herstellen",
+    icon: require("@/assets/items/paracetamol.svg"),
+    sellValue: 200,
+    buyValue: 800,
+    canUse: (campaign: Campaign) => {
+      return campaign.currentHealth < campaign.totalHealth;
+    },
+    use: (campaign: Campaign) => {
+      campaign.currentHealth++;
+    },
+  }),
+  new Item({
+    id: "7",
+    name: "EHBO-koffer",
+    description: "Herstelt alle levens",
+    icon: require("@/assets/items/first-aid-kit.svg"),
+    sellValue: 1000,
+    buyValue: 3500,
+    canUse: (campaign: Campaign) => {
+      return campaign.currentHealth < campaign.totalHealth;
+    },
+    use: (campaign: Campaign) => {
+      campaign.currentHealth = campaign.totalHealth;
+    },
   }),
 ];
 

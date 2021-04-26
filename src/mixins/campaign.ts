@@ -18,7 +18,7 @@ export class Campaign {
   public completedQuestIds: Array<string>;
   public readonly totalHealth: number;
 
-  public static readonly balanceNumberFormatter = new Intl.NumberFormat("en", {
+  public static readonly balanceNumberFormatter = new Intl.NumberFormat("nl", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });

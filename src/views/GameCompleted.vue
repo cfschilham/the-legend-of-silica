@@ -1,6 +1,6 @@
 <template>
   <div class="game-completed">
-    <div class="text-h1">Gefeliciteerd, u heeft The Legend of Silica uitgespeeld!</div>
+    <div class="text-h5">Gefeliciteerd, u heeft The Legend of Silica uitgespeeld!</div>
     <v-btn @click="$router.push('/menu')" class="button">Terug naar menu</v-btn>
   </div>
 </template>

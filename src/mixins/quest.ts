@@ -180,7 +180,7 @@ export const quests: Quest[] = [
         },
       },
     ],
-    baseDuration: 60000,
+    baseDuration: 100000,
     baseReward: 500,
     image: require("@/assets/question1.png"),
   }),
@@ -192,7 +192,7 @@ export const quests: Quest[] = [
     answer: "Tetraëder",
     incorrectAnswers: ["Plat vlak", "Lineair"],
     randomiseOrder: true,
-    baseDuration: 120000,
+    baseDuration: 300000,
     baseReward: 200,
   }),
   new OpenQuestion({
@@ -205,7 +205,7 @@ export const quests: Quest[] = [
       "Fytolieten zijn biomineralen die een plant stugger en harder maken. \n" +
       "Ook vormen ze zich aan de omgeving waarin ze zich bevinden waardoor de vorm per plantensoort kan verschillen.",
     selfGraded: true,
-    baseDuration: 60000,
+    baseDuration: 180000,
     baseReward: 400,
   }),
   new OpenQuestion({
@@ -216,13 +216,13 @@ export const quests: Quest[] = [
     answer:
       "Diatomeeën maken van opaal in het water een skelet wat als ze doodgaan weer oplost en wordt hergebruikt of op de zeebodem blijft. ",
     selfGraded: true,
-    baseDuration: 60000,
+    baseDuration: 180000,
     baseReward: 300,
   }),
   new OpenQuestion({
     id: "5",
     title: "De rol van de Grand Canyon",
-    description: "Een erg GROTE rol :).",
+    description: "Een erg GROTE rol :)",
     question: "Leg uit hoe de grand canyon rivier een belangrijke rol heeft gespeelt in de silicakringloop.",
     answer:
       "Een belangrijk onderdeel van de kringloop is verwering van steen op het land en deze rivier heeft over de koers van miljoenen jaren de grand canyon uit steen gesneden.",
@@ -236,7 +236,7 @@ export const quests: Quest[] = [
         },
       },
     ],
-    baseDuration: 120000,
+    baseDuration: 180000,
     baseReward: 350,
     onStart: (campaign: Campaign) => {
       campaign.inventory.decrement("2");
@@ -250,7 +250,7 @@ export const quests: Quest[] = [
     answer:
       "Omdat de bladeren en naalden van bomen in de herfst loslaten en deze worden afgebroken door bacteriën blijven de fytolieten liggen.",
     selfGraded: true,
-    baseDuration: 60000,
+    baseDuration: 120000,
     baseReward: 325,
     prerequisites: [
       {
@@ -265,17 +265,17 @@ export const quests: Quest[] = [
   new OpenQuestion({
     id: "7",
     title: "Biologen ook altijd",
-    description: "Deze vraag is speciaal voor meneer Soetens.",
+    description: "Speciaal voor meneer Soetens",
     question: "Waarom zou meneer Soetens de nieuwe silicakringloop leuker vinden om te bestuderen?",
     answer: "Omdat in de oude kringloop “dood” was en geen biologische processen bevatte.",
     selfGraded: true,
-    baseDuration: 60000,
+    baseDuration: 120000,
     baseReward: 275,
   }),
   new OpenQuestion({
     id: "8",
     title: "Wie heeft er gelijk",
-    description: "Een titanenstrijd van een vraag.",
+    description: "Een titanenstrijd van een vraag",
     question:
       "Mevrouw Fallet zegt als geoloog dat stenen de belangrijkste rol vervullen in de nieuwe silicakringloop. \n" +
       "Meneer Soetens echter als bioloog is van mening dat er in de biologische kringloop meer silica omgaat. \n" +
@@ -288,11 +288,11 @@ export const quests: Quest[] = [
   new OpenQuestion({
     id: "9",
     title: "Silica in bomen?",
-    description: "Eindelijk een rekenvraag.",
+    description: "Eindelijk een rekenvraag",
     question:
       "Er is een gigantische boom aangetroffen in het midden van het regenwoud met 0,5 Tmol silica erin. \n" +
       "De begraving tijd is 150 Mmol wat is de verblijftijd van deze boom?",
-    answer: "500.000 / 150 = 3333 jaar",
+    answer: "500.000 / 150 ≈ 3333 jaar",
     selfGraded: true,
     prerequisites: [
       {
@@ -303,7 +303,7 @@ export const quests: Quest[] = [
         },
       },
     ],
-    baseDuration: 120000,
+    baseDuration: 300000,
     baseReward: 120,
   }),
   new MultipleChoiceQuestion({
@@ -314,7 +314,7 @@ export const quests: Quest[] = [
     answer: "De oude kringloop",
     incorrectAnswers: ["De nieuwe kringloop"],
     randomiseOrder: true,
-    baseDuration: 40000,
+    baseDuration: 60000,
     prerequisites: [
       {
         title: "Een kompas",
@@ -328,59 +328,59 @@ export const quests: Quest[] = [
   }),
   new MultipleChoiceQuestion({
     id: "11",
-    title: "BIFs",
-    description: "BIFs?",
-    question: "Waar bestaan BIFs uit?",
+    title: "BIF's",
+    description: "",
+    question: "Waar bestaan BIF's uit?",
     answer: "Allemaal",
     incorrectAnswers: [
-      "magnetite = Fe3O4",
-      "hematite = Fe2O3",
-      "siderite = Fe(CO)2)",
-      "silicate minerals like chert (SiO2).",
+      "Magnetite = Fe3O4",
+      "Hematite = Fe2O3",
+      "Siderite = Fe(CO)2)",
+      "Silicate minerals like chert (SiO2)",
       "Geen van allen",
     ],
-    baseDuration: 50000,
-    baseReward: 50,
+    baseDuration: 60000,
+    baseReward: 100,
   }),
   new MultipleChoiceQuestion({
     id: "12",
-    title: "Hoe zien BIFs er uit",
+    title: "Hoe zien BIF's er uit",
     description: "Niemand weet het",
     question: "Waar zie je een BIF?",
     answer: "C",
     incorrectAnswers: ["A", "B"],
-    baseDuration: 30000,
+    baseDuration: 60000,
     baseReward: 320,
     image: require("@/assets/question12.png"),
   }),
   new MultipleChoiceQuestion({
     id: "13",
-    title: "BIFsteen",
-    description: "Stenen.",
+    title: "BIF steen",
+    description: "Stenen",
     question: "Wat voor soort steen is een BIF?",
-    answer: "Sedimentary",
-    incorrectAnswers: ["Metamorphic", "Igneous"],
+    answer: "Sedimentair gesteente",
+    incorrectAnswers: ["Metamorfisch gesteente", "Stollingsgesteente"],
     randomiseOrder: true,
-    baseDuration: 30000,
+    baseDuration: 60000,
     baseReward: 125,
   }),
   new MultipleChoiceQuestion({
     id: "14",
-    title: "Silica en BIFs",
+    title: "Silica en BIF's",
     description: "",
-    question: "Welke rol speelt silica in BIFs?",
-    answer: "Silica vormt de kaart van BIFs",
+    question: "Welke rol speelt silica in BIF's?",
+    answer: "Silica vormt de kaart van BIF's",
     incorrectAnswers: [
-      "Silica heeft samen met aluminium een korte affaire gehad en daardoor zijn BIFs ontstaan.",
-      "Silica buigt ijzer om BIFs te vormen",
+      "Silica heeft samen met aluminium een korte affaire gehad en daardoor zijn BIF's ontstaan.",
+      "Silica buigt ijzer om BIF's te vormen",
     ],
     randomiseOrder: true,
-    baseDuration: 50000,
+    baseDuration: 80000,
     baseReward: 215,
   }),
   new MultipleChoiceQuestion({
     id: "15",
-    title: "Global warming positive?",
+    title: "Klimaatverandering goed?",
     description: "",
     question: "Waarom is voor planten een verhoogde concentratie CO2 niet per se erg?",
     answer: "Meer voedsel yummy",
@@ -389,17 +389,17 @@ export const quests: Quest[] = [
       "CO2 reageert in zeer kleine met SO2 tot een zeer vruchtbare ondergrond voor planten.",
     ],
     randomiseOrder: true,
-    baseDuration: 50000,
+    baseDuration: 100000,
     baseReward: 225,
   }),
   new OpenQuestion({
     id: "16",
-    title: "Huh hoe heette je ook alweer?",
+    title: "Huh, hoe heette je ook alweer?",
     description: "",
     question: "Waar halen de C3 en C4 fotosynthese systemen hun naam vandaan?",
     answer: "Deze namen komen van het aantal koolstof dat ontstaat.",
     selfGraded: true,
-    baseDuration: 60000,
+    baseDuration: 100000,
     baseReward: 215,
   }),
   new OpenQuestion({
@@ -426,7 +426,7 @@ export const quests: Quest[] = [
       "Omdat grassen in veel slechtere omstandigheden kunnen groeien.",
     ],
     randomiseOrder: true,
-    baseDuration: 50000,
+    baseDuration: 80000,
     baseReward: 130,
   }),
 ];

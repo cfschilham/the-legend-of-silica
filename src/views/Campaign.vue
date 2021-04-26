@@ -70,6 +70,12 @@
                 <v-card max-width="300px">
                   <v-card-title>{{ getItem(inventoryItem.id).name }} ({{ inventoryItem.amount }})</v-card-title>
                   <v-card-subtitle>{{ getItem(inventoryItem.id).description }}</v-card-subtitle>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="use(inventoryItem.id)" text :disabled="!getItem(inventoryItem.id).canUse(campaign)"
+                      >Gebruiken</v-btn
+                    >
+                  </v-card-actions>
                 </v-card>
               </v-menu>
             </div>
@@ -141,8 +147,8 @@
                   <strong>{{ item.name }}</strong>
                 </div>
                 <div class="value text--secondary text-caption">
-                  Kopen: {{ item.buyValue !== -1 ? item.buyValue : "N/A" }} Verkopen:
-                  {{ item.sellValue !== -1 ? item.sellValue : "N/A" }}
+                  Kopen: {{ item.buyValue !== -1 ? balanceNumberFormatter.format(item.buyValue) : "N/A" }} Verkopen:
+                  {{ item.sellValue !== -1 ? balanceNumberFormatter.format(item.sellValue) : "N/A" }}
                 </div>
                 <div class="description text--secondary">{{ item.description }}</div>
                 <div class="actions">
@@ -193,7 +199,7 @@
 
 <script>
 import { getItem, items } from "@/mixins/inventory";
-import { Quest, quests, getQuest } from "@/mixins/quest/quest.ts";
+import { Quest, quests, getQuest } from "@/mixins/quest.ts";
 import { Campaign } from "@/mixins/campaign";
 
 export default {
@@ -211,9 +217,6 @@ export default {
     };
   },
   computed: {
-    characterClassIconFill() {
-      return this.$vuetify.theme.dark ? "#ffffff" : "#000000";
-    },
     shopItems() {
       const result = [];
       for (let i = 0; i < items.length; i++) {
@@ -242,6 +245,13 @@ export default {
       }
       this.campaign.inventory.decrement(id);
       this.campaign.balance += getItem(id).sellValue;
+    },
+    use(id) {
+      if (!this.campaign.inventory.hasItem(id)) {
+        return;
+      }
+      this.campaign.inventory.decrement(id);
+      getItem(id).use(this.campaign);
     },
     startQuest(id) {
       const quest = getQuest(id);
