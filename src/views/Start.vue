@@ -10,16 +10,16 @@
         Je bent een verkenner van het machtige Gebo. Dit ras is ons mensen vele miljoenen jaren voorbij in de wetenschap
         en heeft onlangs intergalactisch reizen op snelheden die groter zijn dan die van het licht ontdekt. Het
         uiteindelijke doel van deze beschaving is om de grote mysteries van het universum te ontrafelen. Waarom zijn de
-        elementaire basisdeeltjes zo gebouwd? Wat heeft de oerknal veroorzaakt? Is ons universum eindig en zo ja zou dit
-        onontkoombare einde tegengehouden kunnen worden? Deze vragen en nog veel meer willen de grootste denkers van
-        Gebo beantwoorden. Na vele jaren van experimenteren besloten ze dat hoever ze ook waren het ze nooit zou lukken
-        met hun eigen kennis. Want hoewel ze erg geavanceerd waren, waren de Inwoners van Gebo nooit buiten het
-        sterrenstelsel getreden. Hierdoor besloten de wetenschappers was er een zeer gelimiteerde kennis over welke
+        elementaire basisdeeltjes zo gebouwd? Wat heeft de oerknal veroorzaakt? Is ons universum eindig, en zo ja, zou
+        dit onontkoombare einde tegengehouden kunnen worden? Deze vragen en nog veel meer willen de grootste denkers van
+        Gebo beantwoorden. Na vele jaren van experimenteren besloten ze dat hoever ze ook waren, het ze nooit zou lukken
+        met hun eigen kennis. Want hoewel ze erg geavanceerd waren, waren de inwoners van Gebo nooit buiten het
+        sterrenstelsel getreden. Hierdoor, besloten de wetenschappers, was er een zeer gelimiteerde kennis over welke
         atoomsoorten er allemaal bestonden in het universum en hun rol. Omdat deze kennis vergaard moest worden om een
-        volledig beeld te krijgen van het heelal en daarmee hun vragen te beantwoorden focusten de grote geesten zich op
-        sneller dan licht reizen. Ze bereikten hun doel en stuurden verkenners in alle richtingen met de missie om
-        allemaal minimaal 1 nieuwe atoomsoort te ontdekken en hier zoveel mogelijk over te weten te komen. En hier ben
-        jij dan Faso. Jouw expeditie heeft je geleidt naar het verre sterrenstelsel van Helios. Hier vind je een
+        volledig beeld te krijgen van het heelal en daarmee hun vragen te beantwoorden, focusten de grote geesten zich
+        op sneller dan licht reizen. Ze bereikten hun doel en stuurden verkenners in alle richtingen met de missie om
+        allemaal minimaal één nieuwe atoomsoort te ontdekken en hier zoveel mogelijk over te weten te komen. En hier ben
+        jij dan, Faso. Jouw expeditie heeft je geleidt naar het verre sterrenstelsel van Helios. Hier vind je een
         eigenaardig soort quasi-intelligent dier, de mens. Eerst denk je eraan om contact te leggen en hun te verlichten
         met jouw vergevorderde kennis, maar dan zie je dat ze zo druk bezig zijn elkaar te bevechten dat ze nooit samen
         zullen kunnen komen om als gehele soort voortgang te boeken. Hierdoor besluit je je eigen onderzoek te doen.
@@ -30,8 +30,8 @@
           rel="noreferrer"
           >dossier</a
         >
-        en vertrek je naar huis waar de wetenschappers alles willen horen over de nieuwe atoomsoort silica. Jij gaat
-        proberen met hulp van je dossier hun vragen te beantwoorden zodat je soort de mysteries van het heelal kan
+        en vertrek je naar huis waar de wetenschappers alles willen horen over de nieuwe atoomsoort, silica. Jij gaat
+        proberen met hulp van je dossier hun vragen te beantwoorden zodat jouw soort de mysteries van het heelal kan
         ontrafelen!
       </p>
       <p class="text-body-1">
