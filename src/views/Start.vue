@@ -35,7 +35,7 @@
       </p>
       <p class="text-body-1">
         Muziek door <a href="https://www.youtube.com/channel/UCw4wdHksXbaiyu3BiBNNW0w">Alexander Nakarada</a>. Art door
-        Delapouite, Lorc, and Skoll van
+        Delapouite, Lorc, en Skoll van
         <a href="https://game-icons.net/" target="_blank" rel="noreferrer">game-icons.net</a>.
       </p>
       <v-btn color="primary" class="start-btn" large @click="$router.push(`menu`)">Starten</v-btn>

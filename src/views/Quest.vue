@@ -112,7 +112,7 @@
             :disabled="submitted"
             solo
             name="input-7-4"
-            label="Type your answer here..."
+            label="Typ hier uw antwoord..."
             class="textarea"
           ></v-textarea>
         </div>
