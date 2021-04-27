@@ -103,8 +103,8 @@
       <v-card>
         <v-card-title>U heeft een bestaande campagne</v-card-title>
         <v-card-text
-          >Als u doorgaat, wordt de bestaande campagne overschreven en wordt uw voortgang gereset. Weet je zeker dat je
-          wil doorgaan?
+          >Als u doorgaat, wordt de bestaande campagne overschreven en wordt uw voortgang gereset. Weet u zeker dat u
+          door wilt gaan?
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
