@@ -99,12 +99,19 @@
                 v-for="(quest, index) in quests"
                 :key="index"
                 @click="startQuest(quest.id)"
-                :disabled="!quest.fulfillsPrerequisites(campaign) || campaign.completedQuestIds.indexOf(quest.id) > -1"
+                :disabled="
+                  !quest.fulfillsPrerequisites(campaign) || campaign.completedQuestIds.indexOf(quest.id) !== -1
+                "
               >
                 <v-card-title>
-                  <span>{{ quest.title }}</span>
-                  <i class="mdi mdi-lock" v-if="!quest.fulfillsPrerequisites(campaign)"></i>
-                  <i v-if="campaign.completedQuestIds.indexOf(quest.id) !== -1" class="mdi mdi-check success--text"></i>
+                  <div class="title-wrapper">
+                    <span>{{ quest.title }}</span>
+                    <i class="mdi mdi-lock" v-if="!quest.fulfillsPrerequisites(campaign)"></i>
+                    <i
+                      v-if="campaign.completedQuestIds.indexOf(quest.id) !== -1"
+                      class="mdi mdi-check success--text"
+                    ></i>
+                  </div>
                 </v-card-title>
                 <v-card-subtitle>{{ quest.description }}</v-card-subtitle>
 
@@ -345,19 +352,19 @@ export default {
           margin-bottom: 16px;
         }
         .quest-cards {
-          grid-template-columns: auto auto;
+          grid-template-columns: 50% 50%; // TODO
           display: grid;
           grid-column-gap: 20px;
+          grid-row-gap: 20px;
           .quest {
-            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
-            &:last-of-type {
-              margin-bottom: 0;
-            }
             .mdi-lock,
             .mdi-check {
               margin-left: 6px;
+            }
+            .title-wrapper {
+              word-break: normal;
             }
             .prerequisite {
               .mdi-check,
@@ -457,12 +464,12 @@ export default {
     .overview {
       .quests {
         .quest-cards {
-          grid-template-columns: auto;
+          grid-template-columns: auto !important;
         }
       }
       .shop {
         .item-cards {
-          grid-template-columns: calc(50% - 10px) calc(50% - 10px);
+          grid-template-columns: 50% 50% !important;
         }
       }
     }

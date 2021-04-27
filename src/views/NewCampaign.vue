@@ -101,7 +101,7 @@
     </v-form>
     <v-dialog v-model="existingCampaignDialog" max-width="500px" persistent>
       <v-card>
-        <v-card-title>U heeft een bestaande bestaande campagne</v-card-title>
+        <v-card-title>U heeft een bestaande campagne</v-card-title>
         <v-card-text
           >Als u doorgaat, wordt de bestaande campagne overschreven en wordt uw voortgang gereset. Weet je zeker dat je
           wil doorgaan?
