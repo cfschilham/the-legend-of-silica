@@ -482,7 +482,7 @@ export default {
       grid-template-columns: calc(60% - 30px) calc(40% - 30px);
       .shop {
         .item-cards {
-          grid-template-columns: auto;
+          grid-template-columns: auto !important;
         }
       }
     }

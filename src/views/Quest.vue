@@ -250,10 +250,12 @@ export default {
     completeQuest() {
       this.campaign.balance += this.quest.finalReward(this.campaign);
       this.campaign.completedQuestIds.push(this.quest.id);
+      this.campaign.currentQuestProgress = { id: "", startTime: new Date(0) };
       clearInterval(this.remainingDurationPolling);
     },
     failQuest() {
       this.campaign.currentHealth--;
+      this.campaign.currentQuestProgress = { id: "", startTime: new Date(0) };
       clearInterval(this.remainingDurationPolling);
     },
     canSubmit() {
@@ -323,7 +325,6 @@ export default {
     }, 100);
   },
   beforeDestroy() {
-    this.campaign.currentQuestProgress = { id: "", startTime: new Date(0) };
     clearInterval(this.remainingDurationPolling);
   },
   watch: {
